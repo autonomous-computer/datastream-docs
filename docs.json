@@ -106,6 +106,7 @@
             "group": "Proof and migration",
             "icon": "shield-check",
             "pages": [
+              "investor-intelligence-recovery",
               "freshness-and-trust",
               "coverage-and-depth",
               "benchmark-workflows",

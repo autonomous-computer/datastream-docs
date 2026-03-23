@@ -12,6 +12,7 @@
 - production launch-readiness verifies the public API, auth metadata, key site routes, and security headers
 - benchmark, freshness, mapping, and launch-readiness gates are all part of the checked-in trust story, but they should be read from their current artifacts rather than assumed green by default
 - non-launch items such as gated sentiment or deferred backlog do not belong in the launch-ready surface area
+- investor-intelligence expansion is only launch-ready when its own route, latency, and canary gates are green; route existence alone is not sufficient
 
 ## Pre-launch gates
 
@@ -51,4 +52,3 @@
 - every external issue must include `Request-Id`
 - operator support uses `/v1/admin/*` before database access
 - delivery replay is the default first response for webhook incidents
-
