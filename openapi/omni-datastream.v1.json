@@ -426,11 +426,6 @@
         "summary": "Return canonical market reference metadata for a security, including identifiers, exchange, and listing context"
       }
     },
-    "/v1/market/estimates": {
-      "get": {
-        "summary": "Return analyst estimate snapshots and estimate-vs-actual context for supported securities"
-      }
-    },
     "/v1/news/stories": {
       "get": {
         "summary": "Return rights-safe news stories with entity tagging, provenance, and source-rights metadata"
@@ -793,6 +788,46 @@
             "required": true,
             "schema": {
               "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          }
+        ]
+      }
+    },
+    "/v1/market/estimates": {
+      "get": {
+        "summary": "Return analyst consensus ratings and price-target estimates for a ticker via Massive/Benzinga",
+        "parameters": [
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "date_from",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
+          },
+          {
+            "name": "date_to",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "date"
             }
           },
           {
@@ -5994,6 +6029,75 @@
           "provenance"
         ],
         "additionalProperties": false
+      },
+      "MarketEstimates": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "enum": [
+              "market_estimates"
+            ]
+          },
+          "requestId": {
+            "type": "string"
+          },
+          "traceparent": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string"
+          },
+          "next_url": {
+            "type": "string",
+            "nullable": true
+          },
+          "request_id": {
+            "type": "string"
+          },
+          "results": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "ticker": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "date": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "rating": {
+                  "type": "string",
+                  "nullable": true
+                },
+                "price_target": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "price_target_average": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "price_target_high": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "price_target_low": {
+                  "type": "number",
+                  "nullable": true
+                }
+              },
+              "additionalProperties": true
+            }
+          }
+        },
+        "required": [
+          "object",
+          "requestId"
+        ],
+        "additionalProperties": true
       },
       "Index": {
         "type": "object",

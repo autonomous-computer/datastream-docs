@@ -1,6 +1,6 @@
 # GET /v1/market/estimates
 
-Return analyst estimate snapshots and estimate-vs-actual context for supported securities
+Return analyst consensus ratings and price-target estimates for a ticker via Massive/Benzinga
 
 <Info>
 Audience: application and coding agent.
@@ -57,7 +57,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use Omni Datastream GET /v1/market/estimates to return analyst estimate snapshots and estimate-vs-actual context for supported securities. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use Omni Datastream GET /v1/market/estimates to return analyst consensus ratings and price-target estimates for a ticker via massive/benzinga. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture
