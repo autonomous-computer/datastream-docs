@@ -13,8 +13,8 @@ The Python SDK is built for research, ETL, notebooks, and backend services that 
   <Step title="Set the API key and base URL">
     Default to `https://api.secapi.ai` unless you are testing a local or staging environment.
   </Step>
-  <Step title="Run one issuer workflow and one operator workflow">
-    Prove both the investor path and the metadata or artifact path before you move on.
+  <Step title="Run one issuer workflow and one semantic investor workflow">
+    Prove both the investor path and the one-call intelligence path before you move on.
   </Step>
 </Steps>
 
@@ -52,12 +52,22 @@ client = OmniDatastreamClient(
 issuer = client.resolve_entity(ticker="AAPL")
 filing = client.latest_filing(ticker="AAPL", form="10-K")
 statements = client.all_statements(ticker="AAPL", period="annual", limit=1)
-calendar = client.market_calendar(market="XNYS", duration=5)
-volatility = client.volatility_signal(ticker="AAPL")
+market = client.market_snapshots(symbols=["AAPL"])
+macro = client.macro_indicators(country="JP", indicator_key="CPIAUCSL", limit=3)
+factors = client.factor_returns(keys=["MKT_US", "QUALITY"], lookback="6m", window="1m")
+answer = client.intelligence_query({
+    "query": "Give me a recommendation for how to make this portfolio factor neutral.",
+    "portfolio": [
+        {"symbol": "AAPL", "weight": 0.4},
+        {"symbol": "MSFT", "weight": 0.35},
+        {"symbol": "NVDA", "weight": 0.25},
+    ],
+    "responseMode": "compact_json_and_md",
+})
 ```
 
 <Prompt>
-Use the Python SDK to build a research workflow around AAPL. Resolve the issuer, fetch the latest 10-K, pull the all-statements bundle, check the market calendar for XNYS, and write the results into a markdown brief that preserves requestId, provenance, freshness, and materialization metadata.
+Use the Python SDK to build a research workflow around AAPL. Resolve the issuer, fetch the latest 10-K, read the latest market snapshot, read Japan CPI, run the portfolio factor-neutralization query, and write the results into a markdown brief that preserves requestId, provenance, freshness, and materialization metadata.
 </Prompt>
 
 ## Operator paths

@@ -1,6 +1,6 @@
 # GET /v1/billing
 
-Return the current organization's Stripe customer, billing state, free-grant posture, and effective pricing context
+Return the current organization's billing snapshot, including pricing posture, budget controls, and settlement provider state
 
 <Info>
 Audience: application and coding agent.
@@ -36,7 +36,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use Omni Datastream GET /v1/billing to return the current organization's stripe customer, billing state, free-grant posture, and effective pricing context. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use Omni Datastream GET /v1/billing to return the current organization's billing snapshot, including pricing posture, budget controls, and settlement provider state. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

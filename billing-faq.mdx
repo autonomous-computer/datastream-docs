@@ -8,6 +8,10 @@ No separate trial. Every new organization receives `100` included calls.
 
 The org moves to `payg_pending_card`. Billable routes require card attachment through `POST /v1/billing/payg/activate`.
 
+## Can an agent bootstrap itself?
+
+Not fully anonymously. A human operator creates a short-lived sponsor token with `POST /v1/agent/bootstrap_tokens`, then the agent exchanges it once through `POST /v1/agent/bootstrap`.
+
 ## Do I need a subscription to use the API?
 
 No. PAYG is the default paid motion.
@@ -19,4 +23,8 @@ Commercial only.
 ## Where do I view invoices and payment methods?
 
 Use the dashboard billing tab or `POST /v1/billing/portal`.
+
+## How do I keep an agent from spending too much?
+
+Use `POST /v1/billing/quote` before expensive loops and set org-level controls with `PUT /v1/billing/budget`. The server enforces hard-cap and approval-required thresholds at request time.
 

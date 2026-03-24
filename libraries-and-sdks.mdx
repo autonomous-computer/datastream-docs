@@ -39,8 +39,8 @@ Pick the surface that matches your runtime. Then prove it with one real entity l
   <Step title="Verify one entity lookup">
     Confirm the surface can resolve a company or filer you already know, ideally through the identifier type you expect to use in production.
   </Step>
-  <Step title="Verify one filing or structured workflow">
-    Pull a filing, statements bundle, insider trade set, ownership workflow, or governance surface so you are testing the real contract shape.
+  <Step title="Verify one filing workflow and one semantic intelligence workflow">
+    Pull a filing or statements bundle, then prove one-call market/macro/factor/intelligence output before you call the integration complete.
   </Step>
   <Step title="Preserve the metadata">
     Keep `requestId`, provenance, freshness, materialization metadata, and trace references in your logs or downstream artifacts.
@@ -50,7 +50,7 @@ Pick the surface that matches your runtime. Then prove it with one real entity l
 ## Give this prompt to your agent
 
 <Prompt>
-Install the right Omni Datastream integration surface for this project. Prefer the native SDK if the runtime matches, otherwise use the REST API. Then verify one entity lookup, one filing workflow, one structured workflow such as all-statements or insider trades, and one trace lookup while preserving requestId, provenance, freshness, materialization metadata, and trace references.
+Install the right Omni Datastream integration surface for this project. Prefer the native SDK if the runtime matches, otherwise use the REST API. Then verify one entity lookup, one filing workflow, one semantic investor workflow such as `intelligence.query`, and one trace lookup while preserving requestId, provenance, freshness, materialization metadata, and trace references.
 </Prompt>
 
 ## OMNI Agent CLI

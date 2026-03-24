@@ -1,6 +1,6 @@
 # GET /v1/dashboard/overview
 
-Return the thin logged-in dashboard overview with principal, org, billing, usage, and API key context
+Return the logged-in dashboard overview with principal, org, enriched billing, usage, and API key context
 
 <Info>
 Audience: application and coding agent.
@@ -36,7 +36,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use Omni Datastream GET /v1/dashboard/overview to return the thin logged-in dashboard overview with principal, org, billing, usage, and api key context. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use Omni Datastream GET /v1/dashboard/overview to return the logged-in dashboard overview with principal, org, enriched billing, usage, and api key context. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture
