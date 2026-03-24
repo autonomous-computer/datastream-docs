@@ -3,6 +3,17 @@
   "theme": "almond",
   "name": "Datastream",
   "description": "Grounded public-market intelligence for investor agents, workflows, SDKs, and product teams.",
+  "openapi": "openapi/omni-datastream.v1.json",
+  "api": {
+    "baseUrl": "https://api.secapi.ai",
+    "auth": {
+      "method": "key",
+      "name": "x-api-key"
+    },
+    "playground": {
+      "mode": "simple"
+    }
+  },
   "colors": {
     "primary": "#b95c36",
     "light": "#d98a62",
@@ -106,7 +117,6 @@
             "group": "Proof and migration",
             "icon": "shield-check",
             "pages": [
-              "investor-intelligence-recovery",
               "freshness-and-trust",
               "coverage-and-depth",
               "benchmark-workflows",
@@ -148,6 +158,23 @@
               "request-diagnostics",
               "event-export",
               "stream-polling"
+            ]
+          },
+          {
+            "group": "Advisers",
+            "icon": "square-stack",
+            "root": "api-reference/advisers",
+            "pages": [
+              "api-reference/advisers/get-v1-advisers"
+            ]
+          },
+          {
+            "group": "Agent",
+            "icon": "square-stack",
+            "root": "api-reference/agent",
+            "pages": [
+              "api-reference/agent/post-v1-agent-bootstrap",
+              "api-reference/agent/post-v1-agent-bootstrap-tokens"
             ]
           },
           {
@@ -233,6 +260,18 @@
             ]
           },
           {
+            "group": "Factors",
+            "icon": "square-stack",
+            "root": "api-reference/factors",
+            "pages": [
+              "api-reference/factors/get-v1-factors-catalog",
+              "api-reference/factors/get-v1-factors-correlations",
+              "api-reference/factors/get-v1-factors-exposures",
+              "api-reference/factors/get-v1-factors-returns",
+              "api-reference/factors/get-v1-factors-similarity-pack"
+            ]
+          },
+          {
             "group": "Facts",
             "icon": "square-stack",
             "root": "api-reference/facts",
@@ -247,6 +286,8 @@
             "pages": [
               "api-reference/filings/get-v1-filings",
               "api-reference/filings/get-v1-filings-accession-number",
+              "api-reference/filings/get-v1-filings-accession-number-download",
+              "api-reference/filings/get-v1-filings-accession-number-export",
               "api-reference/filings/get-v1-filings-accession-number-sections-section-key",
               "api-reference/filings/get-v1-filings-latest",
               "api-reference/filings/get-v1-filings-latest-render",
@@ -271,13 +312,55 @@
             ]
           },
           {
+            "group": "Intelligence",
+            "icon": "square-stack",
+            "root": "api-reference/intelligence",
+            "pages": [
+              "api-reference/intelligence/get-v1-intelligence-company",
+              "api-reference/intelligence/post-v1-intelligence-country-report",
+              "api-reference/intelligence/get-v1-intelligence-earnings-preview",
+              "api-reference/intelligence/post-v1-intelligence-portfolio",
+              "api-reference/intelligence/post-v1-intelligence-query",
+              "api-reference/intelligence/get-v1-intelligence-query-jobId",
+              "api-reference/intelligence/get-v1-intelligence-security",
+              "api-reference/intelligence/post-v1-intelligence-watchlist"
+            ]
+          },
+          {
+            "group": "Macro",
+            "icon": "square-stack",
+            "root": "api-reference/macro",
+            "pages": [
+              "api-reference/macro/get-v1-macro-calendar",
+              "api-reference/macro/get-v1-macro-forecasts",
+              "api-reference/macro/get-v1-macro-indicators",
+              "api-reference/macro/get-v1-macro-releases"
+            ]
+          },
+          {
             "group": "Market utilities",
             "icon": "calendar-range",
             "root": "api-reference/market",
             "pages": [
+              "api-reference/market/get-v1-market-bars",
               "api-reference/market/get-v1-market-calendar",
+              "api-reference/market/get-v1-market-corporate-actions",
+              "api-reference/market/get-v1-market-estimates",
+              "api-reference/market/get-v1-market-financials",
               "api-reference/market/get-v1-market-indices",
-              "api-reference/market/get-v1-market-indices-constituents"
+              "api-reference/market/get-v1-market-indices-constituents",
+              "api-reference/market/get-v1-market-reference",
+              "api-reference/market/get-v1-market-search",
+              "api-reference/market/get-v1-market-snapshots"
+            ]
+          },
+          {
+            "group": "News",
+            "icon": "square-stack",
+            "root": "api-reference/news",
+            "pages": [
+              "api-reference/news/get-v1-news-search",
+              "api-reference/news/get-v1-news-stories"
             ]
           },
           {
@@ -324,6 +407,9 @@
               "api-reference/platform/post-v1-admin-maintenance-ingest-queue",
               "api-reference/platform/post-v1-admin-maintenance-ingest-worker",
               "api-reference/platform/post-v1-admin-maintenance-reconcile-hot",
+              "api-reference/platform/post-v1-admin-maintenance-warm-factor-data",
+              "api-reference/platform/post-v1-admin-maintenance-warm-macro-data",
+              "api-reference/platform/post-v1-admin-maintenance-warm-market-data",
               "api-reference/platform/post-v1-admin-maintenance-warm-market-latest",
               "api-reference/platform/get-v1-admin-orgs",
               "api-reference/platform/get-v1-admin-orgs-org-id",
@@ -332,9 +418,11 @@
               "api-reference/platform/get-v1-api-keys",
               "api-reference/platform/post-v1-api-keys",
               "api-reference/platform/get-v1-billing",
+              "api-reference/platform/put-v1-billing-budget",
               "api-reference/platform/post-v1-billing-checkout",
               "api-reference/platform/post-v1-billing-payg-activate",
               "api-reference/platform/post-v1-billing-portal",
+              "api-reference/platform/post-v1-billing-quote",
               "api-reference/platform/get-v1-billing-rates",
               "api-reference/platform/post-v1-billing-webhooks-stripe",
               "api-reference/platform/get-v1-events",
@@ -342,6 +430,24 @@
               "api-reference/platform/get-v1-events-export",
               "api-reference/platform/get-v1-me",
               "api-reference/platform/get-v1-org"
+            ]
+          },
+          {
+            "group": "Portfolio",
+            "icon": "square-stack",
+            "root": "api-reference/portfolio",
+            "pages": [
+              "api-reference/portfolio/post-v1-portfolio-analyze",
+              "api-reference/portfolio/post-v1-portfolio-optimize",
+              "api-reference/portfolio/post-v1-portfolio-stress-test"
+            ]
+          },
+          {
+            "group": "Search",
+            "icon": "square-stack",
+            "root": "api-reference/search",
+            "pages": [
+              "api-reference/search/get-v1-search-fulltext"
             ]
           },
           {
@@ -370,6 +476,24 @@
               "api-reference/statements/get-v1-statements-all",
               "api-reference/statements/get-v1-statements-segmented-revenues",
               "api-reference/statements/get-v1-statements-share-float"
+            ]
+          },
+          {
+            "group": "Strategies",
+            "icon": "square-stack",
+            "root": "api-reference/strategies",
+            "pages": [
+              "api-reference/strategies/post-v1-strategies-factor-rotation",
+              "api-reference/strategies/post-v1-strategies-regime-screen"
+            ]
+          },
+          {
+            "group": "Stream",
+            "icon": "square-stack",
+            "root": "api-reference/stream",
+            "pages": [
+              "api-reference/stream/post-v1-stream-tickets",
+              "api-reference/stream/get-v1-stream-ws"
             ]
           },
           {

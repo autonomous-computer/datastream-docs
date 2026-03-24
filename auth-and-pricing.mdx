@@ -18,6 +18,13 @@ The launch posture is deliberate: sign in with WorkOS, receive a starter org and
   </Card>
 </CardGroup>
 
+## Agent-native entry path
+
+- start at the public `/agents` overview when the caller is an external coding agent or operator
+- mint a short-lived sponsor token with `POST /v1/agent/bootstrap_tokens` from a human-authenticated org session
+- exchange that sponsor token at `POST /v1/agent/bootstrap`
+- preserve the returned API key secret once, then treat it as the machine credential for REST, SDK, CLI, or hosted MCP
+
 ## Default onboarding motion
 
 <Steps>
@@ -84,9 +91,13 @@ Rate-limited requests receive a clear error message with a retry-after interval.
 
 - `GET /v1/billing`
 - `GET /v1/billing/rates`
+- `POST /v1/billing/quote`
+- `PUT /v1/billing/budget`
 - `POST /v1/billing/payg/activate`
 - `POST /v1/billing/checkout`
 - `POST /v1/billing/portal`
+- `POST /v1/agent/bootstrap_tokens`
+- `POST /v1/agent/bootstrap`
 - `GET /v1/limits`
 - `GET /v1/dashboard/overview`
 

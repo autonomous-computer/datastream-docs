@@ -26,8 +26,9 @@ curl https://api.secapi.ai/mcp
 
 That payload includes:
 
-- the canonical SSE transport URL
+- the canonical streamable HTTP MCP transport URL
 - auth metadata links
+- sponsored bootstrap URLs for human token issuance and machine bootstrap
 - install hints
 - current tool and resource summaries
 
@@ -35,8 +36,11 @@ That payload includes:
   <Step title="Fetch the install metadata">
     Confirm the hosted MCP endpoint is live and returning its transport and auth metadata.
   </Step>
+  <Step title="Bootstrap the machine identity">
+    Have a human operator mint a sponsor token first, then exchange it through `POST /v1/agent/bootstrap` before you start repeated MCP work.
+  </Step>
   <Step title="Register the server in your client">
-    Add the SSE endpoint to Claude Code, Cursor, or another MCP-aware client.
+    Add the streamable HTTP MCP endpoint to Claude Code, Cursor, or another MCP-aware client.
   </Step>
   <Step title="Exercise a real tool path">
     Resolve an issuer, fetch a filing, and extract a section before calling the setup done.
@@ -48,7 +52,7 @@ That payload includes:
 ### Claude Code
 
 ```bash
-claude mcp add --transport sse omni-datastream https://api.secapi.ai/mcp
+claude mcp add --transport streamable-http omni-datastream https://api.secapi.ai/mcp
 ```
 
 ### Cursor
@@ -71,6 +75,11 @@ claude mcp add --transport sse omni-datastream https://api.secapi.ai/mcp
 - `filings.latest`
 - `sections.get`
 - `statements.get`
+- `market.snapshots`
+- `macro.indicators`
+- `factors.returns`
+- `portfolio.analyze`
+- `intelligence.query`
 
 <Prompt>
 Set up Omni Datastream hosted MCP in this MCP-aware client. Register the SSE endpoint, resolve AAPL, fetch the latest 10-K, extract Item 1A, and return the result with requestId, provenance, freshness, and materialization metadata intact.
@@ -84,10 +93,12 @@ Set up Omni Datastream hosted MCP in this MCP-aware client. Register the SSE end
   "id": 1,
   "method": "tools/call",
   "params": {
-    "name": "filings.latest",
+    "name": "intelligence.query",
     "arguments": {
-      "ticker": "AAPL",
-      "form": "10-K"
+      "query": "Decompose AAPL's last 6M return into factors, macro drivers, filing-specific risks, then suggest hedges.",
+      "entities": ["AAPL"],
+      "lookback": "6m",
+      "responseMode": "compact_json_and_md"
     }
   }
 }

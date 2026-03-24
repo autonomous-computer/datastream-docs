@@ -14,7 +14,7 @@ The JavaScript SDK is the fastest way to wire Datastream into TypeScript service
     Export `OMNI_DATASTREAM_API_KEY` in the runtime where the code will run.
   </Step>
   <Step title="Verify one real investor workflow">
-    Resolve an issuer, fetch a filing, and pull a structured bundle such as all-statements before you call the integration done.
+    Resolve an issuer, fetch a filing, and run one semantic investor workflow before you call the integration done.
   </Step>
 </Steps>
 
@@ -51,11 +51,19 @@ const client = new OmniDatastreamClient({
 const issuer = await client.resolveEntity({ ticker: "AAPL" })
 const filings = await client.searchFilings({ ticker: "AAPL", form: "10-K", limit: 3 })
 const statements = await client.allStatements({ ticker: "AAPL", period: "annual", limit: 1 })
-const volatility = await client.volatilitySignal({ ticker: "AAPL" })
+const market = await client.marketSnapshots({ symbols: ["AAPL"] })
+const macro = await client.macroIndicators({ country: "US", indicator_key: "CPIAUCSL", limit: 3 })
+const factors = await client.factorReturns({ keys: ["MKT_US", "QUALITY"], lookback: "6m", window: "1m" })
+const answer = await client.intelligenceQuery({
+  query: "Decompose AAPL's last 6M return into factors, macro drivers, filing-specific risks, then suggest hedges.",
+  entities: ["AAPL"],
+  lookback: "6m",
+  responseMode: "compact_json_and_md",
+})
 ```
 
 <Prompt>
-Install the JavaScript SDK for Omni Datastream in this project. Resolve AAPL, fetch the latest 10-K, extract Item 1A, fetch the all-statements bundle, and log requestId, traceparent, provenance, freshness, and materialization metadata with each response.
+Install the JavaScript SDK for Omni Datastream in this project. Resolve AAPL, fetch the latest 10-K, fetch the latest market snapshot, read US CPI, run the semantic intelligence query for AAPL return decomposition, and log requestId, traceparent, provenance, freshness, and materialization metadata with each response.
 </Prompt>
 
 ## Error handling
