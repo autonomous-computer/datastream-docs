@@ -33217,7 +33217,12 @@
                 "type": "string"
               },
               "confidence": {
-                "$ref": "#/components/schemas/FootnoteIntelligenceResult/properties/filing/properties/validation/properties/confidence"
+                "type": "string",
+                "enum": [
+                  "high",
+                  "medium",
+                  "low"
+                ]
               },
               "launchState": {
                 "type": "string",
