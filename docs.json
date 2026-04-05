@@ -120,6 +120,7 @@
               "freshness-and-trust",
               "coverage-and-depth",
               "benchmark-workflows",
+              "financebench-evaluation",
               "plans-and-pricing",
               "pay-as-you-go",
               "agent-billing",
@@ -314,7 +315,8 @@
               "api-reference/filings/get-v1-filings-latest",
               "api-reference/filings/get-v1-filings-latest-render",
               "api-reference/filings/get-v1-filings-latest-risk-categories",
-              "api-reference/filings/get-v1-filings-latest-sections-section-key"
+              "api-reference/filings/get-v1-filings-latest-sections-section-key",
+              "api-reference/filings/get-v1-filings-pension-benefit-schedule"
             ]
           },
           {
@@ -516,6 +518,7 @@
               "api-reference/statements/get-v1-statements",
               "api-reference/statements/get-v1-statements-statement-key",
               "api-reference/statements/get-v1-statements-all",
+              "api-reference/statements/get-v1-statements-segmented-facts",
               "api-reference/statements/get-v1-statements-segmented-revenues",
               "api-reference/statements/get-v1-statements-share-float"
             ]
