@@ -68,13 +68,18 @@ This page describes the current derivation, source posture, and capability state
 
 - `segmentAxis`, `segmentMember`, `segmentLabel`: XBRL dimension identity and human-readable label
 - `segmentType`: `geographic`, `product`, or `other`
+- `hierarchyDepth`: inferred depth in the segment hierarchy (1 = top-level, 2 = regional sub-segment, 3 = sub-regional)
+- `isMostGranularSibling`: whether this is a leaf-level segment suitable for analysis (filters out parent containers like "International" or "Total")
 - `capability`: `supported` or `not_disclosed`
 - `trace`: lightweight filing-derived trace reference for later hydration
 
 ### How it is derived
 
 - OMNI scans issuer filing history, finds the XBRL instance for 10-K and 10-Q filings, and extracts segment facts from the disclosed XBRL contexts and members
-- traces now hydrate to filing-page anchors through `/v1/traces` and `/v1/traces/{trace_id}`
+- geographic segment depth is inferred from member names: common regional acronyms (EMEA, APAC, LACC, Americas) and descriptive names (Developed Europe, Emerging Markets, Asia Pacific) are classified at depth 2; sub-regional breakdowns (Western Europe, Southeast Asia) are depth 3
+- parent containers (International, Total, All Other, Rest of World) are excluded from granular analysis via the `isMostGranularSibling` flag, while qualified names like "Developed Rest of World" are preserved as leaf segments
+- standalone geographic members at lower depths (e.g., "United States" at depth 1 alongside depth-2 sub-segments) are treated as leaves when they are not parent containers
+- traces hydrate to filing-page anchors through `/v1/traces` and `/v1/traces/{trace_id}`
 
 ### First-party status
 
@@ -83,8 +88,33 @@ This page describes the current derivation, source posture, and capability state
 
 ### How it works in OMNI
 
-- Datastream serves `/v1/statements/segmented-revenues`
+- Datastream serves `/v1/statements/segmented-revenues` with `segment_type`, `period`, `limit`, and `submission_file_limit` query parameters
 - omni-apps revenue-segmentation flows now point at Datastream-backed SEC routes instead of the prior MASSIVE/FMP path
+- the agent harness pre-fetches geographic segments before the first LLM reasoning step and post-processes results with year-over-year comparisons when the question involves revenue change analysis
+
+## Common equity derivation
+
+### What the values mean
+
+- `commonEquity`: total stockholders' equity minus preferred stock and noncontrolling interests — the equity available to common shareholders
+- used as the numerator for book value per share and related per-share calculations
+
+### How it is derived
+
+- Datastream first checks for `CommonStockholdersEquity` in the SEC filing's balance sheet statement rows (the most reliable source)
+- if not available at the statement level, it checks the supplemental XBRL fact series using `COMMON_EQUITY_CONCEPT_TAGS` (`CommonStockholdersEquity`, then `StockholdersEquity` as fallback)
+- when the supplemental value equals total equity (indicating the `StockholdersEquity` fallback was used, which includes preferred stock for banks), Datastream deducts `PreferredStockValue` to derive common equity
+- preferred stock is resolved from `PREFERRED_STOCK_CONCEPT_TAGS` (`PreferredStockValue`, `PreferredStockLiquidationPreference`, `PreferredStockCarryingAmount`)
+
+### First-party status
+
+- first-party SEC-derived calculation
+- critical for financial institutions like JPMorgan where `StockholdersEquity` includes ~$26B in preferred stock
+
+### How it works in OMNI
+
+- Datastream serves the derived `commonEquity` field in `/v1/companies/financials` balance sheet records
+- omni-apps financial calculations engine uses `commonEquity` (when available) instead of `totalEquity` for book value per share
 
 ## M&A events
 

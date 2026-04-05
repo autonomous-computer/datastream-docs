@@ -383,6 +383,16 @@
         "summary": "Extract a filing item or section from a specific accession-number filing"
       }
     },
+    "/v1/filings/pension-benefit-schedule": {
+      "get": {
+        "summary": "Return structured expected pension and retiree benefit payments for a target year when the filing discloses the schedule in rendered tables"
+      }
+    },
+    "/v1/statements/segmented-facts": {
+      "get": {
+        "summary": "Return filing-derived segmented fact history for supported metrics such as revenue and segment profit/loss, with product or geography dimensions, hierarchy metadata, capability state, and trace references when issuers disclose them"
+      }
+    },
     "/v1/statements/segmented-revenues": {
       "get": {
         "summary": "Return filing-derived segmented revenue history with XBRL product or geography dimensions, capability state, and trace references when issuers disclose them"
@@ -2481,6 +2491,29 @@
                     ],
                     "additionalProperties": false
                   },
+                  "completeness": {
+                    "type": "object",
+                    "properties": {
+                      "source": {
+                        "type": "string",
+                        "enum": [
+                          "xbrl_facts",
+                          "company_facts"
+                        ]
+                      },
+                      "observationsReturned": {
+                        "type": "integer",
+                        "minimum": 0
+                      },
+                      "hasResolvedConcept": {
+                        "type": "boolean"
+                      }
+                    },
+                    "required": [
+                      "source"
+                    ],
+                    "additionalProperties": false
+                  },
                   "freshness": {
                     "type": "object",
                     "properties": {
@@ -4255,6 +4288,21 @@
                     "geographic",
                     "product",
                     "other"
+                  ]
+                },
+                "axisFamily": {
+                  "type": "string"
+                },
+                "hierarchyDepth": {
+                  "type": "integer"
+                },
+                "isMostGranularSibling": {
+                  "type": "boolean"
+                },
+                "metricKey": {
+                  "type": "string",
+                  "enum": [
+                    "revenue"
                   ]
                 },
                 "taxonomy": {
@@ -33372,12 +33420,7 @@
                 "type": "string"
               },
               "confidence": {
-                "type": "string",
-                "enum": [
-                  "high",
-                  "medium",
-                  "low"
-                ]
+                "$ref": "#/components/schemas/FootnoteIntelligenceResult/properties/filing/properties/validation/properties/confidence"
               },
               "launchState": {
                 "type": "string",
