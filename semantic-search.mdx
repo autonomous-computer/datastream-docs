@@ -1,0 +1,95 @@
+# Semantic Search
+
+<Info>
+Use semantic search when exact keyword matching is too brittle for filing research. This surface is built for concept retrieval across filing sections and related-filing discovery, not just literal text lookup.
+</Info>
+
+## Pick the right mode
+
+| Mode | Best for | Why |
+|------|----------|-----|
+| `keyword` | Exact lookups such as `AAPL 10-K 2024` or a known phrase | Uses traditional keyword retrieval and works best when precision depends on literal terms |
+| `semantic` | Concept-based discovery such as supply chain stress, AI capex, or pricing pressure | Uses vector similarity to retrieve filings and sections that discuss the idea even when they use different wording |
+| `hybrid` | Most real research workflows | Runs keyword and vector retrieval together, merges them, and reranks the combined results for the strongest overall quality |
+
+## How hybrid search works
+
+<Steps>
+  <Step title="Retrieve keyword matches">
+    Datastream runs traditional keyword retrieval across filing content so exact company, form, date, and phrase matches stay strong.
+  </Step>
+  <Step title="Retrieve vector matches">
+    The same query is embedded and sent to Pinecone so Datastream can find semantically related sections even when the wording differs.
+  </Step>
+  <Step title="Merge with Reciprocal Rank Fusion">
+    Keyword and vector candidates are merged with RRF so neither exact-match recall nor conceptual recall dominates the result set on its own.
+  </Step>
+  <Step title="Rerank with a cross-encoder">
+    Voyage rerank-2 scores the merged candidates against the full query to produce the final ordering.
+  </Step>
+</Steps>
+
+## Technology stack
+
+- embeddings: Voyage AI `voyage-4-large`
+- vector database: Pinecone serverless with cosine similarity
+- reranking: Voyage AI `rerank-2`
+- retrieval modes: keyword, semantic, and hybrid
+
+`voyage-4-large` is the primary embedding model for this surface and is used to keep filing-section retrieval strong on finance-heavy research queries. In the current Phase 6 handoff, it is positioned as the `#1` finance embedding choice for this rollout.
+
+## Cost and optimization
+
+- Pay As You Go price: `$0.04` per call under `semantic_search`
+- Personal, Team, and Commercial plan discounts apply to the same meter family
+- semantic retrieval costs more than standard keyword search because it adds embedding generation, vector query, and reranking
+- semantic retrieval still costs less than a full intelligence query because it does not add LLM reasoning on top
+
+## Shared embedding space matters
+
+Voyage 4 uses a shared embedding space. That means Datastream can index filing sections with `voyage-4-large`, then query the same vector space with `voyage-4-lite` for a cheaper query path when cost efficiency matters.
+
+- index path: `voyage-4-large`
+- query path: `voyage-4-lite`
+- effect: lower query-time embedding cost without rebuilding the corpus in a different vector space
+
+## Example research workflows
+
+### Search for a concept across filings
+
+```bash
+curl -H "x-api-key: $OMNI_DATASTREAM_API_KEY" \
+  "https://api.secapi.ai/v1/search/semantic?q=companies+discussing+supply+chain+disruptions&mode=hybrid&limit=10"
+```
+
+### Search for AI capital expenditure discussion
+
+```bash
+curl -H "x-api-key: $OMNI_DATASTREAM_API_KEY" \
+  "https://api.secapi.ai/v1/search/semantic?q=filings+about+AI+capital+expenditure&mode=semantic&form=10-K&limit=10"
+```
+
+### Find similar filings
+
+```bash
+curl -H "x-api-key: $OMNI_DATASTREAM_API_KEY" \
+  "https://api.secapi.ai/v1/filings/0000320193-25-000079/similar?limit=5&form=10-K"
+```
+
+<Prompt>
+Use Omni Datastream semantic search for filing research. Choose `keyword` for exact lookups, `semantic` for concept retrieval, and `hybrid` for the default best-quality path. Run the query, preserve `requestId` and `traceparent`, keep any `Omni-Meter-Class` billing metadata, and return a concise markdown summary with the most relevant filing sections or similar filings.
+</Prompt>
+
+## Read next
+
+<CardGroup cols={3}>
+  <Card title="GET /v1/search/semantic" icon="search" href="/api-reference/search/get-v1-search-semantic">
+    Full API reference for semantic and hybrid section search.
+  </Card>
+  <Card title="GET /v1/filings/{filingId}/similar" icon="file-stack" href="/api-reference/search/get-v1-filings-filing-id-similar">
+    Find filings with semantically similar content to a source filing.
+  </Card>
+  <Card title="Plans and pricing" icon="credit-card" href="/plans-and-pricing">
+    Review the `semantic_search` meter family and launch pricing posture.
+  </Card>
+</CardGroup>
