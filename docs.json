@@ -136,6 +136,7 @@
             "pages": [
               "ownership-workflows",
               "compensation-workflows",
+              "semantic-search",
               "market-calendar",
               "index-constituents",
               "volatility-score",
@@ -491,7 +492,9 @@
             "icon": "square-stack",
             "root": "api-reference/search",
             "pages": [
-              "api-reference/search/get-v1-search-fulltext"
+              "api-reference/search/get-v1-search-fulltext",
+              "api-reference/search/get-v1-search-semantic",
+              "api-reference/search/get-v1-filings-filing-id-similar"
             ]
           },
           {
