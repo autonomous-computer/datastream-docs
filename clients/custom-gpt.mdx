@@ -20,7 +20,7 @@ Two install paths depending on your ChatGPT plan. Path 1 gives a Custom GPT (or 
 3. **MCP Server URL**: `https://api.secapi.ai/mcp`
 4. **Authentication**: API Key.
 5. **Header name**: `x-api-key`. **Header value**: your Omni API key.
-6. Save. Enable the connector in any chat; the 39 Omni tools are now available.
+6. Save. Enable the connector in any chat; the Omni MCP tools are now available.
 
 ## Path 2 — Classic Custom GPT + OpenAPI Action (any tier)
 
@@ -29,7 +29,7 @@ This calls the REST API directly. Tool calls work, but you skip MCP's auto-disco
 1. In GPT Builder: `Configure → Actions → Create new action`.
 2. **Schema**: paste the URL `https://docs.secapi.ai/openapi/omni-datastream.v1.json` and import.
 3. **Authentication**: API Key → **Auth Type**: Custom → **Custom Header Name**: `x-api-key` → paste your Omni key as the value.
-4. **Privacy policy**: `https://secapi.ai/privacy` (required by the GPT Store).
+4. **Privacy policy**: `https://secapi.ai/privacy-policy` (required by the GPT Store).
 5. Save and test in the playground.
 
 ## Verify
@@ -49,6 +49,6 @@ The agent should call `filings.latest` (Path 1) or `GET /v1/filings/latest?ticke
 
 ## Next
 
-- [Available tools](/mcp-install#available-tools) — the 39 SEC + market data tools exposed via MCP
+- [Available tools](/mcp-install#available-tools) — the SEC + market data tools exposed via MCP
 - [Give this prompt to your agent](/give-this-prompt-to-your-agent) — a canonical briefing block for richer agent workflows
 
