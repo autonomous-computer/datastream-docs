@@ -1,0 +1,196 @@
+# Migrate from AskEdgar
+
+<Info>
+This guide maps every AskEdgar dilution endpoint onto OMNI Datastream and walks through the auth, verification-model, and pricing changes you'll see at cutover.
+</Info>
+
+## What changes when you switch
+
+<CardGroup cols={2}>
+  <Card title="Per-field verification, not a boolean" icon="shield-check" href="/freshness-and-trust">
+    Replace `verified === true` checks with the OMNI `verification` block (`confidence`, `crossValidationsPassed`, `sourceSpanResolved`).
+  </Card>
+  <Card title="Auth header swap" icon="key" href="/auth-and-pricing">
+    AskEdgar uses `API-KEY: …`; OMNI uses `x-api-key: …`. Same per-request shape, different header name.
+  </Card>
+  <Card title="Predictable subscription option" icon="credit-card" href="/plans-and-pricing">
+    OMNI offers PAYG and flat subscriptions ($55 Personal, $239 Team). AskEdgar's API is per-KB only.
+  </Card>
+  <Card title="Broader API surface" icon="layers-2" href="/api-reference">
+    14 dilution endpoints plus 38 other endpoint families (filings, statements, factors, insiders, macro). One key, 39 families.
+  </Card>
+  <Card title="Hosted MCP and SDKs" icon="bot" href="/mcp-workflows">
+    47 MCP tools (14 dilution.*) and 4 SDKs (JS, Python, Go, Rust). AskEdgar publishes none today.
+  </Card>
+</CardGroup>
+
+## Route mapping
+
+<Warning>
+AskEdgar bundles warrants and convertibles into a single `DilutionEntity`. OMNI splits them into dedicated `/v1/dilution/warrants` and `/v1/dilution/convertibles` routes. Plan for a small shape change in your client when you cut over those reads.
+</Warning>
+
+- `/v1/dilution-data` -> `/v1/dilution/events`
+- `/v1/dilution-data?ticker={t}&id={id}` -> `/v1/dilution/events/{event_id}`
+- `/v1/dilution-rating` (latest) -> `/v1/dilution/score`
+- `/v1/dilution-rating` (history) -> `/v1/dilution/ratings`
+- `/v1/offerings` -> `/v1/dilution/events?form=S-1,S-3,424B5`
+- `/v1/registrations` -> `/v1/dilution/events?form=S-1,S-3`
+- `/v1/float-outstanding` -> `/v1/dilution/share-float-history?limit=1`
+- `/v1/historical-float-pro` -> `/v1/dilution/share-float-history`
+- `/v1/screener` -> `/v1/dilution/coverage`
+- `/v1/reverse-splits` -> `/v1/dilution/reverse-splits`
+- `/v1/nasdaq-compliance` -> `/v1/dilution/nasdaq-compliance`
+- (no AskEdgar route) -> `/v1/dilution/warrants`
+- (no AskEdgar route) -> `/v1/dilution/convertibles`
+- (no AskEdgar route) -> `/v1/dilution/rofr`
+- (no AskEdgar route) -> `/v1/dilution/lockups`
+- (no AskEdgar route) -> `/v1/dilution/cash-position`
+- (no AskEdgar route) -> `/v1/dilution/corporate-actions`
+
+## Request translation examples
+
+### Dilution events for a ticker
+
+```bash
+# AskEdgar
+curl "https://api.askedgar.com/v1/dilution-data?ticker=MULN" \
+  -H "API-KEY: $ASKEDGAR_API_KEY"
+
+# OMNI Datastream
+curl "https://api.secapi.ai/v1/dilution/events?ticker=MULN" \
+  -H "x-api-key: $OMNI_DATASTREAM_API_KEY"
+```
+
+### Latest dilution score
+
+```bash
+# AskEdgar
+curl "https://api.askedgar.com/v1/dilution-rating?ticker=MULN" \
+  -H "API-KEY: $ASKEDGAR_API_KEY"
+
+# OMNI Datastream
+curl "https://api.secapi.ai/v1/dilution/score?ticker=MULN" \
+  -H "x-api-key: $OMNI_DATASTREAM_API_KEY"
+```
+
+### Share-float history (full series)
+
+```bash
+# AskEdgar
+curl "https://api.askedgar.com/v1/historical-float-pro?ticker=MULN" \
+  -H "API-KEY: $ASKEDGAR_API_KEY"
+
+# OMNI Datastream
+curl "https://api.secapi.ai/v1/dilution/share-float-history?ticker=MULN" \
+  -H "x-api-key: $OMNI_DATASTREAM_API_KEY"
+```
+
+<Prompt>
+Migrate this AskEdgar integration to OMNI Datastream. Replace the host `api.askedgar.com` with `api.secapi.ai/v1`. Swap the `API-KEY` header for `x-api-key`. Map `/v1/dilution-data` to `/v1/dilution/events`, split warrants/convertibles into `/v1/dilution/warrants` and `/v1/dilution/convertibles`, and replace any `verified === true` check with `verification.confidence >= 0.9 && verification.sourceSpanResolved`. Add `?view=agent` for token-efficient summaries on token-sensitive paths. Keep `Request-Id` logging and any current fallback gaps in the final implementation notes.
+</Prompt>
+
+## Verification model migration
+
+AskEdgar exposes a single boolean. OMNI exposes the components an agent
+can reason about:
+
+```json
+// AskEdgar
+{ "verified": true }
+
+// OMNI
+{
+  "verification": {
+    "confidence": 0.94,
+    "crossValidationsPassed": 3,
+    "sourceSpanResolved": true,
+    "verifiedAt": "2026-04-22T14:31:08Z",
+    "modelVersion": "claude-opus-4-7",
+    "reviewer": "human:operator-id-184"
+  }
+}
+```
+
+Practical rewrite: replace `verified === true` checks with
+`verification.confidence >= 0.9 && verification.sourceSpanResolved`.
+Tighten or relax the threshold per workflow.
+
+## Pricing impact
+
+AskEdgar's API is strictly per-KB. OMNI offers PAYG (per-call) and flat
+subscriptions. The conversion lever depends on payload size and call
+volume:
+
+| Profile                 | Volume                   | AskEdgar API (PAYG, per-KB) | OMNI option                 | OMNI $/mo |
+| ----------------------- | ------------------------ | --------------------------- | --------------------------- | --------- |
+| Light researcher        | 100 dilution-data calls  | ~$10.80 (≈$0.108/call)      | PAYG (250 free grant)       | **$0**    |
+| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | PAYG (250 free + 350 × $0.01) | **$3.50** |
+| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | Personal (predictable)      | **$55**   |
+| Small-cap research team | 5,000 dilution-data calls| ~$540                       | Team (predictable)          | **$239**  |
+| Small-cap research team | 5,000 dilution-data calls| ~$540                       | PAYG (4,750 × $0.01)        | **$47.50**|
+
+AskEdgar API costs assume the published `/v1/dilution-data` rate of
+$0.018/KB and a typical ~6 KB response. OMNI quotas verified against
+`infra/stripe/pricing-plans.json`. The 250 included calls renew monthly
+per `apps/docs/content/billing-faq.md`.
+
+## Migration script template
+
+```bash
+#!/usr/bin/env bash
+# Drop-in cutover. Manual review required for the warrants/convertibles split.
+# Host replacement does NOT include /v1 — the path substitutions below already
+# carry /v1/... so combining the two would produce /v1/v1/... (broken).
+sed -i.bak \
+  -e 's|https://api\.askedgar\.com|https://api.secapi.ai|g' \
+  -e 's|API-KEY: \${ASKEDGAR_API_KEY}|x-api-key: ${OMNI_DATASTREAM_API_KEY}|g' \
+  -e 's|/v1/dilution-data|/v1/dilution/events|g' \
+  -e 's|/v1/dilution-rating|/v1/dilution/score|g' \
+  -e 's|/v1/historical-float-pro|/v1/dilution/share-float-history|g' \
+  -e 's|/v1/float-outstanding|/v1/dilution/share-float-history?limit=1|g' \
+  -e 's|/v1/reverse-splits|/v1/dilution/reverse-splits|g' \
+  -e 's|/v1/nasdaq-compliance|/v1/dilution/nasdaq-compliance|g' \
+  src/**/*.{ts,js,py}
+
+# Manual review checklist:
+#  - DilutionEntity warrants/convertibles fields -> /v1/dilution/warrants and /v1/dilution/convertibles
+#  - /v1/offerings, /v1/registrations -> /v1/dilution/events with form= filters
+#  - /v1/dilution-rating history -> /v1/dilution/ratings (separate from /v1/dilution/score)
+#  - `verified === true` -> verification.confidence >= 0.9 && verification.sourceSpanResolved
+```
+
+## Migration notes
+
+- Pin `omni-version` in production clients before cutover.
+- Capture `Request-Id` during dual-run testing so request diagnostics stay comparable across the two providers.
+- AskEdgar's `verified: boolean` collapses 6 dimensions into 1. Expect richer per-row metadata on OMNI; build your gating logic around the `verification` block, not a single flag.
+- AskEdgar's API is metered per-KB; OMNI's is per-call. For payload-heavy workloads the unit-cost story flips — re-benchmark before locking the pricing tier.
+- `askedgar_url` is preserved on every OMNI dilution row, so you can keep a back-link to the AskEdgar Copilot UI if your operators want to dual-source during cutover.
+
+## Recommended cutover order
+
+1. issuer resolution and ticker mapping
+2. dilution events list (replaces `/v1/dilution-data`)
+3. dilution score and ratings (replaces `/v1/dilution-rating`)
+4. share-float history (replaces `/v1/float-outstanding` and `/v1/historical-float-pro`)
+5. nasdaq compliance and reverse splits (1:1 replacement)
+6. warrants and convertibles split (manual review of the bundled `DilutionEntity` shape)
+7. offerings and registrations (replaced by `/v1/dilution/events` with form filters)
+8. screener (replaced by `/v1/dilution/coverage`)
+9. webhook subscription (signed events, 7 dilution event types)
+
+## Read next
+
+<CardGroup cols={3}>
+  <Card title="Compare OMNI Datastream and AskEdgar" icon="git-compare-arrows" href="/compare-askedgar">
+    Side-by-side feature, schema, and pricing comparison.
+  </Card>
+  <Card title="Dilution endpoints" icon="square-terminal" href="/api-reference/dilution">
+    Open the 14 OMNI dilution routes with realistic examples.
+  </Card>
+  <Card title="Auth and pricing" icon="key" href="/auth-and-pricing">
+    Provision an org-scoped API key and review the PAYG ladder.
+  </Card>
+</CardGroup>
+
