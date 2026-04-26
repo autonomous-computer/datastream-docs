@@ -134,6 +134,7 @@
               "billing-faq",
               "migrate-from-sec-api",
               "migrate-from-financialdatasets-ai",
+              "migrate-from-askedgar",
               "auth-and-pricing"
             ]
           },
@@ -761,6 +762,7 @@
             "icon": "bar-chart-3",
             "pages": [
               "compare-sec-api",
+              "compare-askedgar",
               "benchmark-results",
               "edgar-statistics"
             ]
