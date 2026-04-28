@@ -11,30 +11,65 @@ The changelog is part of the trust surface. It keeps shipped changes, release rh
 
 ## Release trail
 
-<Update label="April 26, 2026" description="W5 Stream H — /compare-askedgar competitive landing page + /migrate-from-askedgar engineering migration guide" tags={["OMNI", "Release"]}>
-Two new pages for customers evaluating AskEdgar (askedgar.io) — a focused dilution-intelligence SaaS that launched 2026-04-22 with parity on the 42-field DilutionEntity. OMNI matches their dilution schema field-for-field, ships per-field programmatic verification (vs their binary `verified: boolean`), and adds 38 endpoint families they don't touch. Each OMNI dilution row carries an `askedgar_url` field so customers running both can dual-source during cutover.
+<Update label="April 28, 2026" description="Monitor → email auto-fire (Dagster cron + retry queue + daily summary)" tags={["OMNI", "Release"]}>
+Email destinations on monitors now fire automatically. The OMNI Dagster cron sweeps active monitors every 15 minutes and dispatches new matches via the email channel shipped in the prior release. Includes a retry state machine, per-monitor + per-org rate limits, and a 23:55 UTC daily summary for over-the-cap matches.
 
 ### Highlights
 
-- New: [compare-askedgar](/compare-askedgar) — entity-by-entity dilution parity table, 14×14 endpoint mapping (theirs → ours), verification-model JSON shape diff, three-product pricing comparison (Copilot UI / per-KB API / OMNI), and where-each-wins decision criteria
-- New: [migrate-from-askedgar](/migrate-from-askedgar) — endpoint mapping with literal arrows, `API-KEY` → `x-api-key` auth migration, verification-model rewrite, 5-row pricing-impact scenario table, sed cutover script, agent-runnable migration `<Prompt>`, recommended cutover order
-- Sourced from a 2026-04-26 live capture of askedgar.io (pricing + readme.io docs); auth header, host, and endpoint paths verified against their live API
-- Closing snapshot footnote on the comparison page (`*as of 2026-04-26*`) so future refreshes are auditable
-- All numerics verified live against the repo: 39 endpoint families, 186 endpoints, 47 MCP tools, 4 SDKs, 8 Skills, FinanceBench 150/150, 3.7-6.4× faster vs sec-api.io, 14 dilution endpoints + 14 dilution.* MCP tools (OMNI-3089)
+- 15-minute Dagster cron sweep dispatches new monitor matches via Resend; idempotent against (monitor_id, idempotency_key) so re-runs on overlapping cursors don't duplicate emails
+- Retry state machine with 30s → 5m → 30m backoff; 3 attempts max before permanent_failed
+- Per-monitor hourly cap (OMNI_MONITOR_DISPATCH_RATE_LIMIT_PER_HOUR=100) + per-org daily cap (OMNI_MONITOR_DISPATCH_DAILY_CAP=1000); over-cap rows persist as rate_limited and feed the daily summary
+- Daily summary email at 23:55 UTC rolls up rate-limited matches per (org, recipient); idempotent per UTC date
+- monitor.match Datastream events fire on every dispatch — org-level webhook subscribers receive the signal via webhook_endpoints regardless of email outcome
+- Transient 'sending' status pattern keeps Postgres locks short during Resend HTTP calls — aligned with OMNI-3414 connection-pool work
+- Stage 1 ships dormant behind OMNI_MONITOR_DISPATCH_ENABLED=false; Stage 2 = post-merge env flip
+- Legacy monitor.webhookUrl column is now formally deprecated — see OMNI-3436 for removal timeline
 </Update>
 
-<Update label="April 25, 2026" description="W4 Stream B — 14 /v1/dilution/* endpoints, 14 MCP tools, 7 webhook event types, WS event_types filter" tags={["OMNI", "Release"]}>
-Productization of the dilution data pipeline (OMNI-3071 schema → OMNI-3079 extractors → OMNI-3081 verification → OMNI-3083 citations). Customers can now query 14 dilution endpoints — events, warrants, convertibles, RoFR, lockups, cash-position, corporate-actions, Nasdaq compliance, ratings, reverse-splits, score, share-float-history, coverage — each row carrying the full programmatic verification block (`confidence`, `crossValidations`, `sourceSpan`, `verifiedAt`).
+<Update label="April 27, 2026" description="feat(bench): multi-ticker pool + variance_flag for OMNI-3099 (numbers refresh deferred) + 2 more" tags={["OMNI", "Release"]}>
+Highlights from this shipping window include feat(bench): multi-ticker pool + variance_flag for OMNI-3099 (numbers refresh deferred); feat(site): /trust page Phase 2 — DRAFT v0.1 under noindex; fix(ci): declare @aws-sdk/client-s3 at workspace root for Status Rollup (OMNI-3375).
 
 ### Highlights
 
-- New: 14 GET endpoints under `/v1/dilution/*` mirroring the dilution schema; all support `?view=agent` for token-efficient summaries via `summarizeVerification`
-- New: 14 dotted-namespace MCP tools (`dilution.events.{list,get}`, `dilution.{warrants,convertibles,rofr,lockups,cash_position,corporate_actions,nasdaq_compliance,ratings,reverse_splits,share_float_history}.list`, `dilution.score.get`, `dilution.coverage.get`) — always return full payload (REST `?view=agent` is REST-only by design; MCP context is already an agent context)
-- Webhook registry: 7 new dilution event types (`dilution.{warrant,convertible,rofr,lockup,corporate_action,reverse_split}.created` + `dilution.nasdaq_compliance.status_changed`); customers can subscribe today, producer wiring lands in a follow-up
-- WebSocket: new `?event_types=` filter param accepts literal types and single-segment wildcards (`dilution.*`) — forward-compatible plumbing so SDK contracts stay stable while the dilution NOTIFY producer comes online
-- Verification block exposed by default; agent-mode summary follows the canonical contract `{ confidence, crossValidationsPassed, sourceSpanResolved, modelVersion }` from OMNI-3081
-- Cursor pagination shared with the rest of the API (integer offset, default 10, max 50); cost headers (`Omni-Token-Count`, `Omni-Estimated-Cost`) inherit globally
-- Mintlify reference pages live for all 14 endpoints with realistic examples and agent prompts
+- feat(bench): multi-ticker pool + variance_flag for OMNI-3099 (numbers refresh deferred)
+- feat(site): /trust page Phase 2 — DRAFT v0.1 under noindex
+- fix(ci): declare @aws-sdk/client-s3 at workspace root for Status Rollup (OMNI-3375)
+</Update>
+
+<Update label="April 26, 2026" description="Dilution endpoints in all four SDKs (TS / Python / Go / Rust) + omni-sec CLI" tags={["OMNI", "Release"]}>
+All 14 dilution endpoints — events, warrants, convertibles, ROFR, lockups, cash position, corporate actions, Nasdaq compliance, ratings, reverse splits, score, share-float history, coverage — are now first-class methods in every SDK and the omni-sec CLI. Wedge feature, fully reachable.
+
+### Highlights
+
+- TypeScript SDK: 14 new methods on OmniDatastreamClient (dilutionEvents, dilutionEventDetail, dilutionWarrants, dilutionConvertibles, dilutionRofr, dilutionLockups, dilutionCashPosition, dilutionCorporateActions, dilutionNasdaqCompliance, dilutionRatings, dilutionReverseSplits, dilutionScore, dilutionShareFloatHistory, dilutionCoverage); bumped to 0.2.0
+- Python SDK: matching client.dilution_* methods (with an is_atm boolean adapter so True/False serialize as the lowercase strings the route expects); bumped to 0.2.0
+- Go SDK: matching Client.Dilution* receiver methods returning (map[string]any, error); bumped to 0.2.0
+- Rust SDK: matching client.dilution_* async functions returning Result<Value, OmniDatastreamError>; bumped to 0.2.0
+- omni-sec CLI: new dilution group with 14 subcommands (omni-sec dilution events|event|warrants|convertibles|rofr|lockups|cash-position|corporate-actions|nasdaq-compliance|ratings|reverse-splits|score|share-float-history|coverage); bumped to 0.2.0
+- ?view=agent honored across 13 of 14 endpoints (coverage is already a small rollup with no agent shape)
+- Demo: omni-sec dilution ratings --overall-risk high --limit 10 returns the highest-dilution-risk issuers; omni-sec dilution score --ticker BBBB returns the per-issuer Dilution Score
+</Update>
+
+<Update label="April 25, 2026" description="Email delivery for monitors (Resend)" tags={["OMNI", "Release"]}>
+Monitors now support email destinations alongside the existing webhook channel. SEC filing matches alert your inbox with one-click, RFC 8058-compliant unsubscribe.
+
+### Highlights
+
+- POST /v1/monitors accepts delivery: { type: 'email', config: { to } } as a discriminated union — Slack and other channels extend the same surface
+- Transactional alerts via Resend with HTML + plaintext bodies, inline-styled for Outlook compatibility
+- Signed unsubscribe tokens (HMAC-SHA256, nonce + 365-day expiry, recipient hashed not raw — URL is non-PII)
+- GET /v1/delivery/unsubscribe renders confirmation; POST mutates state — preview-safe under Outlook/Apple/Gmail link previewers (RFC 8058 + List-Unsubscribe-Post: List-Unsubscribe=One-Click for one-click clients)
+- New email_delivery_attempts audit table parallels webhook_delivery_attempts; recipient hashed, redacted form retained for ops debugging
+- New email_delivery MeterClass for per-org rate limiting (180/min default; observability-only, not billable in v1)
+- Channel ships as a primitive — automated dispatch via Dagster cron is filed as a separate follow-up (see OMNI-3244)
+</Update>
+
+<Update label="April 25, 2026" description="fix(verification): drop truncated citation candidates for fractional values (OMNI-3081 fast-follow)" tags={["OMNI", "Release"]}>
+A focused product or platform improvement shipped to OMNI.
+
+### Highlights
+
+- fix(verification): drop truncated citation candidates for fractional values (OMNI-3081 fast-follow)
 </Update>
 
 <Update label="April 24, 2026" description="Structured 8-K Item 5.07 voting results — first-in-market parser" tags={["OMNI", "Release"]}>
@@ -217,17 +252,6 @@ Highlights from this shipping window include fix: add DNS preflight check before
 - fix: use persisted snapshots for standalone intraday materialization
 </Update>
 
-<Update label="April 4, 2026" description="fix: retry Dagster job launches on DNS failure to get fresh ECS tasks + 6 more" tags={["OMNI", "Release"]}>
-Highlights from this shipping window include fix: retry Dagster job launches on DNS failure to get fresh ECS tasks; fix: harden extraction HTML stripping; deps(docker): bump python from 3.11-slim to 3.12-slim in /pipelines/sec-pipeline.
-
-### Highlights
-
-- fix: retry Dagster job launches on DNS failure to get fresh ECS tasks
-- fix: harden extraction HTML stripping
-- deps(docker): bump python from 3.11-slim to 3.12-slim in /pipelines/sec-pipeline
-- deps(py): update certifi requirement in /autoresearch
-</Update>
-
 <Update label="April 4, 2026" description="deps(deps): bump lucide-react from 0.511.0 to 0.577.0 + 6 more" tags={["OMNI", "Release"]}>
 Highlights from this shipping window include deps(deps): bump lucide-react from 0.511.0 to 0.577.0; deps(rs): update markup5ever_rcdom requirement; deps(rs): update reqwest requirement from 0.12 to 0.13 in /packages/sdk-rust.
 
@@ -239,6 +263,17 @@ Highlights from this shipping window include deps(deps): bump lucide-react from 
 - deps(py): update anthropic requirement in /autoresearch
 </Update>
 
+<Update label="April 4, 2026" description="fix: retry Dagster job launches on DNS failure to get fresh ECS tasks + 6 more" tags={["OMNI", "Release"]}>
+Highlights from this shipping window include fix: retry Dagster job launches on DNS failure to get fresh ECS tasks; fix: harden extraction HTML stripping; deps(docker): bump python from 3.11-slim to 3.12-slim in /pipelines/sec-pipeline.
+
+### Highlights
+
+- fix: retry Dagster job launches on DNS failure to get fresh ECS tasks
+- fix: harden extraction HTML stripping
+- deps(docker): bump python from 3.11-slim to 3.12-slim in /pipelines/sec-pipeline
+- deps(py): update certifi requirement in /autoresearch
+</Update>
+
 <Update label="April 3, 2026" description="Geographic segment depth detection + preferred stock deduction" tags={["OMNI", "Release"]}>
 Segmented revenues now recognize geographic acronyms (EMEA, APAC, LACC) at depth 2 for proper isMostGranularSibling filtering. Company financials pipeline now deducts PreferredStockValue from StockholdersEquity when CommonStockholdersEquity is not filed separately.
 
@@ -247,14 +282,6 @@ Segmented revenues now recognize geographic acronyms (EMEA, APAC, LACC) at depth
 - inferSegmentHierarchyDepth: added EMEA, APAC, LACC, Americas patterns
 - PREFERRED_STOCK_CONCEPT_TAGS: PreferredStockValue, PreferredStockLiquidationPreference, PreferredStockCarryingAmount
 - Common equity derivation: statement-level > supplemental > preferred stock deduction
-</Update>
-
-<Update label="April 2, 2026" description="fix: address 33 unresolved bot review comments from last 72h" tags={["OMNI", "Release"]}>
-A focused product or platform improvement shipped to OMNI.
-
-### Highlights
-
-- fix: address 33 unresolved bot review comments from last 72h
 </Update>
 
 <Update label="April 2, 2026" description="fix: broaden health care row key match for pension table extraction + 3 more" tags={["OMNI", "Release"]}>
@@ -268,15 +295,12 @@ Highlights from this shipping window include fix: broaden health care row key ma
 - fix: datastream answer quality fast follow
 </Update>
 
-<Update label="April 1, 2026" description="fix: supplement sparse statement history + 9 more" tags={["OMNI", "Release"]}>
-Highlights from this shipping window include fix: supplement sparse statement history; feat: expose stock repurchases in statements; fix: carry filing quarters through sec lookups.
+<Update label="April 2, 2026" description="fix: address 33 unresolved bot review comments from last 72h" tags={["OMNI", "Release"]}>
+A focused product or platform improvement shipped to OMNI.
 
 ### Highlights
 
-- fix: supplement sparse statement history
-- feat: expose stock repurchases in statements
-- fix: carry filing quarters through sec lookups
-- fix: reject xbrl noise in filing sections
+- fix: address 33 unresolved bot review comments from last 72h
 </Update>
 
 <Update label="April 1, 2026" description="Fix datastream historical filing truth + 9 more" tags={["OMNI", "Release"]}>
@@ -288,6 +312,17 @@ Highlights from this shipping window include Fix datastream historical filing tr
 - fix: preserve exact sec ticker resolution
 - fix: honor accession in risk categories
 - fix: invalidate stale statement cache
+</Update>
+
+<Update label="April 1, 2026" description="fix: supplement sparse statement history + 9 more" tags={["OMNI", "Release"]}>
+Highlights from this shipping window include fix: supplement sparse statement history; feat: expose stock repurchases in statements; fix: carry filing quarters through sec lookups.
+
+### Highlights
+
+- fix: supplement sparse statement history
+- feat: expose stock repurchases in statements
+- fix: carry filing quarters through sec lookups
+- fix: reject xbrl noise in filing sections
 </Update>
 
 <Update label="March 31, 2026" description="fix: hide readiness bootstrap errors" tags={["OMNI", "Release"]}>
@@ -345,17 +380,6 @@ Highlights from this shipping window include Fix npm publish provenance and stal
 - Fix npm publish provenance for private repo
 </Update>
 
-<Update label="March 23, 2026" description="chore: mark stripe live account dedicated + 8 more" tags={["OMNI", "Release"]}>
-Highlights from this shipping window include chore: mark stripe live account dedicated; fix: authenticate final signoff factor check; chore: sync tracked stripe test state.
-
-### Highlights
-
-- chore: mark stripe live account dedicated
-- fix: authenticate final signoff factor check
-- chore: sync tracked stripe test state
-- feat: add stripe state sync workflow
-</Update>
-
 <Update label="March 23, 2026" description="fix: align factor catalog release checks + 8 more" tags={["OMNI", "Release"]}>
 Highlights from this shipping window include fix: align factor catalog release checks; fix: align launch signoff api key env; Fix merged bugbot fast-follows.
 
@@ -365,6 +389,17 @@ Highlights from this shipping window include fix: align factor catalog release c
 - fix: align launch signoff api key env
 - Fix merged bugbot fast-follows
 - feat: ship market estimates end-to-end
+</Update>
+
+<Update label="March 23, 2026" description="chore: mark stripe live account dedicated + 8 more" tags={["OMNI", "Release"]}>
+Highlights from this shipping window include chore: mark stripe live account dedicated; fix: authenticate final signoff factor check; chore: sync tracked stripe test state.
+
+### Highlights
+
+- chore: mark stripe live account dedicated
+- fix: authenticate final signoff factor check
+- chore: sync tracked stripe test state
+- feat: add stripe state sync workflow
 </Update>
 
 <Update label="March 20, 2026" description="fix: align site browser smoke with local auth base + 1 more" tags={["OMNI", "Release"]}>
@@ -393,6 +428,15 @@ A focused product or platform improvement shipped to OMNI.
 - fix: normalize company mapping backfill identifiers
 </Update>
 
+<Update label="March 16, 2026" description="Advance section extraction moat work + 1 more" tags={["OMNI", "Release"]}>
+Highlights from this shipping window include Advance section extraction moat work; Add Omni Datastream 2.0 strategy plan.
+
+### Highlights
+
+- Advance section extraction moat work
+- Add Omni Datastream 2.0 strategy plan
+</Update>
+
 <Update label="March 16, 2026" description="fix: close PR 29 fast-follow bugs + 3 more" tags={["OMNI", "Release"]}>
 Highlights from this shipping window include fix: close PR 29 fast-follow bugs; Ship ownership history backfill support; Relax stored filing manifest timestamp typing.
 
@@ -404,13 +448,12 @@ Highlights from this shipping window include fix: close PR 29 fast-follow bugs; 
 - Fix latest filing and section storage fast paths
 </Update>
 
-<Update label="March 16, 2026" description="Advance section extraction moat work + 1 more" tags={["OMNI", "Release"]}>
-Highlights from this shipping window include Advance section extraction moat work; Add Omni Datastream 2.0 strategy plan.
+<Update label="March 15, 2026" description="Close final Stripe signoff gaps" tags={["OMNI", "Release"]}>
+A focused product or platform improvement shipped to OMNI.
 
 ### Highlights
 
-- Advance section extraction moat work
-- Add Omni Datastream 2.0 strategy plan
+- Close final Stripe signoff gaps
 </Update>
 
 <Update label="March 15, 2026" description="Fix statement alias and cache normalization + 3 more" tags={["OMNI", "Release"]}>
@@ -424,14 +467,6 @@ Highlights from this shipping window include Fix statement alias and cache norma
 - Fix Python SDK parity and CI action versions
 </Update>
 
-<Update label="March 15, 2026" description="Close final Stripe signoff gaps" tags={["OMNI", "Release"]}>
-A focused product or platform improvement shipped to OMNI.
-
-### Highlights
-
-- Close final Stripe signoff gaps
-</Update>
-
 <Update label="March 13, 2026" description="Initialize repository" tags={["OMNI", "Release"]}>
 A focused product or platform improvement shipped to OMNI.
 
@@ -439,4 +474,3 @@ A focused product or platform improvement shipped to OMNI.
 
 - Initialize repository
 </Update>
-
