@@ -38552,6 +38552,29 @@
           "summaryMd": {
             "type": "string"
           },
+          "materializationPending": {
+            "type": "object",
+            "description": "Indicator keys in this pack whose observations or forecasts are still awaiting materialization, omitted entirely when nothing is pending. `backdrop` is the subset of those pending keys that feeds the `regime` block, so a non-empty `backdrop` means the regime was inferred from partial inputs. An empty `backdrop` is not a completeness guarantee — a backdrop input can also be absent because it is quarantined or simply returned no rows. Both lists are sorted and deduplicated.",
+            "required": [
+              "series",
+              "backdrop"
+            ],
+            "properties": {
+              "series": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "backdrop": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "additionalProperties": false
+          },
           "expansionHints": {
             "type": "array",
             "items": {
