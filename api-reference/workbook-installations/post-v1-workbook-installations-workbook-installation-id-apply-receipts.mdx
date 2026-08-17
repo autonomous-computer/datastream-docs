@@ -1,0 +1,82 @@
+---
+title: "POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts"
+description: "Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in."
+---
+
+Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in.
+
+<Info>
+Audience: application and coding agent.
+</Info>
+
+## Coverage and source scope
+
+Loads the server-persisted model-change set and approval record, validates evidence binding, current workbook precondition hash, approved input target refs, read-back hash, and recovery-case requirements, then appends the receipt to workbook provenance.
+
+## Canonical metadata
+
+- `requestId`
+- `traceparent`
+
+## Example request
+
+<RequestExample>
+```bash
+curl -X POST \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "secapi-version: 2026-03-19" \
+  -H "content-type: application/json" \
+  -d '{}' \
+  "https://api.secapi.ai/v1/workbook-installations/example-workbook-installation-id/apply-receipts"
+```
+</RequestExample>
+
+## Example response
+
+<ResponseExample>
+```json
+{
+  "object": "workbook_apply_receipt",
+  "applyReceipt": {
+    "applyReceiptId": "apply_receipt_example",
+    "modelChangeSetId": "mcs_example",
+    "approvalRecordId": "approval_example",
+    "workbookInstallationId": "wb_install_example",
+    "status": "applied",
+    "attemptedAt": "2026-08-16T12:02:00.000Z",
+    "completedAt": "2026-08-16T12:03:00.000Z",
+    "readBackHash": "sha256:readback"
+  },
+  "recoveryCase": null,
+  "workbookRefreshRun": {
+    "workbookRefreshRunId": "wb_refresh_example",
+    "workbookInstallationId": "wb_install_example",
+    "modelContextSnapshotId": "model_ctx_example",
+    "modelChangeSetId": "mcs_example",
+    "applyReceiptId": "apply_receipt_example",
+    "status": "applied",
+    "startedAt": "2026-08-16T12:02:00.000Z",
+    "completedAt": "2026-08-16T12:03:00.000Z",
+    "changedMappingCount": 2,
+    "blockedMappingCount": 0,
+    "evidenceSnapshotIds": [
+      "evsnap_example"
+    ],
+    "diagnostics": []
+  },
+  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+}
+```
+</ResponseExample>
+
+## Give this prompt to your agent
+
+<Prompt>
+Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts to record a server-validated workbook apply receipt after an approved model change set is written by the host add-in. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+</Prompt>
+
+## Failure posture
+
+- treat non-2xx responses as contract-aware failures, not free-form errors
+- preserve `requestId` and `traceparent` in logs and downstream reports
+- if provenance or freshness metadata is present, return it unchanged so trust is not lost in the handoff

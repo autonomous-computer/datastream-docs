@@ -1,9 +1,9 @@
 ---
 title: "API conventions"
-description: "Make authenticated SEC API requests, interpret response context, and handle failures predictably"
+description: "Authenticate SEC API requests, retain result context, paginate lists, and handle failures"
 ---
 
-Start by sending an API key in `x-api-key`. Use the endpoint reference for the request shape and response fields of the route you call.
+Send an API key in `x-api-key` for machine data requests. Use the endpoint reference for the request shape and response fields of the route you call.
 
 ```bash
 curl -sS \
@@ -16,11 +16,11 @@ curl -sS \
 
 Machine requests use `x-api-key`; do not put an API key in `Authorization: Bearer`. Browser-only account actions require a signed-in browser session. A human bearer credential is required only where the endpoint reference says so.
 
-Use `secapi-version` to request a dated API version. When it is omitted, SEC API resolves the current published version and returns it in `SECAPI-Version`. A pinned version can receive additive fields, so parse the fields your application uses and tolerate additional fields.
+Use `secapi-version` to request a dated API version. When it is omitted, SEC API resolves the current version and returns it in `SECAPI-Version`. A pinned version can receive additive fields, so parse the fields your application uses and tolerate additional fields.
 
 ## Keep the evidence that identifies a result
 
-For a material response, store the returned `Request-Id`, `traceparent` when present, endpoint, parameters, and retrieval time. For filing-backed results, also retain the accession number, filing URL, period, units, and any route-specific provenance, freshness, warning, or capability fields.
+For a material response, store the returned `Request-Id`, `traceparent` when present, endpoint, parameters, and retrieval time. For filing-backed results, also retain the accession number, filing URL, period, units, and any route-specific provenance, freshness, warning, or capability fields. These fields identify the response; they do not independently establish completeness or investment suitability.
 
 You may send `x-request-id` to correlate a request with your own logs. Keep the returned `Request-Id` too: it identifies the API request if you need to diagnose it.
 
@@ -49,7 +49,7 @@ Error responses provide a machine-readable `code`, message, and request ID. Read
 | `402` | Resolve the billing, entitlement, or budget condition in the response. |
 | `403` | Check that the credential and plan are authorized for the resource. |
 | `429` | Honor `Retry-After` when present; use bounded backoff without concurrent retry fan-out. |
-| `5xx` | Retry once with bounded backoff, then retain the request ID for support. |
+| `5xx` | Retry with bounded backoff, then retain the request ID for support if the failure persists. |
 
 Do not retry a billing, budget, quota, or authorization stop until its stated condition changes. See [Troubleshooting](/troubleshooting) for code-specific next actions.
 

@@ -22,7 +22,7 @@ curl -X POST \
   -H "x-api-key: $SECAPI_API_KEY" \
   -H "secapi-version: 2026-03-19" \
   -H "content-type: application/json" \
-  -d '{}' \
+  -d '{"name":"M&A watch","query":"situations.watch","searchMode":"situation","filters":{"types":["merger"],"statuses":["pending"],"tickers":["AAPL"]}}' \
   "https://api.secapi.ai/v1/situations/watchlists"
 ```
 </RequestExample>

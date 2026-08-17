@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/owners/13f"
-description: "Return the latest normalized 13F ownership report for a manager CIK, with optional quarter-specific selection"
+description: "Retrieve one manager's disclosed Form 13F holdings for the latest parsable or selected report"
 ---
 
-Return the latest normalized 13F ownership report for a manager CIK, with optional quarter-specific selection
+Retrieve one manager's disclosed Form 13F holdings for the latest parsable or selected report
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this route to inspect the positions an institutional manager disclosed on Form 13F for one reporting period. `cik` identifies the manager/filer, not an issuer held in the report. Without a date selector, the service returns the latest parsable 13F it can select; `reportDate` and `filingDate` select one disclosed period. Retain the returned report date, filing date, accession number, provenance, and freshness metadata when presenting holdings. Form 13F is delayed, periodic disclosure rather than a live portfolio, transaction ledger, or complete economic-exposure record. See [ownership workflows](/ownership-workflows) and [freshness and source evidence](/freshness-and-trust).
 
 ## Agent mode
 
@@ -57,7 +61,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/13f to return the latest normalized 13F ownership report for a manager CIK, with optional quarter-specific selection. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/13f to retrieve one manager's disclosed Form 13F holdings for the latest parsable or selected report. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

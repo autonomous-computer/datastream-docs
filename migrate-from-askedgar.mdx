@@ -17,7 +17,7 @@ This guide maps every AskEdgar dilution endpoint onto SEC API and walks through 
     AskEdgar uses `API-KEY: …`; SEC API uses `x-api-key: …`. Same per-request shape, different header name.
   </Card>
   <Card title="Predictable subscription option" icon="credit-card" href="/plans-and-pricing">
-    SEC API offers PAYG and flat subscriptions ($55 Personal, $239 Team). AskEdgar's API is per-KB only.
+    SEC API offers PAYG and optional subscriptions (Pro at $49/month, Team at $199/month) with included credits and discounted overages. AskEdgar's API is per-KB only.
   </Card>
   <Card title="Broader API surface" icon="layers-2" href="/api-reference">
     14 dilution endpoints plus 38 other endpoint families (filings, statements, factors, insiders, macro). One key, 39 families.
@@ -119,22 +119,24 @@ Tighten or relax the threshold per workflow.
 
 ## Pricing impact
 
-AskEdgar's API is strictly per-KB. SEC API offers PAYG (per-call) and flat
-subscriptions. The conversion lever depends on payload size and call
+AskEdgar's API is strictly per-KB. SEC API offers a renewable free monthly
+allowance, pure PAYG, and optional subscriptions with included credits and
+discounted overages. The conversion lever depends on payload size and call
 volume:
 
 | Profile                 | Volume                   | AskEdgar API (PAYG, per-KB) | SEC API option                 | SEC API $/mo |
 | ----------------------- | ------------------------ | --------------------------- | --------------------------- | --------- |
-| Light researcher        | 100 dilution-data calls  | ~$10.80 (≈$0.108/call)      | PAYG (150 free grant)       | **$0**    |
-| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | PAYG (150 free + 450 × $0.01) | **$4.50** |
-| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | Personal (predictable)      | **$55**   |
-| Small-cap research team | 5,000 dilution-data calls| ~$540                       | Team (predictable)          | **$239**  |
-| Small-cap research team | 5,000 dilution-data calls| ~$540                       | PAYG (150 free + 4,850 × $0.01) | **$48.50**|
+| Light researcher        | 100 dilution-data calls  | ~$10.80 (≈$0.108/call)      | Free monthly allowance      | **$0**    |
+| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | PAYG (600 × $0.01)          | **$6.00** |
+| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | Pro                         | **$49**   |
+| Small-cap research team | 5,000 dilution-data calls| ~$540                       | Team                        | **$199**  |
+| Small-cap research team | 5,000 dilution-data calls| ~$540                       | PAYG (5,000 × $0.01)        | **$50.00**|
 
 AskEdgar API costs assume the published `/v1/dilution-data` rate of
 $0.018/KB and a typical ~6 KB response. SEC API quotas reflect the
-published pricing. The 150 included calls are a one-time, non-renewing grant —
-see the [billing FAQ](/billing-faq).
+published pricing. The free allowance renews monthly with hard caps; ongoing
+PAYG usage requires card-backed activation, and Pro/Team add monthly included
+usage credits plus discounted overage rates.
 
 ## Migration script template
 

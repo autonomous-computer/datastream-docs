@@ -1,0 +1,23 @@
+---
+title: "Workbook Installations"
+description: "Reference pages for Workbook Installations endpoints."
+---
+
+Reference pages for Workbook Installations endpoints.
+
+<Note>
+The sidebar labels inside this family are the literal calls you make over HTTP. Descriptions stay in the body so the navigation stays sharp and scannable.
+</Note>
+
+## Operations in this family
+
+<CardGroup cols={2}>
+<Card title="POST /v1/workbook-installations" href="/api-reference/workbook-installations/post-v1-workbook-installations">Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity.</Card>
+<Card title="POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts" href="/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-apply-receipts">Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in.</Card>
+<Card title="POST /v1/workbook-installations/{workbook_installation_id}/fingerprints" href="/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-fingerprints">Capture a workbook fingerprint before mapping, previewing, or applying model changes.</Card>
+<Card title="PUT /v1/workbook-installations/{workbook_installation_id}/mappings" href="/api-reference/workbook-installations/put-v1-workbook-installations-workbook-installation-id-mappings">Save append-only workbook mapping versions for audited filing-to-model refreshes.</Card>
+<Card title="POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals" href="/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-model-change-set-approvals">Create a server-owned analyst approval record for an immutable workbook model-change set.</Card>
+<Card title="POST /v1/workbook-installations/{workbook_installation_id}/model-context-snapshots" href="/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-model-context-snapshots">Capture the workbook model context used for preview, approval, and safe apply checks.</Card>
+<Card title="GET /v1/workbook-installations/{workbook_installation_id}/provenance" href="/api-reference/workbook-installations/get-v1-workbook-installations-workbook-installation-id-provenance">Return the durable workbook provenance ledger: latest fingerprint, context, active mappings, refresh history, and audit events.</Card>
+<Card title="POST /v1/workbook-installations/{workbook_installation_id}/refresh-runs" href="/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-refresh-runs">Record a workbook refresh or preview run with evidence and diagnostics.</Card>
+</CardGroup>

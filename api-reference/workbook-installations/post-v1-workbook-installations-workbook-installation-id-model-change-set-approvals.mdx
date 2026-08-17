@@ -1,0 +1,66 @@
+---
+title: "POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals"
+description: "Create a server-owned analyst approval record for an immutable workbook model-change set."
+---
+
+Create a server-owned analyst approval record for an immutable workbook model-change set.
+
+<Info>
+Audience: application and coding agent.
+</Info>
+
+## Coverage and source scope
+
+Loads the persisted model-change set, verifies that the approval covers exactly that proposal, binds it to the evidence snapshot and workbook precondition hash, and appends an approval audit event.
+
+## Canonical metadata
+
+- `requestId`
+- `traceparent`
+
+## Example request
+
+<RequestExample>
+```bash
+curl -X POST \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "secapi-version: 2026-03-19" \
+  -H "content-type: application/json" \
+  -d '{}' \
+  "https://api.secapi.ai/v1/workbook-installations/example-workbook-installation-id/model-change-set-approvals"
+```
+</RequestExample>
+
+## Example response
+
+<ResponseExample>
+```json
+{
+  "object": "workbook_approval_record",
+  "approvalRecord": {
+    "approvalRecordId": "wb_approval_example",
+    "modelChangeSetId": "mcs_example",
+    "approvedByUserId": "user_example",
+    "approvedAt": "2026-08-16T12:01:00.000Z",
+    "approvedChangeIds": [
+      "change_revenue_fy2025"
+    ],
+    "evidenceSnapshotId": "evsnap_example",
+    "preconditionHash": "sha256:precondition"
+  },
+  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+}
+```
+</ResponseExample>
+
+## Give this prompt to your agent
+
+<Prompt>
+Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals to create a server-owned analyst approval record for an immutable workbook model-change set. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+</Prompt>
+
+## Failure posture
+
+- treat non-2xx responses as contract-aware failures, not free-form errors
+- preserve `requestId` and `traceparent` in logs and downstream reports
+- if provenance or freshness metadata is present, return it unchanged so trust is not lost in the handoff

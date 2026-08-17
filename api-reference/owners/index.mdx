@@ -12,11 +12,11 @@ The sidebar labels inside this family are the literal calls you make over HTTP. 
 ## Operations in this family
 
 <CardGroup cols={2}>
-<Card title="GET /v1/owners/13d-13g" href="/api-reference/owners/get-v1-owners-13d-13g">List beneficial ownership reports across the SEC-native 13D and 13G filing families</Card>
-<Card title="GET /v1/owners/13f" href="/api-reference/owners/get-v1-owners-13f">Return the latest normalized 13F ownership report for a manager CIK, with optional quarter-specific selection</Card>
-<Card title="POST /v1/owners/13f/compare" href="/api-reference/owners/post-v1-owners-13f-compare">Compare the latest two parsable 13F ownership reports for a manager CIK</Card>
-<Card title="GET /v1/owners/13f/filings" href="/api-reference/owners/get-v1-owners-13f-filings">List recent 13F filings, including quarter-end report dates, for a manager CIK</Card>
-<Card title="GET /v1/owners/institutional/extract" href="/api-reference/owners/get-v1-owners-institutional-extract">Return a quarter-specific historical institutional ownership extract for a manager CIK over the SEC-native 13F family</Card>
-<Card title="GET /v1/owners/institutional/investor" href="/api-reference/owners/get-v1-owners-institutional-investor">Return an investor-centric institutional ownership graph for a manager CIK, including ranked holdings and quarter-over-quarter changes</Card>
-<Card title="GET /v1/owners/institutional/ticker" href="/api-reference/owners/get-v1-owners-institutional-ticker">Return a ticker-centric institutional holder graph for the latest materialized 13F cohort, ranked by disclosed position value</Card>
+<Card title="GET /v1/owners/13d-13g" href="/api-reference/owners/get-v1-owners-13d-13g">Search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date</Card>
+<Card title="GET /v1/owners/13f" href="/api-reference/owners/get-v1-owners-13f">Retrieve one manager's disclosed Form 13F holdings for the latest parsable or selected report</Card>
+<Card title="POST /v1/owners/13f/compare" href="/api-reference/owners/post-v1-owners-13f-compare">Compare the latest two parsable Form 13F reports for one institutional manager</Card>
+<Card title="GET /v1/owners/13f/filings" href="/api-reference/owners/get-v1-owners-13f-filings">List a manager's recent SEC Form 13F filings and their reported period dates</Card>
+<Card title="GET /v1/owners/institutional/extract" href="/api-reference/owners/get-v1-owners-institutional-extract">Retrieve one manager's historical 13F extract for a specified calendar quarter</Card>
+<Card title="GET /v1/owners/institutional/investor" href="/api-reference/owners/get-v1-owners-institutional-investor">Retrieve a manager-centric 13F portfolio with ranked disclosed holdings and available prior-quarter changes</Card>
+<Card title="GET /v1/owners/institutional/ticker" href="/api-reference/owners/get-v1-owners-institutional-ticker">Retrieve institutional managers that disclosed a position in one issuer for a selected 13F cohort</Card>
 </CardGroup>

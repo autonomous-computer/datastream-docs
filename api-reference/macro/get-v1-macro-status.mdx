@@ -1,6 +1,9 @@
-# GET /v1/macro/status
+---
+title: "GET /v1/macro/status"
+description: "Return macro runtime readiness, artifact freshness, source posture, and country support status"
+---
 
-Return macro source-health, country coverage, freshness, and source-rights posture from runtime validation artifacts or an explicit degraded fallback
+Return macro runtime readiness, artifact freshness, source posture, and country support status
 
 <Info>
 Audience: application and coding agent.
@@ -8,6 +11,14 @@ Audience: application and coding agent.
 
 ## Canonical metadata
 
+- `status`
+- `generatedAt`
+- `statusSource`
+- `countries[].status`
+- `sources[].sourceKey`
+- `alerts`
+- `methodology`
+- `sourceRights`
 - `requestId`
 - `traceparent`
 
@@ -15,10 +26,7 @@ Audience: application and coding agent.
 
 <RequestExample>
 ```bash
-curl -X GET \
-  -H "x-api-key: $SECAPI_API_KEY" \
-  -H "secapi-version: 2026-03-19" \
-  "https://api.secapi.ai/v1/macro/status"
+curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "https://api.secapi.ai/v1/macro/status?country=US&view=full"
 ```
 </RequestExample>
 
@@ -29,21 +37,21 @@ curl -X GET \
 {
   "object": "macro_status",
   "status": "ready",
-  "generatedAt": "2026-06-09T22:15:00.000Z",
-  "artifactGeneratedAt": "2026-06-09T22:15:00.000Z",
-  "computedAt": "2026-06-09T22:15:00.000Z",
+  "generatedAt": "2026-07-24T13:30:00.000Z",
+  "artifactGeneratedAt": "2026-07-24T13:30:00.000Z",
+  "computedAt": "2026-07-24T13:45:00.000Z",
   "statusSource": "validation_artifacts",
   "countries": [
     {
       "country": "US",
       "status": "ready",
-      "seriesCount": 32,
-      "freshCount": 32,
+      "seriesCount": 84,
+      "freshCount": 84,
       "staleCount": 0,
       "sourceErrorCount": 0,
       "fallbackCount": 0,
-      "latestMaterializedAt": "2026-06-01T00:00:00.000Z",
-      "oldestFreshnessAgeHours": 560,
+      "latestMaterializedAt": "2026-07-24T13:30:00.000Z",
+      "oldestFreshnessAgeHours": 2.4,
       "topAlerts": []
     }
   ],
@@ -51,7 +59,7 @@ curl -X GET \
     {
       "sourceKey": "fred",
       "status": "ready",
-      "indicatorCount": 33,
+      "indicatorCount": 84,
       "unexpectedFallbackCount": 0,
       "sourceErrorCount": 0,
       "artifactStatus": "available",
@@ -62,12 +70,14 @@ curl -X GET \
   "methodology": {
     "id": "macro_status_artifact_v1",
     "version": "v1",
-    "summary": "Macro status is artifact-backed when runtime validation artifacts are available; otherwise it returns an explicit degraded runtime-registry fallback."
+    "summary": "Macro status is derived from source-health, source-coverage, and macro data-plane validation artifacts. The route does not perform live vendor probes."
   },
   "sourceRights": {
     "posture": "public_safe_summary",
-    "summary": "Status exposes source posture counts and freshness health, not credentials or raw vendor payloads."
-  }
+    "summary": "Status exposes source posture counts and freshness health, not credentials, customer identifiers, or raw vendor payloads."
+  },
+  "requestId": "req_2ZK8Q1W9F4M6P7R3",
+  "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
 }
 ```
 </ResponseExample>
@@ -75,7 +85,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/status to return macro source-health, country coverage, freshness, and source-rights posture from runtime validation artifacts or an explicit degraded fallback. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/status to return macro runtime readiness, artifact freshness, source posture, and country support status. Preserve `status`, `generatedAt`, `statusSource`, `countries[].status`, `sources[].sourceKey`, `alerts`, `methodology`, `sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

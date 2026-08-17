@@ -1,0 +1,64 @@
+---
+title: "POST /v1/workbook-installations"
+description: "Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity."
+---
+
+Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity.
+
+<Info>
+Audience: application and coding agent.
+</Info>
+
+## Coverage and source scope
+
+Creates the workbook identity used by Excel, Sheets, MCP, and API filing-to-model workflows. The server, not the add-in, becomes the system of record for mappings, refresh history, provenance, and audit events.
+
+## Canonical metadata
+
+- `requestId`
+- `traceparent`
+
+## Example request
+
+<RequestExample>
+```bash
+curl -X POST \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "secapi-version: 2026-03-19" \
+  -H "content-type: application/json" \
+  -d '{}' \
+  "https://api.secapi.ai/v1/workbook-installations"
+```
+</RequestExample>
+
+## Example response
+
+<ResponseExample>
+```json
+{
+  "object": "workbook_installation",
+  "workbookInstallation": {
+    "workbookInstallationId": "wb_install_example",
+    "organizationId": "org_example",
+    "host": "excel_mac",
+    "workbookIdentityKey": "office:drive-item:example",
+    "workbookFingerprintHash": "sha256:fingerprint",
+    "installationVersion": 1,
+    "installedAt": "2026-08-16T12:00:00.000Z"
+  },
+  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+}
+```
+</ResponseExample>
+
+## Give this prompt to your agent
+
+<Prompt>
+Use SEC API POST /v1/workbook-installations to register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+</Prompt>
+
+## Failure posture
+
+- treat non-2xx responses as contract-aware failures, not free-form errors
+- preserve `requestId` and `traceparent` in logs and downstream reports
+- if provenance or freshness metadata is present, return it unchanged so trust is not lost in the handoff

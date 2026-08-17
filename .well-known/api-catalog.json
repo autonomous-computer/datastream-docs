@@ -839,6 +839,43 @@
         },
         {
           "method": "GET",
+          "path": "/v1/embed/macro/countries/{iso2}",
+          "title": "GET /v1/embed/macro/countries/{iso2}",
+          "summary": "Public latest values across the macro-map indicators for one country",
+          "docs_path": "/api-reference/embed/get-v1-embed-macro-countries-iso2",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/embed/macro/map",
+          "title": "GET /v1/embed/macro/map",
+          "summary": "Public country×period matrix for one macro-map indicator",
+          "description": "Anonymous, cacheable annual matrix plus a bounded recent-monthly overlay. Root-source labels only — no vendor source keys.",
+          "docs_path": "/api-reference/embed/get-v1-embed-macro-map",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/embed/macro/series/{iso2}/{indicator}",
+          "title": "GET /v1/embed/macro/series/{iso2}/{indicator}",
+          "summary": "Public full-history series and stats for one country indicator",
+          "docs_path": "/api-reference/embed/get-v1-embed-macro-series-iso2-indicator",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "GET",
           "path": "/v1/embed/situations",
           "title": "GET /v1/embed/situations",
           "summary": "Public capped Special Situations list for logged-out experiences",
@@ -1266,6 +1303,19 @@
           "title": "GET /v1/factors/history/{factorKey}",
           "summary": "Return a single factor's daily return history with 1D through MAX summary windows for chart and table workflows",
           "docs_path": "/api-reference/factors/get-v1-factors-history-factorKey",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/factors/macro-sensitivity",
+          "title": "GET /v1/factors/macro-sensitivity",
+          "summary": "Return factor sensitivity to a named macro stress scenario using the current macro-regime overlay",
+          "description": "This is an explainable research scenario, not a point-in-time empirical regression. Use it to inspect how selected factor families are expected to react under supported macro scenarios before applying portfolio judgment.",
+          "docs_path": "/api-reference/factors/get-v1-factors-macro-sensitivity",
           "audience": "application and coding agent",
           "metadata_fields": [
             "requestId",
@@ -2220,6 +2270,18 @@
             "requestId",
             "traceparent"
           ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/macro/status",
+          "title": "GET /v1/macro/status",
+          "summary": "Return macro runtime readiness, artifact freshness, source posture, and country support status",
+          "docs_path": "/api-reference/macro/get-v1-macro-status",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
         }
       ]
     },
@@ -2496,6 +2558,38 @@
       ]
     },
     {
+      "slug": "operations",
+      "title": "Operations",
+      "description": "Reference pages for Operations endpoints.",
+      "docs_path": "/api-reference/operations",
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/operations/execute",
+          "title": "POST /v1/operations/execute",
+          "summary": "Shadow-execute a channel-neutral operation envelope without settling usage",
+          "docs_path": "/api-reference/operations/post-v1-operations-execute",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/operations/quote",
+          "title": "POST /v1/operations/quote",
+          "summary": "Shadow-quote a channel-neutral operation before execution across API, MCP, CLI, SDK, Excel, or Sheets",
+          "docs_path": "/api-reference/operations/post-v1-operations-quote",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        }
+      ]
+    },
+    {
       "slug": "owners",
       "title": "Ownership",
       "description": "Institutional and beneficial ownership surfaces for managers, holders, and ticker-centric analysis.",
@@ -2711,7 +2805,7 @@
           "method": "POST",
           "path": "/v1/billing/checkout",
           "title": "POST /v1/billing/checkout",
-          "summary": "Create a Stripe Checkout session for a self-serve Personal or Team SEC API plan",
+          "summary": "Create a Stripe Checkout session for a self-serve Pro or Team SEC API plan",
           "docs_path": "/api-reference/platform/post-v1-billing-checkout",
           "audience": "application and coding agent",
           "metadata_fields": [
@@ -2783,7 +2877,7 @@
           "method": "POST",
           "path": "/v1/billing/grant/reset",
           "title": "POST /v1/billing/grant/reset",
-          "summary": "Re-grant the one-time free starter allowance (resets free-grant usage), rate-limited to once per rolling 30 days per organization",
+          "summary": "Reset free starter allowance usage for the current monthly period, rate-limited to once per rolling 30 days per organization",
           "docs_path": "/api-reference/platform/post-v1-billing-grant-reset",
           "audience": "application and coding agent",
           "metadata_fields": [
@@ -2879,7 +2973,7 @@
           "method": "GET",
           "path": "/v1/billing/rates",
           "title": "GET /v1/billing/rates",
-          "summary": "Return the public pricing catalog, starter grant metadata, plan metadata, and meter-family launch rates",
+          "summary": "Return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates",
           "docs_path": "/api-reference/platform/get-v1-billing-rates",
           "audience": "application and coding agent",
           "metadata_fields": [
@@ -3020,6 +3114,18 @@
           "title": "POST /v1/portfolio/stress-test",
           "summary": "Run portfolio stress scenarios across factor and macro shock definitions with compact traceable outputs",
           "docs_path": "/api-reference/portfolio/post-v1-portfolio-stress-test",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/portfolio/stress-test/scenarios",
+          "title": "GET /v1/portfolio/stress-test/scenarios",
+          "summary": "Return the supported portfolio stress-test scenario catalog with macro and factor shock definitions",
+          "docs_path": "/api-reference/portfolio/get-v1-portfolio-stress-test-scenarios",
           "audience": "application and coding agent",
           "metadata_fields": [
             "requestId",
@@ -3800,6 +3906,113 @@
           "summary": "Send a signed webhook.test event to a webhook endpoint",
           "docs_path": "/api-reference/webhooks/post-v1-webhook-endpoints-webhook-id-test",
           "audience": "application and admin",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        }
+      ]
+    },
+    {
+      "slug": "workbook-installations",
+      "title": "Workbook Installations",
+      "description": "Reference pages for Workbook Installations endpoints.",
+      "docs_path": "/api-reference/workbook-installations",
+      "operations": [
+        {
+          "method": "POST",
+          "path": "/v1/workbook-installations",
+          "title": "POST /v1/workbook-installations",
+          "summary": "Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity.",
+          "description": "Creates the workbook identity used by Excel, Sheets, MCP, and API filing-to-model workflows. The server, not the add-in, becomes the system of record for mappings, refresh history, provenance, and audit events.",
+          "docs_path": "/api-reference/workbook-installations/post-v1-workbook-installations",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/apply-receipts",
+          "title": "POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts",
+          "summary": "Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in.",
+          "description": "Loads the server-persisted model-change set and approval record, validates evidence binding, current workbook precondition hash, approved input target refs, read-back hash, and recovery-case requirements, then appends the receipt to workbook provenance.",
+          "docs_path": "/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-apply-receipts",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/fingerprints",
+          "title": "POST /v1/workbook-installations/{workbook_installation_id}/fingerprints",
+          "summary": "Capture a workbook fingerprint before mapping, previewing, or applying model changes.",
+          "docs_path": "/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-fingerprints",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "PUT",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/mappings",
+          "title": "PUT /v1/workbook-installations/{workbook_installation_id}/mappings",
+          "summary": "Save append-only workbook mapping versions for audited filing-to-model refreshes.",
+          "docs_path": "/api-reference/workbook-installations/put-v1-workbook-installations-workbook-installation-id-mappings",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals",
+          "title": "POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals",
+          "summary": "Create a server-owned analyst approval record for an immutable workbook model-change set.",
+          "description": "Loads the persisted model-change set, verifies that the approval covers exactly that proposal, binds it to the evidence snapshot and workbook precondition hash, and appends an approval audit event.",
+          "docs_path": "/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-model-change-set-approvals",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/model-context-snapshots",
+          "title": "POST /v1/workbook-installations/{workbook_installation_id}/model-context-snapshots",
+          "summary": "Capture the workbook model context used for preview, approval, and safe apply checks.",
+          "docs_path": "/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-model-context-snapshots",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "GET",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/provenance",
+          "title": "GET /v1/workbook-installations/{workbook_installation_id}/provenance",
+          "summary": "Return the durable workbook provenance ledger: latest fingerprint, context, active mappings, refresh history, and audit events.",
+          "docs_path": "/api-reference/workbook-installations/get-v1-workbook-installations-workbook-installation-id-provenance",
+          "audience": "application and coding agent",
+          "metadata_fields": [
+            "requestId",
+            "traceparent"
+          ]
+        },
+        {
+          "method": "POST",
+          "path": "/v1/workbook-installations/{workbook_installation_id}/refresh-runs",
+          "title": "POST /v1/workbook-installations/{workbook_installation_id}/refresh-runs",
+          "summary": "Record a workbook refresh or preview run with evidence and diagnostics.",
+          "docs_path": "/api-reference/workbook-installations/post-v1-workbook-installations-workbook-installation-id-refresh-runs",
+          "audience": "application and coding agent",
           "metadata_fields": [
             "requestId",
             "traceparent"

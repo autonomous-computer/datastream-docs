@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/owners/13f/filings"
-description: "List recent 13F filings, including quarter-end report dates, for a manager CIK"
+description: "List a manager's recent SEC Form 13F filings and their reported period dates"
 ---
 
-List recent 13F filings, including quarter-end report dates, for a manager CIK
+List a manager's recent SEC Form 13F filings and their reported period dates
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this route to discover the available 13F filings for one institutional manager before selecting a historical report or comparing periods. `cik` identifies the manager/filer. Each filing record supplies the reported quarter-end date, SEC filing identity, and provenance needed to request the corresponding holdings. `since` supports incremental polling by filing acceptance time when available, with filing-date fallback for records that have only day-level timing. A returned filing is a disclosure record, not proof that every filing is parsable or that it represents current holdings. See [ownership workflows](/ownership-workflows).
 
 ## Canonical metadata
 
@@ -56,7 +60,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/13f/filings to list recent 13F filings, including quarter-end report dates, for a manager CIK. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/13f/filings to list a manager's recent SEC Form 13F filings and their reported period dates. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

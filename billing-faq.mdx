@@ -7,7 +7,7 @@ Use this page to resolve an account or workload question before you increase tra
 
 ## Do new organizations receive included usage?
 
-Yes. Every new organization receives `150` included calls. The starter grant does not renew automatically. `GET /v1/billing` shows the authenticated organization's remaining included usage and current billing state.
+Yes. Every new organization receives `100` included calls each month. The free allowance renews automatically. `GET /v1/billing` shows the authenticated organization's remaining included usage and current billing state.
 
 ## What happens after included usage runs out?
 
@@ -15,7 +15,7 @@ Billable requests need an active paid billing path. Enable Pay As You Go or choo
 
 ## Do I need a subscription to use the API?
 
-No. Pay As You Go is the paid path for metered use. Personal and Team are for sustained internal use. Commercial covers external-facing use and negotiated terms. Read [plans and pricing](/plans-and-pricing) before choosing a path.
+No. Pay As You Go is the paid path for metered use. Pro and Team are for sustained internal use. Commercial covers external-facing use and negotiated terms. Read [plans and pricing](/plans-and-pricing) before choosing a path.
 
 ## Which plans permit customer-facing output?
 
@@ -35,7 +35,7 @@ The `ai_queries` quota applies to documented `/v1/intelligence/*` routes and `GE
 
 ## What are the AI-query limits?
 
-The sandbox grant has 10 AI queries per UTC calendar month. Pay As You Go, Personal, Team, and Commercial are not subject to a fixed monthly AI-query cap; they are metered and governed by their current billing and budget controls.
+The sandbox grant has 10 AI queries per UTC calendar month. Pay As You Go, Pro, Team, and Commercial are not subject to a fixed monthly AI-query cap; they are metered and governed by their current billing and budget controls.
 
 Quota-counted responses include `SECAPI-AI-Quota-*` headers, and `GET /v1/billing` returns `monthlyQuotas.ai_queries` with `limit`, `used`, `remaining`, and `resetAt`.
 

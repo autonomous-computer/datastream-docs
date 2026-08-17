@@ -235,19 +235,6 @@ curl -X POST \
   "https://api.secapi.ai/v1/portfolio/attribution?response_mode=compact"
 ```
 
-## Model portfolio factor view
-
-- factor view scoped to a saved model portfolio
-- returns aggregate portfolio-level exposures and per-position factor breakdowns
-- useful for monitoring factor drift and concentration in model portfolios
-
-```bash
-curl -X GET \
-  -H "x-api-key: $SECAPI_API_KEY" \
-  -H "secapi-version: 2026-03-19" \
-  "https://api.secapi.ai/v1/model-portfolios/{portfolioId}/factor-view"
-```
-
 ## Model factor analysis
 
 - ad hoc Model Builder or saved-model holdings analysis without first persisting a model portfolio
@@ -292,7 +279,6 @@ curl -X POST \
 | `POST` | `/v1/portfolio/analyze` | portfolio factor decomposition |
 | `POST` | `/v1/portfolio/attribution` | portfolio factor return attribution |
 | `POST` | `/v1/portfolio/hedge` | constrained portfolio hedge candidates |
-| `GET` | `/v1/model-portfolios/:id/factor-view` | model portfolio factor view |
 | `POST` | `/v1/models/factor-analysis` | ad hoc model factor analysis with optional attribution, hedge, and optimizer sections |
 
 ## Errors and partial results

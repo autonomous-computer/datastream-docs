@@ -98,7 +98,7 @@
     "/evaluate/pricing-and-limits": {
       type: "WebPage",
       title: "Evaluate Pricing and Limits",
-      description: "Evaluate SEC API pricing, starter grant, pay-as-you-go behavior, plan rights, budget controls, quotas, and agent-safe usage limits.",
+      description: "Evaluate SEC API pricing, free allowance, pay-as-you-go behavior, plan rights, budget controls, quotas, and agent-safe usage limits.",
       breadcrumb: ["Evaluate SEC API", "Evaluate Pricing and Limits"],
       sameAs: [marketingOrigin + "/pricing", marketingOrigin + "/pricing.md", marketingOrigin + "/pricing.txt"],
     },

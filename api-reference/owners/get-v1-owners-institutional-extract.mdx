@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/owners/institutional/extract"
-description: "Return a quarter-specific historical institutional ownership extract for a manager CIK over the SEC-native 13F family"
+description: "Retrieve one manager's historical 13F extract for a specified calendar quarter"
 ---
 
-Return a quarter-specific historical institutional ownership extract for a manager CIK over the SEC-native 13F family
+Retrieve one manager's historical 13F extract for a specified calendar quarter
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this route when the reporting period is known and you need a manager's quarter-specific 13F extract. `year` and `quarter` select the calendar quarter-end report date; the response can include prior-quarter deltas only when a prior parsable report is available, otherwise its coverage is current-only. Results are SEC-derived, period-specific holdings disclosure, not current ownership or a complete exposure record. Keep the returned filing identity, provenance, and freshness metadata with any analysis. See [ownership workflows](/ownership-workflows).
 
 ## Canonical metadata
 
@@ -99,7 +103,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/institutional/extract to return a quarter-specific historical institutional ownership extract for a manager CIK over the SEC-native 13F family. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization`, `comparisonCoverage`, `statusNote` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/institutional/extract to retrieve one manager's historical 13F extract for a specified calendar quarter. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization`, `comparisonCoverage`, `statusNote` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

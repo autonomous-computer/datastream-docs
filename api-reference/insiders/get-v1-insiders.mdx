@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/insiders"
-description: "Return recent normalized insider trading records derived from Forms 3, 4, and 5 with date filters and cursor pagination"
+description: "Search normalized SEC Forms 3, 4, and 5 records by issuer, reporting owner, transaction, and filing date"
 ---
 
-Return recent normalized insider trading records derived from Forms 3, 4, and 5 with date filters and cursor pagination
+Search normalized SEC Forms 3, 4, and 5 records by issuer, reporting owner, transaction, and filing date
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this route to build a review queue from filed insider-ownership records. Filter by issuer, reporting owner, security title, Form 4 transaction code, and filing date; `date_from` and `date_to` apply to the filing date, not the transaction date. Rows preserve the reported transaction and filing fields, accession, provenance, and freshness metadata, but a filing-derived record does not establish motive, legality, 10b5-1-plan status, current ownership, or investment outcome. Page only with the returned `nextCursor` while `hasMore` is true, and inspect the cited filing for footnotes or missing context. See [ownership workflows](/ownership-workflows) and the [insider trading guide](/seo/insider-trading-api).
 
 ## Agent mode
 
@@ -60,7 +64,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/insiders to return recent normalized insider trading records derived from Forms 3, 4, and 5 with date filters and cursor pagination. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/insiders to search normalized SEC Forms 3, 4, and 5 records by issuer, reporting owner, transaction, and filing date. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

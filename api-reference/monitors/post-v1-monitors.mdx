@@ -50,7 +50,7 @@ This organization control-plane action requires a signed-in WorkOS browser sessi
 ## Give this prompt to your agent
 
 <Prompt>
-Explain the required fields for POST /v1/monitors, but direct the user to complete the change in the signed-in SEC API dashboard. Do not attempt the mutation with an API key or an autonomous agent. Preserve requestId and traceparent when the dashboard or a human-authenticated session returns them.
+Explain that monitor name and query are required. Describe filters, search mode, startAt, and delivery as optional fields; if a destination is supplied, use either webhookUrl or delivery, not both. Direct the user to create the monitor in the signed-in SEC API dashboard, and do not claim a schedule or delivery outcome that the response does not prove.
 </Prompt>
 
 ## Failure posture

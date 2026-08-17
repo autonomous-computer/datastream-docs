@@ -48,7 +48,7 @@ This organization control-plane action requires a signed-in WorkOS browser sessi
 ## Give this prompt to your agent
 
 <Prompt>
-Explain the required fields for POST /v1/monitors/{monitor_id}/delivery, but direct the user to complete the change in the signed-in SEC API dashboard. Do not attempt the mutation with an API key or an autonomous agent. Preserve requestId and traceparent when the dashboard or a human-authenticated session returns them.
+Explain the delivery destination fields and applicable activation requirements, then direct the user to complete the change in the signed-in SEC API dashboard. Preserve the monitor id and returned delivery status for follow-up.
 </Prompt>
 
 ## Failure posture

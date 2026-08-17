@@ -46,7 +46,7 @@ This organization control-plane action requires a signed-in WorkOS browser sessi
 ## Give this prompt to your agent
 
 <Prompt>
-Explain the required fields for DELETE /v1/monitors/{monitor_id}, but direct the user to complete the change in the signed-in SEC API dashboard. Do not attempt the mutation with an API key or an autonomous agent. Preserve requestId and traceparent when the dashboard or a human-authenticated session returns them.
+Explain that DELETE /v1/monitors/{monitor_id} deactivates a monitor and is idempotent, then direct the user to perform the organization change in the signed-in SEC API dashboard.
 </Prompt>
 
 ## Failure posture

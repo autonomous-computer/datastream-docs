@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/billing/rates"
-description: "Return the public pricing catalog, starter grant metadata, plan metadata, and meter-family launch rates"
+description: "Return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates"
 ---
 
-Return the public pricing catalog, starter grant metadata, plan metadata, and meter-family launch rates
+Return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates
 
 <Info>
 Audience: application and coding agent.
@@ -36,26 +36,41 @@ curl -X GET \
 {
   "object": "pricing_catalog",
   "requestId": "req_2ZK8Q1W9F4M6P7R3",
-  "version": "2026-06-18",
+  "version": "2026-08-16-secapi-auditable-workflows",
   "starterGrant": {
     "object": "starter_grant",
     "planKey": "sandbox_grant",
     "billingState": "sandbox_grant",
-    "calls": 150,
-    "renewable": false,
-    "period": null,
+    "calls": 100,
+    "renewable": true,
+    "period": "monthly",
     "overflowPlanKey": "payg",
-    "note": "New organizations start on the starter grant; usage beyond the grant falls through to Pay As You Go rates once billing is activated."
+    "note": "New organizations receive a renewable monthly allowance; usage beyond the allowance falls through to Pay As You Go rates once billing is activated."
   },
   "plans": [
     {
       "key": "payg",
       "displayName": "Pay As You Go",
       "kind": "metered",
+      "monthlyPriceUsd": null,
+      "includedCreditsUsd": 0,
       "meterFamilyPrices": [
         {
           "key": "standard_reads",
           "unitAmountUsd": 0.02
+        }
+      ]
+    },
+    {
+      "key": "personal",
+      "displayName": "Pro",
+      "kind": "subscription",
+      "monthlyPriceUsd": 49,
+      "includedCreditsUsd": 10,
+      "meterFamilyPrices": [
+        {
+          "key": "standard_reads",
+          "unitAmountUsd": 0.017
         }
       ]
     }
@@ -67,7 +82,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/billing/rates to return the public pricing catalog, starter grant metadata, plan metadata, and meter-family launch rates. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/billing/rates to return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

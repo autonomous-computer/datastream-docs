@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/owners/13f/compare"
-description: "Compare the latest two parsable 13F ownership reports for a manager CIK"
+description: "Compare the latest two parsable Form 13F reports for one institutional manager"
 ---
 
-Compare the latest two parsable 13F ownership reports for a manager CIK
+Compare the latest two parsable Form 13F reports for one institutional manager
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this route to generate a manager-level difference between the latest two parsable 13F reports the service finds. The request CIK belongs to the manager/filer. The response labels disclosed positions as added, removed, changed, or unchanged and includes filing dates and provenance, but it does not accept arbitrary report-date selectors. For a specific historical period, first list the manager's filings and retrieve individual reports. 13F changes are delayed filing differences, not trade dates, manager intent, current ownership, or complete exposure. See [ownership workflows](/ownership-workflows) and the [13F comparison guide](/seo/sec-13f-comparison-api).
 
 ## Canonical metadata
 
@@ -64,7 +68,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/owners/13f/compare to compare the latest two parsable 13F ownership reports for a manager CIK. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/owners/13f/compare to compare the latest two parsable Form 13F reports for one institutional manager. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

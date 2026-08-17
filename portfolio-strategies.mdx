@@ -132,23 +132,6 @@ curl -X POST \
 
 ---
 
-## GET /v1/model-portfolios/:id/factor-view
-
-Factor analysis for a named model portfolio. Returns the same factor decomposition structure as `/v1/portfolio/analyze` without requiring holdings in the request.
-
-| Parameter | In | Type | Required | Description |
-|-----------|------|------|----------|-------------|
-| `id` | path | string | yes | Model portfolio identifier. |
-
-### Example
-
-```bash
-curl -H "x-api-key: $SECAPI_API_KEY" \
-  "https://api.secapi.ai/v1/model-portfolios/us-quality-dividend/factor-view"
-```
-
----
-
 ## POST /v1/strategies/factor-rotation
 
 Generate factor rotation signals based on macro regime and momentum inputs. Returns ranked factor tilts with conviction scores.

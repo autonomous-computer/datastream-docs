@@ -5,10 +5,10 @@ description: "Compare SEC API plans from sandbox to commercial and understand re
 
 ## Plans
 
-- `sandbox_grant`: one-time evaluation grant for low-volume testing
+- `sandbox_grant`: renewable monthly free allowance for low-volume testing
 - `payg`: self-serve metered usage with prepaid credits
-- `personal`: self-serve subscription for one seat, repeated API/CLI/MCP usage, and discounted meter rates
-- `team`: self-serve subscription for shared organization usage, five included seats, and ten included API keys
+- `personal`: Pro self-serve subscription for one seat, included credits, and discounted API/CLI/MCP/add-in usage
+- `team`: self-serve subscription for shared organization usage, pooled included credits, five included seats, and ten included API keys
 - `commercial`: contract plan for redistribution rights, higher-volume commitments, an SLA, Bulk Factor Export, custom factor models, priority support, and twenty-five included API keys
 
 ## Redistribution posture
@@ -26,7 +26,7 @@ Fund-letters content — letter records, extracted theses and narratives, and se
 - The runtime exposes the effective plan and billing state through `GET /v1/billing`, `GET /v1/billing/rates`, `GET /v1/limits`, and response headers.
 - Billable responses can include billing and metering headers such as `SECAPI-Meter-Class`, `SECAPI-Plan-Key`, `SECAPI-Billing-State`, `SECAPI-Billing-Status`, `SECAPI-Free-Grant-Remaining`, `SECAPI-Token-Count`, and `SECAPI-Estimated-Cost`.
 - Pay As You Go uses prepaid credits. Credit top-ups, auto-top-up, refunds, saved payment methods, and billing portal sessions are billing-control actions.
-- Personal, Team, and Commercial use plan pricing and budget gates rather than the PAYG credit wallet.
+- Pro, Team, and Commercial use the usage-credit ledger for included credits, discounted overages, and budget gates.
 - Commercial starts from the public contract floor in the pricing catalog, then final scope, rights, and billing terms are set in the commercial agreement.
 
 ## Auth and billing permissions
@@ -47,4 +47,4 @@ Choose Commercial when your workflow crosses any of these boundaries:
 - your expected usage needs a negotiated rate card or committed-volume terms
 - your legal, procurement, or security process requires a signed agreement
 
-For internal research, private tools, notebooks, and agent workflows that do not redistribute output, start with Pay As You Go, Personal, or Team and use `GET /v1/billing` plus `POST /v1/billing/quote` to size usage before scaling.
+For internal research, private tools, notebooks, and agent workflows that do not redistribute output, start with Pay As You Go, Pro, or Team and use `GET /v1/billing` plus `POST /v1/billing/quote` to size usage before scaling.

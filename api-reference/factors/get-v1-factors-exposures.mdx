@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/exposures"
-description: "Return compact security, portfolio, or watchlist factor exposures with optional diagnostics and provenance"
+description: "Return factor exposures for securities, portfolios, or watchlists."
 ---
 
-Return compact security, portfolio, or watchlist factor exposures with optional diagnostics and provenance
+Return factor exposures for securities, portfolios, or watchlists.
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use `symbols=A,B,C` to request multiple securities. Each returned row includes its source `symbol` and `subjectKey`, so you can match results to requested symbols without relying on row order. `unresolvedSymbols` lists requested symbols with no exposure rows, including securities outside supported historical coverage, so unavailable coverage is distinct from a zero beta.
 
 ## Canonical metadata
 
@@ -37,6 +41,7 @@ curl -X GET \
       "id": "factor_exposure:AAPL:VALUE:2026-06-09",
       "subjectType": "security",
       "subjectKey": "AAPL",
+      "symbol": "AAPL",
       "factorKey": "VALUE",
       "beta": -0.42,
       "percentile": 18.2,
@@ -61,7 +66,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/exposures to return compact security, portfolio, or watchlist factor exposures with optional diagnostics and provenance. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/exposures to return factor exposures for securities, portfolios, or watchlists. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

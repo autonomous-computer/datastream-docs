@@ -461,10 +461,10 @@
     },
     "/v1/billing/rates": {
       "get": {
-        "summary": "Return the public pricing catalog, starter grant metadata, plan metadata, and meter-family launch rates",
+        "summary": "Return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates",
         "responses": {
           "200": {
-            "description": "Public pricing catalog including machine-readable starter grant metadata.",
+            "description": "Public pricing catalog including machine-readable free allowance metadata.",
             "content": {
               "application/json": {
                 "schema": {
@@ -536,7 +536,35 @@
                       "type": "array",
                       "items": {
                         "type": "object",
-                        "additionalProperties": true
+                        "additionalProperties": true,
+                        "properties": {
+                          "key": {
+                            "type": "string"
+                          },
+                          "displayName": {
+                            "type": "string"
+                          },
+                          "kind": {
+                            "type": "string"
+                          },
+                          "monthlyPriceUsd": {
+                            "type": [
+                              "number",
+                              "null"
+                            ]
+                          },
+                          "includedCreditsUsd": {
+                            "type": "number",
+                            "description": "Monthly included usage-credit value for subscription or contract plans. PAYG and free/grant plans return 0."
+                          },
+                          "meterFamilyPrices": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "additionalProperties": true
+                            }
+                          }
+                        }
                       }
                     }
                   }
@@ -547,26 +575,41 @@
                     "value": {
                       "object": "pricing_catalog",
                       "requestId": "req_example_123",
-                      "version": "2026-06-18",
+                      "version": "2026-08-16-secapi-auditable-workflows",
                       "starterGrant": {
                         "object": "starter_grant",
                         "planKey": "sandbox_grant",
                         "billingState": "sandbox_grant",
-                        "calls": 150,
-                        "renewable": false,
-                        "period": null,
+                        "calls": 100,
+                        "renewable": true,
+                        "period": "monthly",
                         "overflowPlanKey": "payg",
-                        "note": "New organizations start on the starter grant; usage beyond the grant falls through to Pay As You Go rates once billing is activated."
+                        "note": "New organizations receive a renewable monthly allowance; usage beyond the allowance falls through to Pay As You Go rates once billing is activated."
                       },
                       "plans": [
                         {
                           "key": "payg",
                           "displayName": "Pay As You Go",
                           "kind": "metered",
+                          "monthlyPriceUsd": null,
+                          "includedCreditsUsd": 0,
                           "meterFamilyPrices": [
                             {
                               "key": "standard_reads",
                               "unitAmountUsd": 0.02
+                            }
+                          ]
+                        },
+                        {
+                          "key": "personal",
+                          "displayName": "Pro",
+                          "kind": "subscription",
+                          "monthlyPriceUsd": 49,
+                          "includedCreditsUsd": 10,
+                          "meterFamilyPrices": [
+                            {
+                              "key": "standard_reads",
+                              "unitAmountUsd": 0.017
                             }
                           ]
                         }
@@ -1006,7 +1049,7 @@
                 "properties": {
                   "amountUsd": {
                     "type": "number",
-                    "minimum": 5,
+                    "minimum": 10,
                     "description": "Initial prepaid credit amount to purchase while enabling PAYG."
                   },
                   "autoTopupThresholdCents": {
@@ -1016,7 +1059,7 @@
                   },
                   "autoTopupAmountCents": {
                     "type": "integer",
-                    "minimum": 500,
+                    "minimum": 1000,
                     "description": "Optional refill amount, in cents, used with autoTopupThresholdCents."
                   }
                 }
@@ -1115,7 +1158,7 @@
     },
     "/v1/billing/grant/reset": {
       "post": {
-        "summary": "Re-grant the one-time free starter allowance (resets free-grant usage), rate-limited to once per rolling 30 days per organization",
+        "summary": "Reset free starter allowance usage for the current monthly period, rate-limited to once per rolling 30 days per organization",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -1285,7 +1328,7 @@
                       "object": "billing_quote",
                       "planKey": "personal",
                       "meterClass": "fact_lookup",
-                      "meterFamily": "standard_read",
+                      "meterFamily": "standard_reads",
                       "units": 1,
                       "unitAmountUsd": 0,
                       "amountUsd": 0,
@@ -1322,6 +1365,918 @@
         "x-secapi-route-id": "billing.quote",
         "x-secapi-access": "org",
         "x-secapi-kind": "billing",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/operations/quote": {
+      "post": {
+        "summary": "Shadow-quote a channel-neutral operation before execution across API, MCP, CLI, SDK, Excel, or Sheets",
+        "requestBody": {
+          "required": true,
+          "description": "Shadow quote only; no usage is settled.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "operationId",
+                  "surface"
+                ],
+                "properties": {
+                  "operationId": {
+                    "type": "string"
+                  },
+                  "surface": {
+                    "type": "string",
+                    "enum": [
+                      "api",
+                      "mcp",
+                      "cli",
+                      "excel",
+                      "sheets",
+                      "sdk_js",
+                      "sdk_py",
+                      "sdk_go",
+                      "sdk_rust"
+                    ]
+                  },
+                  "operationSchemaVersion": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "clientId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "workbookInstallationId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sourceKey": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "evidenceRequirement": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "artifactClass": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "planKey": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "meterClass": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "path": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "method": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "units": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "idempotencyKey": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "metadata": {
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "default": {
+                  "summary": "Copy-pasteable request",
+                  "value": {
+                    "operationId": "filing_model.fact.lookup",
+                    "surface": "excel",
+                    "meterClass": "fact_lookup",
+                    "units": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "quoteId",
+                    "settlementMode",
+                    "executable",
+                    "operationContext",
+                    "billingQuote",
+                    "budgetGate",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "operation_quote"
+                    },
+                    "quoteId": {
+                      "type": "string"
+                    },
+                    "settlementMode": {
+                      "type": "string",
+                      "const": "shadow"
+                    },
+                    "executable": {
+                      "type": "boolean"
+                    },
+                    "operationContext": {
+                      "type": "object",
+                      "required": [
+                        "operationContextId",
+                        "operationId",
+                        "operationSchemaVersion",
+                        "organizationId",
+                        "surface",
+                        "priceVersion",
+                        "quoteId",
+                        "billableUnits",
+                        "reservedMaximumCredits",
+                        "idempotencyKey",
+                        "idempotencyMode",
+                        "createdAt"
+                      ],
+                      "properties": {
+                        "operationContextId": {
+                          "type": "string"
+                        },
+                        "operationId": {
+                          "type": "string"
+                        },
+                        "operationSchemaVersion": {
+                          "type": "string"
+                        },
+                        "organizationId": {
+                          "type": "string"
+                        },
+                        "accountId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "userId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "clientId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "surface": {
+                          "type": "string",
+                          "enum": [
+                            "api",
+                            "mcp",
+                            "cli",
+                            "excel",
+                            "sheets",
+                            "sdk_js",
+                            "sdk_py",
+                            "sdk_go",
+                            "sdk_rust"
+                          ]
+                        },
+                        "workbookInstallationId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "sourceKey": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "artifactClass": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "evidenceRequirement": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "priceVersion": {
+                          "type": "string"
+                        },
+                        "quoteId": {
+                          "type": "string"
+                        },
+                        "billableUnits": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "meterClass",
+                              "meterFamily",
+                              "quantity",
+                              "amountCents"
+                            ],
+                            "properties": {
+                              "meterClass": {
+                                "type": "string"
+                              },
+                              "meterFamily": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "amountCents": {
+                                "type": "integer"
+                              }
+                            }
+                          }
+                        },
+                        "reservedMaximumCredits": {
+                          "type": "integer"
+                        },
+                        "idempotencyKey": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "idempotencyMode": {
+                          "type": "string",
+                          "enum": [
+                            "none",
+                            "deterministic_shadow"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "billingQuote": {
+                      "type": "object",
+                      "required": [
+                        "object",
+                        "planKey",
+                        "meterClass",
+                        "meterFamily",
+                        "units",
+                        "unitAmountUsd",
+                        "amountUsd",
+                        "amountCents",
+                        "currency",
+                        "requestId",
+                        "budget",
+                        "budgetGate"
+                      ],
+                      "properties": {
+                        "object": {
+                          "type": "string",
+                          "const": "billing_quote"
+                        },
+                        "planKey": {
+                          "type": "string"
+                        },
+                        "meterClass": {
+                          "type": "string"
+                        },
+                        "meterFamily": {
+                          "type": "string"
+                        },
+                        "units": {
+                          "type": "integer"
+                        },
+                        "unitAmountUsd": {
+                          "type": "number"
+                        },
+                        "amountUsd": {
+                          "type": "number"
+                        },
+                        "amountCents": {
+                          "type": "integer"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "const": "usd"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "budget": {
+                          "type": "object"
+                        },
+                        "budgetGate": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "budgetGate": {
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "operation_quote",
+                      "quoteId": "opquote_example",
+                      "settlementMode": "shadow",
+                      "executable": true,
+                      "operationContext": {
+                        "operationContextId": "opctx_example",
+                        "operationId": "filing_model.fact.lookup",
+                        "operationSchemaVersion": "2026-08-16.shadow",
+                        "organizationId": "org_example",
+                        "accountId": null,
+                        "userId": "user_example",
+                        "clientId": "excel_addin",
+                        "surface": "excel",
+                        "workbookInstallationId": "wb_install_example",
+                        "sourceKey": "sec_edgar",
+                        "artifactClass": "company_filing_fact",
+                        "evidenceRequirement": "lineage_required",
+                        "priceVersion": "2026-08-16-secapi-auditable-workflows",
+                        "quoteId": "opquote_example",
+                        "billableUnits": [
+                          {
+                            "meterClass": "fact_lookup",
+                            "meterFamily": "standard_reads",
+                            "quantity": 1,
+                            "amountCents": 1
+                          }
+                        ],
+                        "reservedMaximumCredits": 1,
+                        "idempotencyKey": "idem_example",
+                        "idempotencyMode": "deterministic_shadow",
+                        "createdAt": "2026-08-16T00:00:00.000Z"
+                      },
+                      "billingQuote": {
+                        "object": "billing_quote",
+                        "planKey": "personal",
+                        "meterClass": "fact_lookup",
+                        "meterFamily": "standard_reads",
+                        "units": 1,
+                        "unitAmountUsd": 0,
+                        "amountUsd": 0,
+                        "amountCents": 0,
+                        "currency": "usd",
+                        "requestId": "req_example_123",
+                        "budget": {},
+                        "budgetGate": null
+                      },
+                      "budgetGate": null,
+                      "requestId": "req_example_123"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "operations.quote",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/operations/execute": {
+      "post": {
+        "summary": "Shadow-execute a channel-neutral operation envelope without settling usage",
+        "requestBody": {
+          "required": true,
+          "description": "Shadow execution returns the operation envelope and budget gate; settlement remains disabled in this slice.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": true,
+                "required": [
+                  "operationId",
+                  "surface",
+                  "idempotencyKey"
+                ],
+                "properties": {
+                  "operationId": {
+                    "type": "string"
+                  },
+                  "surface": {
+                    "type": "string",
+                    "enum": [
+                      "api",
+                      "mcp",
+                      "cli",
+                      "excel",
+                      "sheets",
+                      "sdk_js",
+                      "sdk_py",
+                      "sdk_go",
+                      "sdk_rust"
+                    ]
+                  },
+                  "operationSchemaVersion": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "quoteId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "idempotencyKey": {
+                    "type": "string"
+                  },
+                  "clientId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "workbookInstallationId": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "sourceKey": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "artifactClass": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "evidenceRequirement": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "planKey": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "meterClass": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "path": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "method": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "units": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  },
+                  "metadata": {
+                    "type": [
+                      "object",
+                      "null"
+                    ]
+                  }
+                }
+              },
+              "examples": {
+                "default": {
+                  "summary": "Copy-pasteable request",
+                  "value": {
+                    "operationId": "filing_model.fact.lookup",
+                    "surface": "mcp",
+                    "meterClass": "fact_lookup",
+                    "idempotencyKey": "idem_example"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "executionId",
+                    "status",
+                    "settlementMode",
+                    "operationContext",
+                    "billingQuote",
+                    "budgetGate",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "operation_execution"
+                    },
+                    "executionId": {
+                      "type": "string"
+                    },
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "quoted",
+                        "blocked"
+                      ]
+                    },
+                    "settlementMode": {
+                      "type": "string",
+                      "const": "shadow"
+                    },
+                    "operationContext": {
+                      "type": "object",
+                      "required": [
+                        "operationContextId",
+                        "operationId",
+                        "operationSchemaVersion",
+                        "organizationId",
+                        "surface",
+                        "priceVersion",
+                        "quoteId",
+                        "billableUnits",
+                        "reservedMaximumCredits",
+                        "idempotencyKey",
+                        "idempotencyMode",
+                        "createdAt"
+                      ],
+                      "properties": {
+                        "operationContextId": {
+                          "type": "string"
+                        },
+                        "operationId": {
+                          "type": "string"
+                        },
+                        "operationSchemaVersion": {
+                          "type": "string"
+                        },
+                        "organizationId": {
+                          "type": "string"
+                        },
+                        "accountId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "userId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "clientId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "surface": {
+                          "type": "string",
+                          "enum": [
+                            "api",
+                            "mcp",
+                            "cli",
+                            "excel",
+                            "sheets",
+                            "sdk_js",
+                            "sdk_py",
+                            "sdk_go",
+                            "sdk_rust"
+                          ]
+                        },
+                        "workbookInstallationId": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "sourceKey": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "artifactClass": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "evidenceRequirement": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "priceVersion": {
+                          "type": "string"
+                        },
+                        "quoteId": {
+                          "type": "string"
+                        },
+                        "billableUnits": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "meterClass",
+                              "meterFamily",
+                              "quantity",
+                              "amountCents"
+                            ],
+                            "properties": {
+                              "meterClass": {
+                                "type": "string"
+                              },
+                              "meterFamily": {
+                                "type": "string"
+                              },
+                              "quantity": {
+                                "type": "number"
+                              },
+                              "amountCents": {
+                                "type": "integer"
+                              }
+                            }
+                          }
+                        },
+                        "reservedMaximumCredits": {
+                          "type": "integer"
+                        },
+                        "idempotencyKey": {
+                          "type": [
+                            "string",
+                            "null"
+                          ]
+                        },
+                        "idempotencyMode": {
+                          "type": "string",
+                          "enum": [
+                            "none",
+                            "deterministic_shadow"
+                          ]
+                        },
+                        "createdAt": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "billingQuote": {
+                      "type": "object",
+                      "required": [
+                        "object",
+                        "planKey",
+                        "meterClass",
+                        "meterFamily",
+                        "units",
+                        "unitAmountUsd",
+                        "amountUsd",
+                        "amountCents",
+                        "currency",
+                        "requestId",
+                        "budget",
+                        "budgetGate"
+                      ],
+                      "properties": {
+                        "object": {
+                          "type": "string",
+                          "const": "billing_quote"
+                        },
+                        "planKey": {
+                          "type": "string"
+                        },
+                        "meterClass": {
+                          "type": "string"
+                        },
+                        "meterFamily": {
+                          "type": "string"
+                        },
+                        "units": {
+                          "type": "integer"
+                        },
+                        "unitAmountUsd": {
+                          "type": "number"
+                        },
+                        "amountUsd": {
+                          "type": "number"
+                        },
+                        "amountCents": {
+                          "type": "integer"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "const": "usd"
+                        },
+                        "requestId": {
+                          "type": "string"
+                        },
+                        "budget": {
+                          "type": "object"
+                        },
+                        "budgetGate": {
+                          "type": [
+                            "object",
+                            "null"
+                          ]
+                        }
+                      }
+                    },
+                    "budgetGate": {
+                      "type": [
+                        "object",
+                        "null"
+                      ]
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "operation_execution",
+                      "executionId": "opexec_example",
+                      "status": "quoted",
+                      "settlementMode": "shadow",
+                      "operationContext": {
+                        "operationContextId": "opctx_example",
+                        "operationId": "filing_model.fact.lookup",
+                        "operationSchemaVersion": "2026-08-16.shadow",
+                        "organizationId": "org_example",
+                        "accountId": null,
+                        "userId": "user_example",
+                        "clientId": "excel_addin",
+                        "surface": "excel",
+                        "workbookInstallationId": "wb_install_example",
+                        "sourceKey": "sec_edgar",
+                        "artifactClass": "company_filing_fact",
+                        "evidenceRequirement": "lineage_required",
+                        "priceVersion": "2026-08-16-secapi-auditable-workflows",
+                        "quoteId": "opquote_example",
+                        "billableUnits": [
+                          {
+                            "meterClass": "fact_lookup",
+                            "meterFamily": "standard_reads",
+                            "quantity": 1,
+                            "amountCents": 1
+                          }
+                        ],
+                        "reservedMaximumCredits": 1,
+                        "idempotencyKey": "idem_example",
+                        "idempotencyMode": "deterministic_shadow",
+                        "createdAt": "2026-08-16T00:00:00.000Z"
+                      },
+                      "billingQuote": {
+                        "object": "billing_quote",
+                        "planKey": "personal",
+                        "meterClass": "fact_lookup",
+                        "meterFamily": "standard_reads",
+                        "units": 1,
+                        "unitAmountUsd": 0,
+                        "amountUsd": 0,
+                        "amountCents": 0,
+                        "currency": "usd",
+                        "requestId": "req_example_123",
+                        "budget": {},
+                        "budgetGate": null
+                      },
+                      "budgetGate": null,
+                      "requestId": "req_example_123"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "operations.execute",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
         "x-secapi-docs": "public",
         "x-secapi-smoke": "local"
       }
@@ -1366,7 +2321,7 @@
     },
     "/v1/billing/checkout": {
       "post": {
-        "summary": "Create a Stripe Checkout session for a self-serve Personal or Team SEC API plan",
+        "summary": "Create a Stripe Checkout session for a self-serve Pro or Team SEC API plan",
         "responses": {
           "200": {
             "description": "Successful response",
@@ -4475,6 +5430,171 @@
         },
         "security": [],
         "x-secapi-route-id": "embed.situations_member",
+        "x-secapi-access": "public",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "post_deploy"
+      }
+    },
+    "/v1/embed/macro/map": {
+      "get": {
+        "tags": [
+          "Embed"
+        ],
+        "summary": "Public country×period matrix for one macro-map indicator",
+        "description": "Anonymous, cacheable annual matrix plus a bounded recent-monthly overlay. Root-source labels only — no vendor source keys.",
+        "parameters": [
+          {
+            "name": "indicator",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "inflation-rates",
+                "interest-rates",
+                "gdp",
+                "unemployment-rate",
+                "debt-to-gdp",
+                "balance-of-trade"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedMacroMap"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "x-secapi-route-id": "embed.macro_map",
+        "x-secapi-access": "public",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "post_deploy"
+      }
+    },
+    "/v1/embed/macro/countries/{iso2}": {
+      "get": {
+        "tags": [
+          "Embed"
+        ],
+        "summary": "Public latest values across the macro-map indicators for one country",
+        "parameters": [
+          {
+            "name": "iso2",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z]{2}$"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedMacroCountry"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "x-secapi-route-id": "embed.macro_country",
+        "x-secapi-access": "public",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "post_deploy"
+      }
+    },
+    "/v1/embed/macro/series/{iso2}/{indicator}": {
+      "get": {
+        "tags": [
+          "Embed"
+        ],
+        "summary": "Public full-history series and stats for one country indicator",
+        "parameters": [
+          {
+            "name": "iso2",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "pattern": "^[A-Za-z]{2}$"
+            }
+          },
+          {
+            "name": "indicator",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "inflation-rates",
+                "interest-rates",
+                "gdp",
+                "unemployment-rate",
+                "debt-to-gdp",
+                "balance-of-trade"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EmbedMacroSeries"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [],
+        "x-secapi-route-id": "embed.macro_series",
         "x-secapi-access": "public",
         "x-secapi-kind": "api",
         "x-secapi-docs": "public",
@@ -28616,6 +29736,829 @@
         "x-secapi-smoke": "local"
       }
     },
+    "/v1/workbook-installations": {
+      "post": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity.",
+        "description": "Creates the workbook identity used by Excel, Sheets, MCP, and API filing-to-model workflows. The server, not the add-in, becomes the system of record for mappings, refresh history, provenance, and audit events.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbookInstallationCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workbook installation created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "workbookInstallation",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "workbook_installation"
+                    },
+                    "workbookInstallation": {
+                      "$ref": "#/components/schemas/WorkbookInstallation"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "workbook_installation",
+                      "workbookInstallation": {
+                        "workbookInstallationId": "wb_install_example",
+                        "organizationId": "org_example",
+                        "host": "excel_mac",
+                        "workbookIdentityKey": "office:drive-item:example",
+                        "workbookFingerprintHash": "sha256:fingerprint",
+                        "installationVersion": 1,
+                        "installedAt": "2026-08-16T12:00:00.000Z"
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.installations.create",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/fingerprints": {
+      "post": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Capture a workbook fingerprint before mapping, previewing, or applying model changes.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbookFingerprintCaptureBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workbook fingerprint captured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "workbookFingerprint",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "workbook_fingerprint"
+                    },
+                    "workbookFingerprint": {
+                      "$ref": "#/components/schemas/WorkbookFingerprint"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "workbook_fingerprint",
+                      "workbookFingerprint": {
+                        "workbookInstallationId": "wb_install_example",
+                        "host": "excel_mac",
+                        "workbookIdentityKey": "office:drive-item:example",
+                        "workbookFingerprintHash": "sha256:fingerprint",
+                        "workbookContentHash": "sha256:content",
+                        "sheetManifestHash": "sha256:sheets",
+                        "capturedAt": "2026-08-16T12:00:00.000Z"
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.fingerprints.create",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/model-context-snapshots": {
+      "post": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Capture the workbook model context used for preview, approval, and safe apply checks.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelContextSnapshotCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Model context snapshot captured",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "modelContextSnapshot",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "model_context_snapshot"
+                    },
+                    "modelContextSnapshot": {
+                      "$ref": "#/components/schemas/ModelContextSnapshot"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "model_context_snapshot",
+                      "modelContextSnapshot": {
+                        "modelContextSnapshotId": "model_ctx_example",
+                        "workbookInstallationId": "wb_install_example",
+                        "workbookContentHash": "sha256:content",
+                        "workbookFingerprintHash": "sha256:fingerprint",
+                        "sheetManifestHash": "sha256:sheets",
+                        "mappingVersion": 1,
+                        "capturedAt": "2026-08-16T12:00:00.000Z",
+                        "host": "excel_mac"
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.model_context_snapshots.create",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/mappings": {
+      "put": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Save append-only workbook mapping versions for audited filing-to-model refreshes.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelMappingsUpsertBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "mappings",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "model_mapping_list"
+                    },
+                    "mappings": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/ModelMapping"
+                      }
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "model_mapping_list",
+                      "mappings": [],
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.mappings.upsert",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/refresh-runs": {
+      "post": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Record a workbook refresh or preview run with evidence and diagnostics.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbookRefreshRunCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workbook refresh run recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "workbookRefreshRun",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "workbook_refresh_run"
+                    },
+                    "workbookRefreshRun": {
+                      "$ref": "#/components/schemas/WorkbookRefreshRun"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "workbook_refresh_run",
+                      "workbookRefreshRun": {
+                        "workbookRefreshRunId": "wb_refresh_example",
+                        "workbookInstallationId": "wb_install_example",
+                        "modelContextSnapshotId": "model_ctx_example",
+                        "status": "previewed",
+                        "startedAt": "2026-08-16T12:00:00.000Z",
+                        "changedMappingCount": 1,
+                        "blockedMappingCount": 0,
+                        "evidenceSnapshotIds": [],
+                        "diagnostics": []
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.refresh_runs.create",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals": {
+      "post": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Create a server-owned analyst approval record for an immutable workbook model-change set.",
+        "description": "Loads the persisted model-change set, verifies that the approval covers exactly that proposal, binds it to the evidence snapshot and workbook precondition hash, and appends an approval audit event.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbookApprovalRecordCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workbook approval record created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "approvalRecord",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "workbook_approval_record"
+                    },
+                    "approvalRecord": {
+                      "$ref": "#/components/schemas/ApprovalRecord"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "workbook_approval_record",
+                      "approvalRecord": {
+                        "approvalRecordId": "wb_approval_example",
+                        "modelChangeSetId": "mcs_example",
+                        "approvedByUserId": "user_example",
+                        "approvedAt": "2026-08-16T12:01:00.000Z",
+                        "approvedChangeIds": [
+                          "change_revenue_fy2025"
+                        ],
+                        "evidenceSnapshotId": "evsnap_example",
+                        "preconditionHash": "sha256:precondition"
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.model_change_set_approvals.create",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/apply-receipts": {
+      "post": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in.",
+        "description": "Loads the server-persisted model-change set and approval record, validates evidence binding, current workbook precondition hash, approved input target refs, read-back hash, and recovery-case requirements, then appends the receipt to workbook provenance.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/WorkbookApplyReceiptCreateBody"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Workbook apply receipt recorded",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "applyReceipt",
+                    "workbookRefreshRun",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "workbook_apply_receipt"
+                    },
+                    "applyReceipt": {
+                      "$ref": "#/components/schemas/ApplyReceipt"
+                    },
+                    "recoveryCase": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/components/schemas/WorkbookRecoveryCase"
+                        },
+                        {
+                          "type": "null"
+                        }
+                      ]
+                    },
+                    "workbookRefreshRun": {
+                      "$ref": "#/components/schemas/WorkbookRefreshRun"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "workbook_apply_receipt",
+                      "applyReceipt": {
+                        "applyReceiptId": "apply_receipt_example",
+                        "modelChangeSetId": "mcs_example",
+                        "approvalRecordId": "approval_example",
+                        "workbookInstallationId": "wb_install_example",
+                        "status": "applied",
+                        "attemptedAt": "2026-08-16T12:02:00.000Z",
+                        "completedAt": "2026-08-16T12:03:00.000Z",
+                        "readBackHash": "sha256:readback"
+                      },
+                      "recoveryCase": null,
+                      "workbookRefreshRun": {
+                        "workbookRefreshRunId": "wb_refresh_example",
+                        "workbookInstallationId": "wb_install_example",
+                        "modelContextSnapshotId": "model_ctx_example",
+                        "modelChangeSetId": "mcs_example",
+                        "applyReceiptId": "apply_receipt_example",
+                        "status": "applied",
+                        "startedAt": "2026-08-16T12:02:00.000Z",
+                        "completedAt": "2026-08-16T12:03:00.000Z",
+                        "changedMappingCount": 2,
+                        "blockedMappingCount": 0,
+                        "evidenceSnapshotIds": [
+                          "evsnap_example"
+                        ],
+                        "diagnostics": []
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.apply_receipts.create",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
+    "/v1/workbook-installations/{workbook_installation_id}/provenance": {
+      "get": {
+        "tags": [
+          "Filing-to-Model Workbooks"
+        ],
+        "summary": "Return the durable workbook provenance ledger: latest fingerprint, context, active mappings, refresh history, and audit events.",
+        "parameters": [
+          {
+            "name": "workbook_installation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Server-owned workbook installation id returned by POST /v1/workbook-installations."
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "object",
+                    "provenance",
+                    "requestId"
+                  ],
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "const": "workbook_provenance_ledger"
+                    },
+                    "provenance": {
+                      "$ref": "#/components/schemas/WorkbookProvenanceLedger"
+                    },
+                    "requestId": {
+                      "type": "string"
+                    }
+                  },
+                  "additionalProperties": false
+                },
+                "examples": {
+                  "default": {
+                    "summary": "Example response",
+                    "value": {
+                      "object": "workbook_provenance_ledger",
+                      "provenance": {
+                        "workbookInstallation": {
+                          "workbookInstallationId": "wb_install_example",
+                          "organizationId": "org_example",
+                          "host": "excel_mac",
+                          "workbookIdentityKey": "office:drive-item:example",
+                          "workbookFingerprintHash": "sha256:fingerprint",
+                          "installationVersion": 1,
+                          "installedAt": "2026-08-16T12:00:00.000Z"
+                        },
+                        "latestFingerprint": null,
+                        "latestModelContextSnapshot": null,
+                        "mappings": [],
+                        "refreshRuns": [],
+                        "applyReceipts": [],
+                        "recoveryCases": [],
+                        "auditEvents": []
+                      },
+                      "requestId": "req_example"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Contract-aware error response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          },
+          {
+            "BearerAuth": []
+          }
+        ],
+        "x-secapi-route-id": "workbooks.provenance.get",
+        "x-secapi-access": "authenticated",
+        "x-secapi-kind": "api",
+        "x-secapi-docs": "public",
+        "x-secapi-smoke": "local"
+      }
+    },
     "/v1/fund-letters": {
       "get": {
         "tags": [
@@ -36664,6 +38607,387 @@
       "PortfolioMacroExposure": {},
       "PortfolioMacroExposureRequest": {},
       "MacroExportJob": {},
+      "EmbedMacroMap": {
+        "type": "object",
+        "required": [
+          "object",
+          "contractVersion",
+          "indicator",
+          "unit",
+          "asOf",
+          "source",
+          "annual",
+          "monthlyOverlay"
+        ],
+        "properties": {
+          "object": {
+            "type": "string",
+            "const": "embed_macro_map"
+          },
+          "contractVersion": {
+            "type": "string",
+            "const": "v1"
+          },
+          "indicator": {
+            "type": "string",
+            "enum": [
+              "inflation-rates",
+              "interest-rates",
+              "gdp",
+              "unemployment-rate",
+              "debt-to-gdp",
+              "balance-of-trade"
+            ]
+          },
+          "unit": {
+            "type": "string"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "World Bank",
+              "International Monetary Fund",
+              "Bank for International Settlements",
+              "International Labour Organization",
+              "National statistics office",
+              "Central bank"
+            ]
+          },
+          "annual": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "period",
+                "frequency",
+                "values"
+              ],
+              "properties": {
+                "period": {
+                  "type": "string",
+                  "pattern": "^\\d{4}$"
+                },
+                "frequency": {
+                  "type": "string",
+                  "const": "annual"
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "monthlyOverlay": {
+            "type": "array",
+            "maxItems": 24,
+            "items": {
+              "type": "object",
+              "required": [
+                "period",
+                "frequency",
+                "values"
+              ],
+              "properties": {
+                "period": {
+                  "type": "string",
+                  "pattern": "^\\d{4}-\\d{2}$"
+                },
+                "frequency": {
+                  "type": "string",
+                  "const": "monthly"
+                },
+                "values": {
+                  "type": "object",
+                  "additionalProperties": {
+                    "type": [
+                      "number",
+                      "null"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmbedMacroCountry": {
+        "type": "object",
+        "required": [
+          "object",
+          "contractVersion",
+          "country",
+          "slug",
+          "name",
+          "asOf",
+          "indicators"
+        ],
+        "properties": {
+          "object": {
+            "type": "string",
+            "const": "embed_macro_country"
+          },
+          "contractVersion": {
+            "type": "string",
+            "const": "v1"
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "indicators": {
+            "type": "array",
+            "minItems": 5,
+            "maxItems": 5,
+            "items": {
+              "$ref": "#/components/schemas/EmbedMacroCountryLatest"
+            }
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmbedMacroCountryLatest": {
+        "type": "object",
+        "required": [
+          "indicator",
+          "ticker",
+          "label",
+          "unit",
+          "latestValue",
+          "previousValue",
+          "latestPeriod",
+          "frequency",
+          "source"
+        ],
+        "properties": {
+          "indicator": {
+            "type": "string",
+            "enum": [
+              "inflation-rates",
+              "interest-rates",
+              "gdp",
+              "unemployment-rate",
+              "debt-to-gdp",
+              "balance-of-trade"
+            ]
+          },
+          "ticker": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}(IRYY|INTR|GDP|UR|GDG|BOT)$"
+          },
+          "label": {
+            "type": "string"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "latestValue": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "previousValue": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "latestPeriod": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "annual",
+              "monthly",
+              "quarterly"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "World Bank",
+              "International Monetary Fund",
+              "Bank for International Settlements",
+              "International Labour Organization",
+              "National statistics office",
+              "Central bank"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmbedMacroSeries": {
+        "type": "object",
+        "required": [
+          "object",
+          "contractVersion",
+          "country",
+          "slug",
+          "name",
+          "indicator",
+          "ticker",
+          "unit",
+          "frequency",
+          "source",
+          "asOf",
+          "stats",
+          "observations"
+        ],
+        "properties": {
+          "object": {
+            "type": "string",
+            "const": "embed_macro_series"
+          },
+          "contractVersion": {
+            "type": "string",
+            "const": "v1"
+          },
+          "country": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "indicator": {
+            "type": "string",
+            "enum": [
+              "inflation-rates",
+              "interest-rates",
+              "gdp",
+              "unemployment-rate",
+              "debt-to-gdp",
+              "balance-of-trade"
+            ]
+          },
+          "ticker": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}(IRYY|INTR|GDP|UR|GDG|BOT)$"
+          },
+          "unit": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "annual",
+              "monthly",
+              "quarterly"
+            ]
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "World Bank",
+              "International Monetary Fund",
+              "Bank for International Settlements",
+              "International Labour Organization",
+              "National statistics office",
+              "Central bank"
+            ]
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "stats": {
+            "type": "object",
+            "required": [
+              "min",
+              "max",
+              "avg",
+              "latest",
+              "previous",
+              "change"
+            ],
+            "properties": {
+              "min": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "max": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "avg": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "latest": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "previous": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              },
+              "change": {
+                "type": [
+                  "number",
+                  "null"
+                ]
+              }
+            }
+          },
+          "observations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "period",
+                "value"
+              ],
+              "properties": {
+                "period": {
+                  "type": "string"
+                },
+                "value": {
+                  "type": [
+                    "number",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "additionalProperties": false
+      },
       "FactorCatalogStatus": {
         "type": "string",
         "enum": [
@@ -44048,6 +46372,329 @@
         "additionalProperties": false
       },
       "WatchlistIntelligenceBundle": {},
+      "WorkbookInstallation": {},
+      "WorkbookInstallationCreateBody": {},
+      "WorkbookFingerprint": {},
+      "WorkbookFingerprintCaptureBody": {},
+      "ModelContextSnapshot": {},
+      "ModelContextSnapshotCreateBody": {},
+      "ModelMapping": {},
+      "ModelMappingsUpsertBody": {},
+      "ApprovalRecord": {
+        "type": "object",
+        "required": [
+          "approvalRecordId",
+          "modelChangeSetId",
+          "approvedByUserId",
+          "approvedAt",
+          "approvedChangeIds",
+          "evidenceSnapshotId",
+          "preconditionHash"
+        ],
+        "properties": {
+          "approvalRecordId": {
+            "type": "string"
+          },
+          "modelChangeSetId": {
+            "type": "string"
+          },
+          "approvedByUserId": {
+            "type": "string"
+          },
+          "approvedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "approvedChangeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "evidenceSnapshotId": {
+            "type": "string"
+          },
+          "preconditionHash": {
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkbookApprovalRecordCreateBody": {
+        "type": "object",
+        "required": [
+          "modelChangeSetId",
+          "approvedChangeIds",
+          "preconditionHash"
+        ],
+        "properties": {
+          "modelChangeSetId": {
+            "type": "string",
+            "description": "Server-persisted immutable model-change set id returned by a filing-model investigation operation."
+          },
+          "approvedChangeIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1,
+            "description": "Exact change ids the analyst approved. V1 requires this to cover the whole immutable change set."
+          },
+          "preconditionHash": {
+            "type": "string",
+            "description": "Workbook/model precondition hash observed during preview and approved by the analyst."
+          },
+          "approvedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "ApplyReceipt": {
+        "type": "object",
+        "required": [
+          "applyReceiptId",
+          "modelChangeSetId",
+          "approvalRecordId",
+          "workbookInstallationId",
+          "status",
+          "attemptedAt"
+        ],
+        "properties": {
+          "applyReceiptId": {
+            "type": "string"
+          },
+          "modelChangeSetId": {
+            "type": "string"
+          },
+          "approvalRecordId": {
+            "type": "string"
+          },
+          "workbookInstallationId": {
+            "type": "string"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "failed",
+              "recovery_required",
+              "reverted"
+            ]
+          },
+          "attemptedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "readBackHash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "recoveryCaseId": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkbookApplyReceiptCreateBody": {
+        "type": "object",
+        "required": [
+          "modelContextSnapshotId",
+          "modelChangeSetId",
+          "approvalRecordId",
+          "currentPreconditionHash",
+          "status",
+          "attemptedAt"
+        ],
+        "properties": {
+          "modelContextSnapshotId": {
+            "type": "string",
+            "description": "Server-issued workbook model-context snapshot id that the host write was based on."
+          },
+          "modelChangeSetId": {
+            "type": "string",
+            "description": "Server-persisted immutable model-change set id. The server loads the proposal rather than trusting a client-supplied change bundle."
+          },
+          "approvalRecordId": {
+            "type": "string",
+            "description": "Server-persisted analyst approval record id bound to the exact change set, evidence snapshot, approved change ids, and precondition hash."
+          },
+          "currentPreconditionHash": {
+            "type": "string",
+            "description": "Workbook precondition hash observed immediately before the host write."
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "applied",
+              "failed",
+              "recovery_required",
+              "reverted"
+            ]
+          },
+          "attemptedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "completedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "readBackHash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Required for applied and reverted receipts; proves host read-back matched the approved workbook state."
+          },
+          "recoveryCase": {
+            "anyOf": [
+              {
+                "type": "object",
+                "required": [
+                  "reason"
+                ],
+                "properties": {
+                  "reason": {
+                    "type": "string"
+                  },
+                  "openedAt": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  },
+                  "resolvedAt": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "format": "date-time"
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ]
+                  }
+                },
+                "additionalProperties": false
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Required when status is recovery_required."
+          },
+          "changedMappingCount": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          },
+          "blockedMappingCount": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0
+          },
+          "diagnostics": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "default": []
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkbookRecoveryCase": {
+        "type": "object",
+        "required": [
+          "workbookRecoveryCaseId",
+          "workbookInstallationId",
+          "modelChangeSetId",
+          "reason",
+          "openedAt"
+        ],
+        "properties": {
+          "workbookRecoveryCaseId": {
+            "type": "string"
+          },
+          "workbookInstallationId": {
+            "type": "string"
+          },
+          "modelChangeSetId": {
+            "type": "string"
+          },
+          "reason": {
+            "type": "string"
+          },
+          "openedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "resolvedAt": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkbookRefreshRun": {},
+      "WorkbookRefreshRunCreateBody": {},
+      "WorkbookProvenanceLedger": {},
       "PortfolioStressScenarioCatalog": {
         "type": "object",
         "required": [

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/owners/13d-13g"
-description: "List beneficial ownership reports across the SEC-native 13D and 13G filing families"
+description: "Search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date"
 ---
 
-List beneficial ownership reports across the SEC-native 13D and 13G filing families
+Search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this route to find filed beneficial-ownership reports in the Schedule 13D and 13G families, including amendments. Filter by issuer, filer name, form, and filing date, then retain the returned accession, filing URL, provenance, and freshness metadata for review. Reported beneficial ownership is filing-specific and can be amended; it is not a real-time cap table, complete economic-exposure measure, or inference about investor intent. Pagination is offset-based: advance only with the returned `nextCursor` while `hasMore` is true. See [ownership workflows](/ownership-workflows) and [freshness and source evidence](/freshness-and-trust).
 
 ## Canonical metadata
 
@@ -86,7 +90,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/13d-13g to list beneficial ownership reports across the SEC-native 13D and 13G filing families. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/13d-13g to search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -20,13 +20,32 @@ curl --fail-with-body -sS \
   "https://api.secapi.ai/v1/billing/rates"
 ```
 
-The starter grant provides `150` included calls and does not renew automatically. The response, not a copied example, shows the account's current billing state and available context.
+The free allowance provides `100` included calls each month and renews automatically. The response, not a copied example, shows the account's current billing state and available context.
 
 ## Enable the paid path
 
 In the signed-in dashboard, choose Pay As You Go, save a card, make the initial credit top-up, and optionally configure auto top-up. The API endpoint for this control-plane action is `POST /v1/billing/payg/enable`; it requires the authorized signed-in session rather than an API key.
 
 Once payment is confirmed, the organization moves to `payg_active`. Until then, a billable request can return `402 billing_required` with the account condition that needs attention.
+
+## See the grant boundary before you hit it
+
+The starter grant does not renew, so an account without a payment method stops at the grant limit. From `80%` of the grant onward, billable responses carry an advisory so an integration can act before requests start failing:
+
+| Header | Meaning |
+| --- | --- |
+| `SECAPI-Grant-Status` | `approaching` while the grant is nearly spent, `exhausted` once it is gone. |
+| `SECAPI-Grant-Consumed-Percent` | Share of the grant consumed, as an integer percent. |
+| `SECAPI-Grant-Remaining` | Included calls still available. |
+| `SECAPI-Grant-Warning` | Human-readable warning, sent while the status is `approaching`. |
+| `SECAPI-Grant-Action` | `add_payment_method_soon`, then `add_payment_method`. |
+| `SECAPI-Grant-Action-Url` | Where to add a card or buy credits. |
+
+The advisory accounts for the units the current request itself consumes, so a multi-entity batch call that crosses the threshold reports it on that response rather than on a later one.
+
+These headers are absent once a card is on file or the prepaid wallet holds a positive balance, because the grant is no longer a boundary for that account.
+
+When the grant is spent, the `402 billing_required` response identifies the cause in `details.reason` as `starter_grant_exhausted` and carries `details.grant`, `details.addPaymentMethodUrl`, `details.topUpUrl`, and `details.nextSteps`. Branch on `details.reason` rather than matching the message text. Other `402 billing_required` conditions — a plan entitlement, a budget stop, or a failed payment — use their own reasons and their own resolution paths.
 
 ## Meter and monitor real usage
 

@@ -1,9 +1,9 @@
 ---
 title: "Record the SEC API version you use"
-description: "Send and log the SEC API version header so production behavior can be compared and investigated precisely."
+description: "Send and record the SEC API version header when you need to reproduce a production request"
 ---
 
-`secapi-version` is a request header. The service resolves a version for the request and returns it in `SECAPI-Version`. Use those two values as operational evidence, not as a substitute for testing an endpoint contract.
+`secapi-version` is a request header. The service resolves a version for the request and returns the resolved value in `SECAPI-Version`. Record both when reproducing behavior; neither replaces testing the endpoint contract you use.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ Request-Id: req_...
 SECAPI-Version: 2026-03-19
 ```
 
-If you omit the request header, the service uses its current version value and still emits `SECAPI-Version`. Record the emitted value in deploy logs before comparing behavior across environments.
+If you omit the request header, the service uses its current version value and still emits `SECAPI-Version`. Record the returned value before comparing behavior across environments.
 
 ## Use it in a client
 
@@ -42,7 +42,7 @@ const issuer = await sec.resolveEntity({ ticker: "AAPL" })
 console.log(issuer.ticker)
 ```
 
-The JavaScript and Python clients expose an API-version option. Check the client documentation and emitted request headers when upgrading a client package.
+The JavaScript and Python clients expose an API-version option. When upgrading a client package, check its documentation and the emitted request headers.
 
 ## When something changes
 
@@ -53,7 +53,7 @@ The JavaScript and Python clients expose an API-version option. Check the client
 
 ## Limits and production notes
 
-- A version header does not make an undocumented field or an endpoint-specific projection universal.
+- A version header does not make an undocumented field or endpoint-specific projection universal.
 - Treat new optional fields and unknown enum values defensively.
 - Keep version configuration near your client construction and log the response version with each failed request.
 - Do not infer a release policy from an echoed header; use published migration guidance when it exists.
