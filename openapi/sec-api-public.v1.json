@@ -5034,9 +5034,9 @@
             "required": true,
             "schema": {
               "type": "string",
-              "pattern": "^sit_[a-f0-9]{20}$"
+              "pattern": "^(sit_[a-f0-9]{20}|[1-9][0-9]{18})$"
             },
-            "description": "Canonical public situation id."
+            "description": "Canonical sit_ id or opaque 19-digit public share id."
           }
         ],
         "responses": {
@@ -5613,8 +5613,10 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "pattern": "^(sit_[a-f0-9]{20}|[1-9][0-9]{18})$"
+            },
+            "description": "Canonical sit_ id or opaque 19-digit public share id."
           }
         ],
         "responses": {
@@ -29674,8 +29676,10 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
-            }
+              "type": "string",
+              "pattern": "^(sit_[a-f0-9]{20}|[1-9][0-9]{18})$"
+            },
+            "description": "Canonical sit_ id or opaque 19-digit public share id."
           },
           {
             "name": "enrich",
@@ -47897,6 +47901,9 @@
           "asOf": {
             "type": "string"
           },
+          "generatedAt": {
+            "type": "string"
+          },
           "window": {
             "type": "string"
           },
@@ -48116,6 +48123,7 @@
         "required": [
           "object",
           "id",
+          "publicId",
           "createdAt",
           "updatedAt",
           "type",
@@ -48135,6 +48143,11 @@
           },
           "id": {
             "type": "string"
+          },
+          "publicId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{18}$",
+            "description": "Opaque 19-digit public share id. 1:1 with id and stable across reclassification."
           },
           "createdAt": {
             "type": "string"
@@ -48347,6 +48360,7 @@
         "required": [
           "object",
           "id",
+          "publicId",
           "createdAt",
           "updatedAt",
           "type",
@@ -48367,6 +48381,11 @@
           },
           "id": {
             "type": "string"
+          },
+          "publicId": {
+            "type": "string",
+            "pattern": "^[1-9][0-9]{18}$",
+            "description": "Opaque 19-digit public share id. 1:1 with id and stable across reclassification."
           },
           "createdAt": {
             "type": "string"
@@ -48576,6 +48595,34 @@
             "items": {
               "$ref": "#/components/schemas/PublicSituationEvent"
             }
+          },
+          "generatedAt": {
+            "type": "string"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "object",
+            "properties": {
+              "scope": {
+                "type": "string"
+              },
+              "window": {
+                "type": "string"
+              },
+              "countedFields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dimensions": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
           }
         },
         "additionalProperties": false
@@ -48802,6 +48849,31 @@
           },
           "generatedAt": {
             "type": "string"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "object",
+            "properties": {
+              "scope": {
+                "type": "string"
+              },
+              "window": {
+                "type": "string"
+              },
+              "countedFields": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dimensions": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "additionalProperties": true
           }
         },
         "additionalProperties": false
@@ -48825,6 +48897,7 @@
             "type": "object",
             "required": [
               "id",
+              "publicId",
               "type",
               "status",
               "entityName",
@@ -48833,6 +48906,10 @@
             "properties": {
               "id": {
                 "type": "string"
+              },
+              "publicId": {
+                "type": "string",
+                "pattern": "^[1-9][0-9]{18}$"
               },
               "type": {
                 "type": "string"
@@ -48912,6 +48989,21 @@
           },
           "generatedAt": {
             "type": "string"
+          },
+          "asOf": {
+            "type": "string"
+          },
+          "coverage": {
+            "type": "object",
+            "properties": {
+              "scope": {
+                "type": "string"
+              },
+              "window": {
+                "type": "string"
+              }
+            },
+            "additionalProperties": true
           }
         },
         "additionalProperties": false
@@ -49067,6 +49159,10 @@
               "properties": {
                 "id": {
                   "type": "string"
+                },
+                "publicId": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]{18}$"
                 },
                 "type": {
                   "type": "string"
