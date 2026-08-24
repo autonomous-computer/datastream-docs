@@ -398,6 +398,10 @@
             "pages": [
               "overview",
               "getting-started",
+              "resolve-then-fetch",
+              "object-graph",
+              "views-and-includes",
+              "named-intel-jobs",
               "first-request-flows",
               "advanced-quickstarts"
             ]
@@ -411,6 +415,8 @@
               "agent-billing",
               "billing-faq",
               "auth-and-pricing",
+              "test-keys",
+              "non-billable",
               "payg-calculator"
             ]
           },

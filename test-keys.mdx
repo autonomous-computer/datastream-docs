@@ -1,0 +1,39 @@
+---
+title: "Test keys and live keys"
+description: "secapi_test_ keys are free and fixture-only. secapi_live_ keys bill production usage."
+---
+
+API keys are first-class test or production credentials. The prefix is the mode. Do not invent a third prefix.
+
+| Prefix | `livemode` | What it does |
+| --- | --- | --- |
+| `secapi_test_…` | `false` | Sandbox / fixture traffic. Not billed. Does not debit prepaid credits. Does not consume the starter grant. |
+| `secapi_live_…` | `true` | Production traffic. Bills the published SKU on successful work. |
+
+Create either kind from the signed-in dashboard. The secret is shown once. The public `keyPrefix` is the first 20 characters of that secret.
+
+## What test mode is for
+
+Use a test key to wire resolve, store reads, named intel jobs, and artifacts against fixture or gated data without spending the wallet. A 200 in test mode is not a production transaction.
+
+Test-mode traffic is on the published non-billable list: health, quote, limits, catalog, test-key traffic, and 4xx that fail before work starts are free. See [What is not billed](/non-billable).
+
+## What production mode bills
+
+A live key bills the SKU for the work that completed:
+
+- Store reads bill their family (resolve stays `$0.01`; `GET /v1/factors/decomposition` is a market-data store read).
+- `POST /v1/intelligence/query` bills `intel_pack` (`$0.50`) or `intel_report` (`$1.50`) once on successful completion of a **named** job. Enqueue (`202`), in-flight polls, failures, and cache hits are not billed. Internal store hops the packer makes are not billed.
+- Artifact create bills on successful completion.
+
+Send `Idempotency-Key` on those billable POSTs. The first response is replayed for 24 hours. Reusing the key with a different body is `422`. An in-flight first call is `409` plus `Retry-After`.
+
+```bash
+export SECAPI_API_KEY="secapi_test_..."
+
+curl --fail-with-body -sS \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  "https://api.secapi.ai/v1/limits"
+```
+
+A test key still authenticates and still sees `livemode: false` on data objects. It is not a production key with the meter turned off after the fact — it did not enter the billable rail.

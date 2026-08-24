@@ -1,0 +1,64 @@
+---
+title: "Response views and include"
+description: "Use view=agent on supported routes, and treat include= as an opt-in expand of related objects"
+---
+
+Pass `view=agent` on supported routes when you are building an integration. Treat `include=` as an opt-in expand, the same job Stripe's `expand` does: the default response stays small, and you ask for the related objects you need.
+
+Omitting `view` still returns that route's documented default, usually the full record. This page does not change API defaults. Confirm support in the operation reference before depending on a field.
+
+```bash
+curl --fail-with-body -sS \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  "https://api.secapi.ai/v1/entities/resolve?ticker=AAPL&view=agent"
+```
+
+## `view=`
+
+Some endpoints accept `view=default`, `view=compact`, or `view=agent`.
+
+| Value | What you get |
+| --- | --- |
+| omitted / `default` | The full documented response for that route. |
+| `compact` | A smaller endpoint-specific projection. |
+| `agent` | An endpoint-specific projection for retrieval and citation. |
+
+`view=agent` keeps identity and citation fields on supported routes. It can omit provenance, freshness, materialization, pagination, or other envelope fields that the default response carries. Compare both shapes before you store an agent view as a compliance record.
+
+Views are not a universal schema. A field present on filings `view=agent` is not promised on facts `view=agent`. Read the route reference.
+
+## `include=` is an expand
+
+`include=` adds related objects or metadata that the default response omits. It is not the intelligence product.
+
+| Request | What expands |
+| --- | --- |
+| `GET /v1/companies/overview?include=factors` | Optional factor enrichments on a company view |
+| `GET /v1/fund-letters/managers/{id}/overview?include=positions` | The manager's latest 13F top positions |
+| `GET /v1/factors/history/VALUE?include=trust` | Freshness, methodology, and degraded-state metadata |
+| `GET /v1/factors/history/VALUE?include=series,trust` | Daily series plus trust metadata |
+
+```bash
+curl --fail-with-body -sS \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  "https://api.secapi.ai/v1/factors/history/VALUE?range=1y&response_mode=compact&include=trust"
+```
+
+Rules:
+
+1. Only send `include` values the route documents. An unknown value is a validation error, not a silent ignore.
+2. Each expand can add size and, on some routes, a different meter class. Quote the actual path before a loop.
+3. Overview `include=factors` is still a company view. A cited assembly is a [named intel job](/named-intel-jobs).
+
+## When to keep the default view
+
+Use the default (omit `view`, or `view=default`) when you need the full envelope: provenance, freshness, full holdings, or a compliance store. `view=agent` on 13F caps holdings at 50 regardless of `limit`. Section `view=agent` keeps citation fields and can omit the section body.
+
+Measure both shapes on [token efficiency](/token-efficiency) before you standardize.
+
+## Next
+
+- [Resolve, then fetch](/resolve-then-fetch)
+- [Object graph](/object-graph)
+- [API conventions](/api-conventions)
+- [Named intel jobs](/named-intel-jobs)

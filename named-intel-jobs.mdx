@@ -1,0 +1,97 @@
+---
+title: "Named intel jobs"
+description: "Buy intel as a named pack or report job. There is no open prompt. Pack is $0.50. Report is $1.50."
+---
+
+Intel is a packer, not a fifth store. You buy a named job: a cited assembly from the stores, or a priced report. You do not send a free-text prompt.
+
+Two list prices. REST, MCP, SDK, and CLI use the same SKU. The channel is not a discount. Internal store hops the packer makes are not billed separately.
+
+| SKU | List | Jobs | What you buy |
+| --- | --- | --- | --- |
+| Intel pack | `$0.50` | `deal_brief`, `letter_brief`, `filing_brief`, `move_brief` | One cited assembly from the stores. Source, date, and id stay attached. |
+| Intel report | `$1.50` | `country_report`, `portfolio_review`, `strategy`, `underwriting_pack` | One priced report. |
+
+A situations list row remains a `$0.03` store read. The deal **brief** is the pack.
+
+## Required identity, not a prompt
+
+POST a job type plus the identity fields for that job. Do not send an open question.
+
+| Job | SKU | Required identity | Live route |
+| --- | --- | --- | --- |
+| `filing_brief` | pack | ticker or CIK, and form or accession | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `letter_brief` | pack | ticker or manager id | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `deal_brief` | pack | situation id or ticker | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `move_brief` | pack | ticker or CIK, lookback | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `country_report` | report | ISO country code | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `portfolio_review` | report | holdings body | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `strategy` | report | documented strategy body | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+| `underwriting_pack` | report | ticker or CIK | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
+
+Letters and authenticated situations are gated. Those jobs 404 when that store is dark. Check `availability` on the [catalog](/.well-known/api-catalog.json) before you depend on them.
+
+Company overview and `?include=` enrichments are not intel jobs.
+
+## Create, then poll
+
+`POST /v1/intelligence/query` returns `200` with a completed result or `202` with a job id. Poll `GET /v1/intelligence/query/{jobId}` to a final state. Handle `202`, `404`, and `502` as distinct outcomes.
+
+A working report call:
+
+```bash
+curl --fail-with-body -sS -X POST \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "Idempotency-Key: country-us-2026-08-23" \
+  -H "content-type: application/json" \
+  -d '{"job":"country_report","countries":["US"]}' \
+  "https://api.secapi.ai/v1/intelligence/query"
+```
+
+A working portfolio review:
+
+```bash
+curl --fail-with-body -sS -X POST \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "Idempotency-Key: portfolio-review-2026-08-23" \
+  -H "content-type: application/json" \
+  -d '{"job":"portfolio_review","portfolio":[{"symbol":"AAPL","weight":0.6},{"symbol":"MSFT","weight":0.4}]}' \
+  "https://api.secapi.ai/v1/intelligence/query"
+```
+
+A pack job on `POST /v1/intelligence/query`:
+
+```bash
+curl --fail-with-body -sS -X POST \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "Idempotency-Key: deal-aapl-2026-08-23" \
+  -H "content-type: application/json" \
+  -d '{"job":"deal_brief","entities":["AAPL"]}' \
+  "https://api.secapi.ai/v1/intelligence/query"
+```
+
+Send `job` plus the required identity fields from the table. Do not send a free-text prompt. Open prompt-only bodies are rejected.
+
+If the work is queued, poll:
+
+```bash
+curl --fail-with-body -sS \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  "https://api.secapi.ai/v1/intelligence/query/$JOB_ID"
+```
+
+## Billing
+
+- One debit on successful completion. Failed, cancelled, or `4xx` jobs are not billed.
+- In-flight reuse of the same `Idempotency-Key` returns `409` with `Retry-After`.
+- A `$0.05` factor decomposition is a store read. The intel job that uses a decomposition is `move_brief` at `$0.50`, or a report if it synthesizes further.
+- MCP tool discovery is free. An intel pack through MCP is `$0.50`. An intel report through MCP is `$1.50`.
+
+Prepaid savings apply to the same list: pay `$45` for `$50` in credits (save 10%). See [plans and pricing](/plans-and-pricing).
+
+## Next
+
+- [Resolve, then fetch](/resolve-then-fetch)
+- [Object graph](/object-graph)
+- [Intelligence workflows](/products/intelligence)
+- [Plans and pricing](/plans-and-pricing)

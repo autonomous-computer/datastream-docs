@@ -1,0 +1,58 @@
+---
+title: "Resolve, then fetch"
+description: "Resolve one issuer first, keep the returned identity, then fetch a store or run a named intel job"
+---
+
+Resolve an issuer before you fetch filings, facts, statements, or a named intel job. `GET /v1/entities/resolve` is the identity call. The stores and the packer take that identity; they do not invent it.
+
+```bash
+curl --fail-with-body -sS \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "secapi-version: 2026-03-19" \
+  "https://api.secapi.ai/v1/entities/resolve?ticker=AAPL&view=agent"
+```
+
+Keep `id`, `cik`, `ticker`, `matchConfidence`, and `matchBasis` when they are returned. A low-confidence match is a correction task, not a join key. Do not infer a CIK from a ticker string or an old filing URL.
+
+## The path
+
+1. Resolve the issuer, manager, or security.
+2. Carry the returned CIK (and entity `id` when present).
+3. Fetch one store, or run one [named intel job](/named-intel-jobs).
+
+| After resolve | Fetch | First route |
+| --- | --- | --- |
+| The official record | Filings store | [`GET /v1/filings/latest`](/api-reference/filings/get-v1-filings-latest) |
+| One disclosed number | Facts | [`GET /v1/facts`](/api-reference/facts/get-v1-facts) |
+| A financials page | Statements | [`GET /v1/statements`](/api-reference/statements/get-v1-statements) |
+| Why a price moved | Factors | [`GET /v1/factors/catalog`](/api-reference/factors) |
+| A country print | Macro indicators | [`GET /v1/macro/indicators`](/api-reference/macro) |
+| A cited assembly | Intel packer | [Named intel jobs](/named-intel-jobs) |
+
+Letters and authenticated situations are gated stores. They 404 when that store is dark. Do not make them the first curl.
+
+```bash
+curl --fail-with-body -sS \
+  -H "x-api-key: $SECAPI_API_KEY" \
+  -H "secapi-version: 2026-03-19" \
+  "https://api.secapi.ai/v1/filings/latest?ticker=AAPL&form=10-K&view=agent"
+```
+
+The second request returns the current latest matching filing. Keep the accession number, form, filing date, filing URL, and `requestId` when present.
+
+## What resolve is not
+
+| Job | Route | Use it when |
+| --- | --- | --- |
+| Identity | [`GET /v1/entities/resolve`](/api-reference/entities/get-v1-entities-resolve) | You have a ticker, CIK, FIGI, name, or other identifier and need one entity. |
+| Canonical search | [`GET /v1/entities`](/api-reference/entities) | You need a paginated list of canonical entities. |
+| EDGAR catalog search | [`GET /v1/entities/edgar`](/api-reference/entities/get-v1-entities-edgar) | You need paginated EDGAR source records. Not an identity peer of resolve. |
+
+An empty resolve request is invalid. Company overview (`GET /v1/companies/overview`) is a company view, not a substitute for resolve and not the intelligence product.
+
+## Next
+
+- [Object graph](/object-graph) — the objects you fetch after resolve
+- [Response views and include](/views-and-includes) — `view=agent` and `include=`
+- [Named intel jobs](/named-intel-jobs) — packs and reports
+- [First request flows](/first-request-flows) — REST, SDK, CLI, and MCP

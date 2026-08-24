@@ -1,0 +1,19 @@
+---
+title: "What is not billed"
+description: "Health, quote, limits, catalog, test-key traffic, and 4xx that fail before work starts are free."
+---
+
+The billable thing is a production job or store read that completed. These are not billed:
+
+| Item | Why it is free |
+| --- | --- |
+| Health | `GET /healthz` and `GET /readyz` are platform liveness. |
+| Quote | `POST /v1/billing/quote` and `POST /v1/operations/quote` estimate cost. They do not run the job. |
+| Limits | `GET /v1/limits` and `GET /v1/billing` are account introspection. |
+| Catalog | `GET /v1/guides`, `GET /v1/billing/rates`, and `GET /.well-known/secapi-guides.json` are discovery. |
+| Test-key traffic | `secapi_test_…` keys (`livemode=false`) are free and fixture-only. See [Test keys and live keys](/test-keys). |
+| Failed before work | `4xx` and `5xx` that fail before work starts are not billed. Failed, cancelled, or in-flight intel or artifact jobs are free. |
+
+Successful completion of a named intel job is billed once: `intel_pack` `$0.50` or `intel_report` `$1.50`. Polling the same completed job does not bill again. Internal store hops the packer makes are not billed. `GET /v1/factors/decomposition` stays a `$0.05` store read.
+
+Machine-readable copy of this list is on `GET /v1/guides` (`nonBillable`) and `GET /.well-known/secapi-guides.json`.
