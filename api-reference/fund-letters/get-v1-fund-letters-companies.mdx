@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/fund-letters/companies"
-description: "Company coverage index: every company with at least one extracted thesis, with thesis/manager/letter counts and the latest stance."
+description: "Company letter coverage"
 ---
 
-Company coverage index: every company with at least one extracted thesis, with thesis/manager/letter counts and the latest stance.
+Company letter coverage
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Use this to find which companies managers have written about before drilling into `/v1/fund-letters/theses`. Counts reflect extracted theses rather than passing mentions. Metered as fund_letter_lookup.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/companies to company coverage index: every company with at least one extracted thesis, with thesis/manager/letter counts and the latest stance. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/companies to company letter coverage. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/bulk-download"
-description: "Return available factor returns data in bulk with daily series for commercial plan bulk-download workflows"
+description: "Bulk factor returns"
 ---
 
-Return available factor returns data in bulk with daily series for commercial plan bulk-download workflows
+Bulk factor returns
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return available factor returns data in bulk with daily series for commercial plan bulk-download workflows.
 
 ## Canonical metadata
 
@@ -156,7 +160,7 @@ VALUE,Value,style,1m,12m,2026-06-09T22:15:00.000Z,2026-06-09,0.0038,0.0031,0.004
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/bulk-download to return available factor returns data in bulk with daily series for commercial plan bulk-download workflows. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/bulk-download to bulk factor returns. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

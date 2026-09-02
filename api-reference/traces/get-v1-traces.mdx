@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/traces"
-description: "Batch resolve shared trace records by trace identifier across filing-derived and supported non-filing datasets"
+description: "Batch resolve traces"
 ---
 
-Batch resolve shared trace records by trace identifier across filing-derived and supported non-filing datasets
+Batch resolve traces
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Batch resolve shared trace records by trace identifier across filing-derived and supported non-filing datasets.
 
 ## Canonical metadata
 
@@ -59,7 +63,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/traces to batch resolve shared trace records by trace identifier across filing-derived and supported non-filing datasets. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/traces to batch resolve traces. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

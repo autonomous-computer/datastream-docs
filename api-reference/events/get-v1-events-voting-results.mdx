@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/events/voting-results"
-description: "Retrieve structured shareholder-vote results from 8-K Item 5.07 filings"
+description: "Shareholder voting results"
 ---
 
-Retrieve structured shareholder-vote results from 8-K Item 5.07 filings
+Shareholder voting results
 
 <Info>
 Audience: application and coding agent.
@@ -53,7 +53,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/events/voting-results to retrieve structured shareholder-vote results from 8-K Item 5.07 filings. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/events/voting-results to shareholder voting results. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,34 +1,38 @@
-<!-- audit-checked: 2026-06-27 sha=e1e2218c6 -->
-# SEC API
+# TUROS API and MCP
 
-SEC API is a primary-source, agent-native SEC and factor data platform with REST, CLI, hosted MCP, compact AI-ready responses, and a 50-prompt persona library spanning law firms, investment managers, sophisticated investors, insurance, and PR firms.
+TUROS is the AI-ready data layer for sophisticated investors. It combines SEC Filing Data, Macro Data, Factor Data Beta, and repeatable Investment Analysis through MCP or one API.
+
+Use `https://api.secapi.ai` for all API and MCP requests.
 
 ## Best entry points
 
-- Start with an agent (one-paste onramp): https://secapi.ai/agents
-- Product home: https://secapi.ai/
-- Developer hub: https://secapi.ai/developers
-- Pricing: https://secapi.ai/pricing
+- Product home: https://www.turos.app/
+- Agent Setup: https://www.turos.app/agent-setup
+- AI Agents product: https://www.turos.app/agents
+- Switch to TUROS: https://www.turos.app/switch
+- Build with TUROS: https://www.turos.app/developers
+- Pricing: https://www.turos.app/pricing
+- Pricing docs: https://www.turos.app/docs/pricing
 - Drop-in agent rules file: https://secapi.ai/agents/AGENTS.md
 - Installable agent skills: `npx skills add secapi-ai/secapi-skills`
-- Agent prompt library: https://docs.secapi.ai/agents/prompt-library
-- Full docs export (every page, one file): https://docs.secapi.ai/llms-full.txt
-- Docs home: https://docs.secapi.ai/
-- SEC EDGAR API guide: https://docs.secapi.ai/seo/sec-edgar-api
-- 13F data API guide: https://docs.secapi.ai/seo/13f-data-api
-- SEC filing search API evaluation: https://docs.secapi.ai/evaluate/sec-filing-search-api
-- 13F API evaluation: https://docs.secapi.ai/evaluate/13f-api
-- Pricing and limits evaluation: https://docs.secapi.ai/evaluate/pricing-and-limits
-- Migrate from sec-api.io: https://docs.secapi.ai/migrate-from-sec-api
+- Agent prompt library: https://www.turos.app/docs/agents/prompt-library
+- Full docs export (every page, one file): https://www.turos.app/docs/llms-full.txt
+- Docs home: https://www.turos.app/docs/
+- SEC Filing Data guide: https://www.turos.app/docs/filings/overview
+- Track Investors workflow: https://www.turos.app/docs/workflows/track-investors
+- SEC filing search API evaluation: https://www.turos.app/docs/evaluate/sec-filing-search-api
+- 13F API evaluation: https://www.turos.app/docs/evaluate/13f-api
+- Pricing and limits evaluation: https://www.turos.app/docs/evaluate/pricing-and-limits
+- Migrate from SECAPI.ai: https://www.turos.app/docs/migration/secapi
 - API health: `/healthz`
-- Factor quickstart: https://docs.secapi.ai/factor-quickstart
-- Factor API reference: https://docs.secapi.ai/api-reference/factors
-- Portfolio API reference: https://docs.secapi.ai/api-reference/portfolio
-- FactorsToday migration: https://docs.secapi.ai/migrate-from-factorstoday
-- CLI guide: https://docs.secapi.ai/cli
+- Factor quickstart: https://www.turos.app/docs/factor-quickstart
+- Factor API reference: https://www.turos.app/docs/api-reference/factors
+- Portfolio API reference: https://www.turos.app/docs/api-reference/portfolio
+- FactorsToday migration: https://www.turos.app/docs/migrate-from-factorstoday
+- CLI guide: https://www.turos.app/docs/cli
 - MCP server: `/mcp`
-- JS SDK: https://docs.secapi.ai/javascript-sdk
-- Python SDK: https://docs.secapi.ai/python-sdk
+- JS SDK: https://www.turos.app/docs/javascript-sdk
+- Python SDK: https://www.turos.app/docs/python-sdk
 
 ## Core API workflows
 
@@ -98,17 +102,26 @@ Resources include: `sec://entities/{ticker_or_cik}`, `sec://filings/latest/{tick
 
 ## Agent prompt library
 
-50 v1 prompts (12 investment-manager / 12 law-firm / 12 pr-firm / 8 sophisticated-investor / 6 insurance) plus 10 v2-pending entries queued for delivery alongside the dilution-tools epic + AAER MCP wrap. Discoverable at:
+50 v1 prompts (12 investment-manager / 12 law-firm / 12 pr-firm / 8 sophisticated-investor / 6 insurance). Discoverable at:
 
-- Mintlify: `https://docs.secapi.ai/agents/prompt-library/{persona}`
+- Mintlify: `https://www.turos.app/docs/agents/prompt-library/{persona}`
 - CLI: `secapi agents prompts list/read/copy`
 
 ## API conventions
 
 - request correlation: `Request-Id` header
 - metering classification: `SECAPI-Meter-Class` header
-- auth: `x-api-key` today, WorkOS OAuth discovery later
+- auth: `x-api-key`
 - errors: structured JSON with `object=error`, `code`, `type`, `message`, `requestId`
+
+## Pricing
+
+- Free signup and test keys; no card required
+- 100 included live calls each month
+- Self-serve production is pay as you go with no subscription, monthly minimum, setup fee, or per-seat fee
+- Top-ups start at $10; larger individual top-ups save up to 30%
+- Paid credits do not expire under the current catalog
+- Read current prices from `GET https://api.secapi.ai/v1/billing/rates`
 
 ## Notes for agents
 
@@ -116,4 +129,4 @@ Resources include: `sec://entities/{ticker_or_cik}`, `sec://filings/latest/{tick
 - Resolve entities (`GET /v1/entities/resolve`) before querying; pass the resolved CIK downstream. `companies/overview` and `companies/segments` accept only `ticker` or `cik`.
 - Prefer structured endpoints and compact responses (`response_mode=compact`) over raw filing text; paginate with cursors, do not poll.
 - Cite the source accession number and filing page for any filing-derived number; keep extracted facts separate from interpretation.
-- Check `GET /v1/billing` and `POST /v1/billing/quote` before expensive or repeated loops; stop on a budget cap or approval requirement. Back off on `429`; tolerate `503` from beta-gated surfaces.
+- Check `GET /v1/billing` and `POST /v1/billing/quote` before expensive or repeated loops; stop on a budget cap or approval requirement. Back off on `429`; tolerate `503` from routes that are not generally available.

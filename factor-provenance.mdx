@@ -17,7 +17,7 @@ curl -H "x-api-key: $SECAPI_API_KEY" \
 | --- | --- |
 | `requestId` and `traceparent` | correlate a result with request and downstream tracing evidence |
 | `freshness` | evaluate the route's applicable recency state |
-| `materialization` | identify the returned read-model or computation version |
+| `materialization` | identify the version of the computed dataset behind the result |
 | `methodology` | identify model family, inputs, and construction notes when returned |
 | `sourceRights` | understand the returned source-rights posture |
 | `degradedState` | expose a partial result, fallback, or missing dependency |

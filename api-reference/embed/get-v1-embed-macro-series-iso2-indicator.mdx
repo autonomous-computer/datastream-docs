@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/embed/macro/series/{iso2}/{indicator}"
-description: "Public full-history series and stats for one country indicator"
+description: "Country indicator history"
 ---
 
-Public full-history series and stats for one country indicator
+Country indicator history
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Public full-history series and stats for one country indicator.
 
 ## Canonical metadata
 
@@ -37,7 +41,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/embed/macro/series/{iso2}/{indicator} to public full-history series and stats for one country indicator. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/embed/macro/series/{iso2}/{indicator} to country indicator history. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

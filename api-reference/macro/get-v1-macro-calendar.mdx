@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/calendar"
-description: "Return the macro event calendar for supported official-source releases and central-bank events"
+description: "Macro event calendar"
 ---
 
-Return the macro event calendar for supported official-source releases and central-bank events
+Macro event calendar
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the macro event calendar for supported official-source releases and central-bank events.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/calendar to return the macro event calendar for supported official-source releases and central-bank events. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/calendar to macro event calendar. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

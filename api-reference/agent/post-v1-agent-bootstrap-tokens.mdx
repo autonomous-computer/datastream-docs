@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/agent/bootstrap_tokens"
-description: "Issue a short-lived, single-use sponsor token for agent bootstrap under the current organization"
+description: "Create agent bootstrap token"
 ---
 
-Issue a short-lived, single-use sponsor token for agent bootstrap under the current organization
+Create agent bootstrap token
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Issue a short-lived, single-use sponsor token for agent bootstrap under the current organization.
 
 ## Canonical metadata
 
@@ -62,7 +66,7 @@ This is a human organization action. Send a bearer token for a signed-in organiz
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/agent/bootstrap_tokens to issue a short-lived, single-use sponsor token for agent bootstrap under the current organization. Preserve `requestId`, `id`, `tokenPrefix`, `scopes`, `expiresAt`, `usedAt` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/agent/bootstrap_tokens to create agent bootstrap token. Preserve `requestId`, `id`, `tokenPrefix`, `scopes`, `expiresAt`, `usedAt` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

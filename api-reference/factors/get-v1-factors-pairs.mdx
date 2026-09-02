@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/pairs"
-description: "Return pairwise factor spread data including cumulative spread, average, volatility, and daily series for two specified factors"
+description: "Factor pair spreads"
 ---
 
-Return pairwise factor spread data including cumulative spread, average, volatility, and daily series for two specified factors
+Factor pair spreads
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return pairwise factor spread data including cumulative spread, average, volatility, and daily series for two specified factors.
 
 ## Canonical metadata
 
@@ -149,7 +153,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/pairs to return pairwise factor spread data including cumulative spread, average, volatility, and daily series for two specified factors. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/pairs to factor pair spreads. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

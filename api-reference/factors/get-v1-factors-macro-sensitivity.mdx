@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/factors/macro-sensitivity"
-description: "Return factor sensitivity to a named macro stress scenario using the current macro-regime overlay"
+description: "Factor macro sensitivity"
 ---
 
-Return factor sensitivity to a named macro stress scenario using the current macro-regime overlay
+Factor macro sensitivity
 
 <Info>
 Audience: application and coding agent.
@@ -88,7 +88,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/macro-sensitivity to return factor sensitivity to a named macro stress scenario using the current macro-regime overlay. Preserve `scenarioKey`, `rows[].factorKey`, `rows[].sensitivity`, `rows[].direction`, `topTailwinds`, `topHeadwinds`, `limitations`, `summaryMd`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/macro-sensitivity to factor macro sensitivity. Preserve `scenarioKey`, `rows[].factorKey`, `rows[].sensitivity`, `rows[].direction`, `topTailwinds`, `topHeadwinds`, `limitations`, `summaryMd`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/signals/dilution/enhanced"
-description: "Return the SEC API Dilution Score with factor-model context for liquidity regime, momentum exposure, and financing-risk interpretation"
+description: "Enhanced dilution score"
 ---
 
-Return the SEC API Dilution Score with factor-model context for liquidity regime, momentum exposure, and financing-risk interpretation
+Enhanced dilution score
 
 <Info>
 Audience: application and coding agent.
@@ -118,7 +118,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/signals/dilution/enhanced to return the SEC API Dilution Score with factor-model context for liquidity regime, momentum exposure, and financing-risk interpretation. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `score`, `band`, `confidence`, `factors`, `subRatings`, `factorModelContext` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/signals/dilution/enhanced to enhanced dilution score. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `score`, `band`, `confidence`, `factors`, `subRatings`, `factorModelContext` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

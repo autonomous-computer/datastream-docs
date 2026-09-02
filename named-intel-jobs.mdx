@@ -3,13 +3,13 @@ title: "Named intel jobs"
 description: "Buy intel as a named pack or report job. There is no open prompt. Pack is $0.50. Report is $1.50."
 ---
 
-Intel is a packer, not a fifth store. You buy a named job: a cited assembly from the stores, or a priced report. You do not send a free-text prompt.
+Intelligence composes results from the data you can already query; it is not a separate dataset. You buy a named job: a cited assembly from those datasets, or a priced report. You do not send a free-text prompt.
 
-Two list prices. REST, MCP, SDK, and CLI use the same SKU. The channel is not a discount. Internal store hops the packer makes are not billed separately.
+Two list prices. REST, MCP, SDK, and CLI use the same SKU. The channel is not a discount. You are billed once for the job; the underlying reads it performs are not billed separately.
 
 | SKU | List | Jobs | What you buy |
 | --- | --- | --- | --- |
-| Intel pack | `$0.50` | `deal_brief`, `letter_brief`, `filing_brief`, `move_brief` | One cited assembly from the stores. Source, date, and id stay attached. |
+| Intel pack | `$0.50` | `deal_brief`, `letter_brief`, `filing_brief`, `move_brief` | One cited assembly from the underlying datasets. Source, date, and id stay attached. |
 | Intel report | `$1.50` | `country_report`, `portfolio_review`, `strategy`, `underwriting_pack` | One priced report. |
 
 A situations list row remains a `$0.03` store read. The deal **brief** is the pack.
@@ -29,7 +29,7 @@ POST a job type plus the identity fields for that job. Do not send an open quest
 | `strategy` | report | documented strategy body | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
 | `underwriting_pack` | report | ticker or CIK | [`POST /v1/intelligence/query`](/api-reference/intelligence) |
 
-Letters and authenticated situations are gated. Those jobs 404 when that store is dark. Check `availability` on the [catalog](/.well-known/api-catalog.json) before you depend on them.
+Letters and authenticated situations are gated. Those jobs return 404 while the dataset is not generally available. Check `availability` on the [catalog](/.well-known/api-catalog.json) before you depend on them.
 
 Company overview and `?include=` enrichments are not intel jobs.
 

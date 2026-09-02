@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/owners/13d-13g"
-description: "Search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date"
+description: "Schedule 13D and 13G filings"
 ---
 
-Search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date
+Schedule 13D and 13G filings
 
 <Info>
 Audience: application and coding agent.
@@ -90,7 +90,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/13d-13g to search SEC Schedule 13D and 13G beneficial-ownership reports by issuer, filer, form, and filing date. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/13d-13g to schedule 13D and 13G filings. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

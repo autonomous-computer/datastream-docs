@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/artifacts/{artifact_id}/export"
-description: "Export one persisted artifact as JSON, compact JSON, or a markdown download envelope"
+description: "Export artifact"
 ---
 
-Export one persisted artifact as JSON, compact JSON, or a markdown download envelope
+Export artifact
 
 <Info>
 Audience: developers choosing a structured handoff or markdown download for one persisted artifact.
@@ -87,7 +87,7 @@ A missing, inaccessible, or failed export returns `404 artifact_export_failed`.
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/artifacts/{artifact_id}/export to export one persisted artifact as JSON, compact JSON, or a markdown download envelope. Preserve `artifactId`, `format`, `manifest`, `artifact`, `download` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/artifacts/{artifact_id}/export to export artifact. Preserve `artifactId`, `format`, `manifest`, `artifact`, `download` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

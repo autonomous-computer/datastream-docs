@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/indicators"
-description: "Return official-source macro indicator observations with revision-aware provenance and country-quality metadata"
+description: "Macro indicator observations"
 ---
 
-Return official-source macro indicator observations with revision-aware provenance and country-quality metadata
+Macro indicator observations
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return official-source macro indicator observations with revision-aware provenance and country-quality metadata.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/indicators to return official-source macro indicator observations with revision-aware provenance and country-quality metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/indicators to macro indicator observations. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

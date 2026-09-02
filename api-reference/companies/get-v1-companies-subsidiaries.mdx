@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/companies/subsidiaries"
-description: "Retrieve subsidiaries disclosed in an issuer's latest available 10-K Exhibit 21"
+description: "Company subsidiaries"
 ---
 
-Retrieve subsidiaries disclosed in an issuer's latest available 10-K Exhibit 21
+Company subsidiaries
 
 <Info>
 Audience: application and coding agent.
@@ -46,7 +46,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/subsidiaries to retrieve subsidiaries disclosed in an issuer's latest available 10-K Exhibit 21. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/subsidiaries to company subsidiaries. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

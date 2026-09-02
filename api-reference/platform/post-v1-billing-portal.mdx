@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/billing/portal"
-description: "Create a Stripe Billing Portal session for the current organization"
+description: "Open billing portal"
 ---
 
-Create a Stripe Billing Portal session for the current organization
+Open billing portal
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Create a Stripe Billing Portal session for the current organization.
 
 ## Canonical metadata
 
@@ -40,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/billing/portal to create a Stripe Billing Portal session for the current organization. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/billing/portal to open billing portal. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

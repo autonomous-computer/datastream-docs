@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/situations/{situation_id}/underwriting-pack"
-description: "Retrieve a deterministic, source-cited underwriting pack with canonical detail, filing timeline, and Copy-for-LLM markdown"
+description: "Situation underwriting pack"
 ---
 
-Retrieve a deterministic, source-cited underwriting pack with canonical detail, filing timeline, and Copy-for-LLM markdown
+Situation underwriting pack
 
 <Info>
 Audience: application and coding agent.
@@ -42,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/{situation_id}/underwriting-pack to retrieve a deterministic, source-cited underwriting pack with canonical detail, filing timeline, and Copy-for-LLM markdown. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/{situation_id}/underwriting-pack to situation underwriting pack. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

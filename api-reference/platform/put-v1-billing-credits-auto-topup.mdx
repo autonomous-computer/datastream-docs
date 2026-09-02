@@ -1,13 +1,17 @@
 ---
 title: "PUT /v1/billing/credits/auto-topup"
-description: "Enable or disable automatic prepaid-credit top-ups and set the low-balance threshold and refill amount"
+description: "Update auto top-up"
 ---
 
-Enable or disable automatic prepaid-credit top-ups and set the low-balance threshold and refill amount
+Update auto top-up
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Enable or disable automatic prepaid-credit top-ups and set the low-balance threshold and refill amount.
 
 ## Canonical metadata
 
@@ -44,7 +48,7 @@ Billing funding changes require a WorkOS bearer session with `billing:manage`. A
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API PUT /v1/billing/credits/auto-topup to enable or disable automatic prepaid-credit top-ups and set the low-balance threshold and refill amount. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API PUT /v1/billing/credits/auto-topup to update auto top-up. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

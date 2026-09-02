@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/filings/{accession_number}/download"
-description: "Open a filing's source document by accession number"
+description: "Download filing document"
 ---
 
-Open a filing's source document by accession number
+Download filing document
 
 <Info>
 Audience: application and coding agent.
@@ -69,7 +69,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/filings/{accession_number}/download to open a filing's source document by accession number. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/filings/{accession_number}/download to download filing document. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

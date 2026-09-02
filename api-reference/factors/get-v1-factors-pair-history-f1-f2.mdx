@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/pair-history/{f1}/{f2}"
-description: "Return historical spread between two specific factors identified by path parameters with windowed series data"
+description: "Factor pair history"
 ---
 
-Return historical spread between two specific factors identified by path parameters with windowed series data
+Factor pair history
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return historical spread between two specific factors identified by path parameters with windowed series data.
 
 ## Canonical metadata
 
@@ -149,7 +153,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/pair-history/{f1}/{f2} to return historical spread between two specific factors identified by path parameters with windowed series data. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/pair-history/{f1}/{f2} to factor pair history. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

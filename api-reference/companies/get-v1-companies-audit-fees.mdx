@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/companies/audit-fees"
-description: "Return principal-accountant fee rows extracted from the latest DEF 14A or 10-K for an issuer"
+description: "Company audit fees"
 ---
 
-Return principal-accountant fee rows extracted from the latest DEF 14A or 10-K for an issuer
+Company audit fees
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return principal-accountant fee rows extracted from the latest DEF 14A or 10-K for an issuer.
 
 ## Canonical metadata
 
@@ -58,7 +62,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/audit-fees to return principal-accountant fee rows extracted from the latest DEF 14A or 10-K for an issuer. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/audit-fees to company audit fees. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

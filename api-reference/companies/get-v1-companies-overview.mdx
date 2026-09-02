@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/companies/overview"
-description: "Retrieve an SEC-derived company snapshot with identity, latest material filing, and a sector-aware financial view"
+description: "Company overview"
 ---
 
-Retrieve an SEC-derived company snapshot with identity, latest material filing, and a sector-aware financial view
+Company overview
 
 <Info>
 Audience: application and coding agent.
@@ -63,7 +63,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/overview to retrieve an SEC-derived company snapshot with identity, latest material filing, and a sector-aware financial view. Preserve `requestId`, `traceparent`, `provenance`, `freshness` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/overview to company overview. Preserve `requestId`, `traceparent`, `provenance`, `freshness` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

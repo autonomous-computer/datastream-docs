@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/board"
-description: "Return the latest board composition derived from definitive proxy filings with director roster and committee coverage semantics"
+description: "Board composition"
 ---
 
-Return the latest board composition derived from definitive proxy filings with director roster and committee coverage semantics
+Board composition
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the latest board composition derived from definitive proxy filings with director roster and committee coverage semantics.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/board to return the latest board composition derived from definitive proxy filings with director roster and committee coverage semantics. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/board to board composition. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

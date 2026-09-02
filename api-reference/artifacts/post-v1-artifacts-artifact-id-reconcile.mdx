@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/artifacts/{artifact_id}/reconcile"
-description: "Reconcile one persisted artifact with configured object storage"
+description: "Reconcile artifact storage"
 ---
 
-Reconcile one persisted artifact with configured object storage
+Reconcile artifact storage
 
 <Info>
 Audience: developers repairing or checking the storage state of one persisted artifact.
@@ -11,7 +11,7 @@ Audience: developers repairing or checking the storage state of one persisted ar
 
 ## Coverage and source scope
 
-Checks the saved record against configured R2 storage. Without R2 configuration it reports `local_only`; with R2 it can report an existing object as `synced`, repair a missing stored object as `recovered`, or upload a local record as `uploaded`. Send no request fields.
+Verifies that the saved artifact payload is present in object storage. The result is `local_only` when object storage is not in use, `synced` when the object already exists, `recovered` when a missing object was repaired, or `uploaded` when the payload was written to object storage. Send no request fields.
 
 ## Canonical metadata
 
@@ -56,7 +56,7 @@ Unknown body fields return `400 validation_error`. A missing, inaccessible, or f
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/artifacts/{artifact_id}/reconcile to reconcile one persisted artifact with configured object storage. Preserve `artifactId`, `status`, `storageMode`, `objectKey`, `requestId` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/artifacts/{artifact_id}/reconcile to reconcile artifact storage. Preserve `artifactId`, `status`, `storageMode`, `objectKey`, `requestId` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

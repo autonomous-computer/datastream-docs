@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/similarity-pack"
-description: "Return a custom thematic similarity pack that combines factor-overlap peers with deterministic filing/news signatures and naming workflow metadata"
+description: "Thematic similarity pack"
 ---
 
-Return a custom thematic similarity pack that combines factor-overlap peers with deterministic filing/news signatures and naming workflow metadata
+Thematic similarity pack
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return a custom thematic similarity pack that combines factor-overlap peers with deterministic filing/news signatures and naming workflow metadata.
 
 ## Canonical metadata
 
@@ -142,7 +146,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/similarity-pack to return a custom thematic similarity pack that combines factor-overlap peers with deterministic filing/news signatures and naming workflow metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/similarity-pack to thematic similarity pack. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

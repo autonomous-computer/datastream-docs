@@ -16,7 +16,7 @@ For the full construction methodology, including hierarchical purification, them
 | Feature | V1 | V2 |
 |---|---|---|
 | **Recompute frequency** | Weekly | Daily |
-| **Factor count** | ETF-proxy slice | 230+ tracked definitions; narrower launch API surface |
+| **Factor count** | ETF-proxy slice | 230+ tracked definitions; a subset is exposed through the API today |
 | **Intraday snapshots** | Not available | Available when current market inputs are present |
 | **Portfolio drill-down** | Security-level only | Security + portfolio + model portfolio |
 | **Orthogonalization** | Basic | Full topological sort |
@@ -59,7 +59,7 @@ curl -X POST "https://api.secapi.ai/v1/portfolio/analyze" \
 
 ## Factor Catalog
 
-Access the 230+ tracked factor-definition catalog with methodology and source-rights metadata. The launch API surface is narrower; inspect catalog coverage and freshness metadata before making long-history claims:
+Access the 230+ tracked factor-definition catalog with methodology and source-rights metadata. Not every tracked definition is queryable; inspect catalog coverage and freshness metadata before making long-history claims:
 
 ```bash
 curl "https://api.secapi.ai/v1/factors/catalog" \

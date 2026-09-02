@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/companies/ratios"
-description: "Retrieve an issuer's statement-derived profitability, return, valuation, dividend, and leverage ratios with period context"
+description: "Company ratios"
 ---
 
-Retrieve an issuer's statement-derived profitability, return, valuation, dividend, and leverage ratios with period context
+Company ratios
 
 <Info>
 Audience: application and coding agent.
@@ -64,7 +64,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/ratios to retrieve an issuer's statement-derived profitability, return, valuation, dividend, and leverage ratios with period context. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/ratios to company ratios. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

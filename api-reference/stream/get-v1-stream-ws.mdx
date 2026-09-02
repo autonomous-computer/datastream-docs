@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/stream/ws"
-description: "Upgrade to a WebSocket connection for delivery event streaming"
+description: "WebSocket event stream"
 ---
 
-Upgrade to a WebSocket connection for delivery event streaming
+WebSocket event stream
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Upgrades an active WebSocket stream subscription to a WebSocket connection. Clients must supply that subscription's `stream_id` and authenticate with either a short-lived signed `ticket` minted from `POST /v1/stream/tickets` or the `x-api-key` header. Connections are capped by plan but are not separately billable in v1. Delivered events use the same delivery-event billing family as stream polling and are idempotent per subscription and event.
+Upgrades an active stream subscription to a WebSocket connection. Supply that subscription's `stream_id` and authenticate with either a short-lived signed `ticket` from `POST /v1/stream/tickets` or the `x-api-key` header. Concurrent connections are capped by plan and are not separately billable; delivered events are billed in the same delivery-event family as stream polling and are idempotent per subscription and event.
 
 ## Canonical metadata
 
@@ -57,7 +57,7 @@ Create and activate a WebSocket stream subscription first, then pass its `$SECAP
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/stream/ws to upgrade to a WebSocket connection for delivery event streaming. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/stream/ws to webSocket event stream. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

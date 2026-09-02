@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/embed/situations/stats"
-description: "Public recent-window Special Situations counts with persisted-column coverage scope"
+description: "Public situations statistics"
 ---
 
-Public recent-window Special Situations counts with persisted-column coverage scope
+Public situations statistics
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Public recent-window Special Situations counts with persisted-column coverage scope.
 
 ## Canonical metadata
 
@@ -37,7 +41,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/embed/situations/stats to public recent-window Special Situations counts with persisted-column coverage scope. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/embed/situations/stats to public situations statistics. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

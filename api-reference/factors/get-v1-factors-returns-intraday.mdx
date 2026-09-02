@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/returns/intraday"
-description: "Return intraday factor snapshots for dashboards using the current benchmark proxy surface and freshness metadata"
+description: "Intraday factor returns"
 ---
 
-Return intraday factor snapshots for dashboards using the current benchmark proxy surface and freshness metadata
+Intraday factor returns
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return intraday factor snapshots for dashboards using the current benchmark proxy surface and freshness metadata.
 
 ## Canonical metadata
 
@@ -121,7 +125,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/returns/intraday to return intraday factor snapshots for dashboards using the current benchmark proxy surface and freshness metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/returns/intraday to intraday factor returns. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

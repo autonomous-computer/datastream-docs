@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/entities/resolve"
-description: "Resolve one issuer, manager, insider, or fund from a market or SEC identifier, returning the canonical entity and match confidence"
+description: "Resolve entity identifier"
 ---
 
-Resolve one issuer, manager, insider, or fund from a market or SEC identifier, returning the canonical entity and match confidence
+Resolve entity identifier
 
 <Info>
 Audience: engineers and agents normalizing an issuer, fund, manager, or insider before another SEC API call.
 </Info>
+
+## Coverage and source scope
+
+Resolve one issuer, manager, insider, or fund from a market or SEC identifier, returning the canonical entity and match confidence.
 
 ## Agent mode
 
@@ -70,7 +74,7 @@ A blank identifier is `400 missing_identifier`; an identifier that cannot be res
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/entities/resolve to resolve one issuer, manager, insider, or fund from a market or SEC identifier, returning the canonical entity and match confidence. Preserve `id`, `name`, `ticker`, `cik`, `primaryIdentifiers`, `matchConfidence`, `matchBasis`, `requestId` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/entities/resolve to resolve entity identifier. Preserve `id`, `name`, `ticker`, `cik`, `primaryIdentifiers`, `matchConfidence`, `matchBasis`, `requestId` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

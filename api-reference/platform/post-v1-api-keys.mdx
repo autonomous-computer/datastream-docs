@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/api_keys"
-description: "Create a new API key for the current organization and reveal its secret exactly once"
+description: "Create API key"
 ---
 
-Create a new API key for the current organization and reveal its secret exactly once
+Create API key
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Create a new API key for the current organization and reveal its secret exactly once.
 
 ## Canonical metadata
 
@@ -56,7 +60,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/api_keys to create a new API key for the current organization and reveal its secret exactly once. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/api_keys to create API key. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

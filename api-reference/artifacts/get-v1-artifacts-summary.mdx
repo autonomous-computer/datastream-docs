@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/artifacts/summary"
-description: "Summarize persisted artifact storage for the current organization"
+description: "Artifact storage summary"
 ---
 
-Summarize persisted artifact storage for the current organization
+Artifact storage summary
 
 <Info>
 Audience: developers checking the stored artifact footprint of their organization.
@@ -65,7 +65,7 @@ Without an organization on the authenticated principal, the route returns `403 o
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/artifacts/summary to summarize persisted artifact storage for the current organization. Preserve `orgId`, `rows[].kind`, `rows[].status`, `rows[].storageMode`, `rows[].count`, `rows[].totalBytes`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/artifacts/summary to artifact storage summary. Preserve `orgId`, `rows[].kind`, `rows[].status`, `rows[].storageMode`, `rows[].count`, `rows[].totalBytes`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

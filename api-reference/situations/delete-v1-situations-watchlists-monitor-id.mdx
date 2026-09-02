@@ -1,13 +1,17 @@
 ---
 title: "DELETE /v1/situations/watchlists/{monitor_id}"
-description: "Deactivate a situation-scoped watchlist monitor"
+description: "Deactivate situation watchlist"
 ---
 
-Deactivate a situation-scoped watchlist monitor
+Deactivate situation watchlist
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Deactivate a situation-scoped watchlist monitor.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X DELETE \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API DELETE /v1/situations/watchlists/{monitor_id} to deactivate a situation-scoped watchlist monitor. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API DELETE /v1/situations/watchlists/{monitor_id} to deactivate situation watchlist. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

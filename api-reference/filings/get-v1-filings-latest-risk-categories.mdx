@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/filings/latest/risk-categories"
-description: "Classify Item 1A risk categories in a selected issuer filing"
+description: "Risk factor categories"
 ---
 
-Classify Item 1A risk categories in a selected issuer filing
+Risk factor categories
 
 <Info>
 Audience: application and coding agent.
@@ -101,7 +101,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/filings/latest/risk-categories to classify Item 1A risk categories in a selected issuer filing. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization`, `capability`, `statusNote` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/filings/latest/risk-categories to risk factor categories. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization`, `capability`, `statusNote` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/market/calendar"
-description: "Check scheduled trading sessions for a supported market"
+description: "Market trading calendar"
 ---
 
-Check scheduled trading sessions for a supported market
+Market trading calendar
 
 <Info>
 Audience: developers and agents scheduling market-aware jobs.
@@ -95,7 +95,7 @@ Invalid `start` values return a contract-aware request error. Do not substitute 
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/market/calendar to check scheduled trading sessions for a supported market. Preserve `data`, `supportedMarkets`, `coverage`, `confidence`, `statusNote`, `per-row provenance`, `requestId` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/market/calendar to market trading calendar. Preserve `data`, `supportedMarkets`, `coverage`, `confidence`, `statusNote`, `per-row provenance`, `requestId` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

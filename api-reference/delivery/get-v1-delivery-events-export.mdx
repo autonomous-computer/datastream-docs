@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/delivery/events/export"
-description: "Export durable Delivery ledger records as JSON or NDJSON"
+description: "Export delivery events"
 ---
 
-Export durable Delivery ledger records as JSON or NDJSON
+Export delivery events
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Export durable Delivery ledger records as JSON or NDJSON.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/delivery/events/export to export durable Delivery ledger records as JSON or NDJSON. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/delivery/events/export to export delivery events. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

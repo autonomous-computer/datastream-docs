@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/stocks/{ticker}/loadings"
-description: "Return stock-level factor loadings for a single ticker using the latest stored exposure model"
+description: "Stock factor loadings"
 ---
 
-Return stock-level factor loadings for a single ticker using the latest stored exposure model
+Stock factor loadings
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return stock-level factor loadings for a single ticker using the latest stored exposure model.
 
 ## Canonical metadata
 
@@ -62,7 +66,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/stocks/{ticker}/loadings to return stock-level factor loadings for a single ticker using the latest stored exposure model. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/stocks/{ticker}/loadings to stock factor loadings. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/me"
-description: "Return the current authenticated principal and organization context"
+description: "Current API principal"
 ---
 
-Return the current authenticated principal and organization context
+Current API principal
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the current authenticated principal and organization context.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/me to return the current authenticated principal and organization context. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/me to current API principal. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

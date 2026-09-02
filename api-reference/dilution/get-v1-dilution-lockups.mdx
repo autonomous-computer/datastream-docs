@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/dilution/lockups"
-description: "Find disclosed lockup restrictions, dates, parties, and release conditions"
+description: "Lockup restrictions"
 ---
 
-Find disclosed lockup restrictions, dates, parties, and release conditions
+Lockup restrictions
 
 <Info>
 Audience: investors and developers tracking disclosed resale restrictions.
 </Info>
+
+## Coverage and source scope
+
+Find disclosed lockup restrictions, dates, parties, and release conditions.
 
 ## Canonical metadata
 
@@ -64,7 +68,7 @@ Lockup dates, parties, and conditions are disclosure-derived. They can be amende
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/dilution/lockups to find disclosed lockup restrictions, dates, parties, and release conditions. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: startDate, endDate, sharesAmount, conditions, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
+Use SEC API GET /v1/dilution/lockups to lockup restrictions. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: startDate, endDate, sharesAmount, conditions, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
 </Prompt>
 
 ## Failure posture

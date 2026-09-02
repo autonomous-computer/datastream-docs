@@ -37,10 +37,10 @@ Save the catalog version, `starterGrant`, account `planKey`, limits response `ef
 
 ## Source and production limits
 
-- New organizations start with a renewable 100-call monthly free allowance. Do not present it as uncapped usage.
+- New organizations receive `100` included live calls each month. Do not present that allowance as uncapped usage.
 - `/v1/billing/quote` is an estimate for the supplied path or meter class and current context; it neither reserves credits nor promises future billing eligibility.
 - A `402`, quota response, or budget gate is a control signal to narrow, fund, or reconfigure the workload, not a reason to replay it blindly.
-- Keep API keys server-side or in a client secret facility. Billing-management actions have their own authenticated control-plane requirements.
+- Keep API keys server-side or in a client secret facility. Billing-management actions require a signed-in dashboard session.
 - Redistribution, embedding, white-labeling, resale, and similar commercial use require commercial terms; do not infer rights from a successful evaluation request.
 
 ## Next decision

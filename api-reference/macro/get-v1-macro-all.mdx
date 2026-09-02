@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/all"
-description: "Return a bulk, filterable export of macro observations across countries and indicators, with cursor pagination and CSV or async export"
+description: "Bulk macro observations"
 ---
 
-Return a bulk, filterable export of macro observations across countries and indicators, with cursor pagination and CSV or async export
+Bulk macro observations
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return a bulk, filterable export of macro observations across countries and indicators, with cursor pagination and CSV or async export.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/all to return a bulk, filterable export of macro observations across countries and indicators, with cursor pagination and CSV or async export. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/all to bulk macro observations. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

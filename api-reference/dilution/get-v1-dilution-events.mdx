@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/dilution/events"
-description: "Find filed offering and issuance events by issuer, filing, date, or ATM status"
+description: "Offering and issuance events"
 ---
 
-Find filed offering and issuance events by issuer, filing, date, or ATM status
+Offering and issuance events
 
 <Info>
 Audience: investors, research systems, and developers tracing filed offering activity.
 </Info>
+
+## Coverage and source scope
+
+Find filed offering and issuance events by issuer, filing, date, or ATM status.
 
 ## Canonical metadata
 
@@ -64,7 +68,7 @@ Each row is a filing-derived event, not a prediction of future issuance or price
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/dilution/events to find filed offering and issuance events by issuer, filing, date, or ATM status. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: id, ticker, accessionNumber, filedAt, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
+Use SEC API GET /v1/dilution/events to offering and issuance events. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: id, ticker, accessionNumber, filedAt, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
 </Prompt>
 
 ## Failure posture

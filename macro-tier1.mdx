@@ -1,13 +1,13 @@
 ---
-title: "Macro Tier-1 Official Sources"
+title: "Official macro data sources"
 description: "Official-source macro indicators from direct government APIs for 12 countries"
 ---
 
-SEC API provides allocator-grade macro data from official government sources — not third-party aggregators. Production data is refreshed daily by our scheduled data pipeline at 06:00 UTC.
+SEC API provides allocator-grade macro data from official government sources — not third-party aggregators. Macro observations are refreshed daily at 06:00 UTC.
 
 ## Coverage
 
-### Launch Ring (Tier-1) — All Direct Official
+### Core coverage — all direct official sources
 
 | Country | Series Count | Primary Sources | Source Mode |
 |---|---|---|---|
@@ -17,7 +17,7 @@ SEC API provides allocator-grade macro data from official government sources —
 | **Taiwan** | 7 | DGBAS, CBC | direct_official |
 | **Israel** | 8 | CBS Israel, Bank of Israel | direct_official |
 
-### Expansion Ring V1
+### Extended coverage
 
 | Country | Series Count | Primary Sources | Source Mode |
 |---|---|---|---|
@@ -31,13 +31,13 @@ SEC API provides allocator-grade macro data from official government sources —
 
 ## Source Modes
 
-- **`direct_official`**: Primary runtime fetches directly from the official government agency API or download endpoint. This is the target for all indicators.
-- **`official_bridge`**: Official agency data accessed through DBnomics or another bridge. Not acceptable for strict direct-source completion.
-- **`fallback_harmonized`**: Non-primary harmonized source (e.g., IMF IFS, World Bank). Not acceptable for strict direct-source completion.
+- **`direct_official`**: Observations are fetched directly from the official government agency API or download endpoint.
+- **`official_bridge`**: Official agency data reached through DBnomics or another intermediate bridge. Reported in `canonicality` as bridged rather than direct-official.
+- **`fallback_harmonized`**: Non-primary harmonized source (e.g., IMF IFS, World Bank). Reported in `canonicality` as harmonized.
 
-### DBnomics Policy
+### Fallback source behavior
 
-DBnomics is allowed only as a documented runtime fallback after a direct official API attempt fails. It must be visible in observation metadata as a fallback, not as primary provenance.
+DBnomics is used only as a fallback after a direct official-source request fails. When it is used, observation metadata reports it as a fallback, not as primary provenance.
 
 ## Endpoints
 
@@ -74,10 +74,6 @@ curl "https://api.secapi.ai/v1/macro/regimes" \
 ```
 
 Returns current macro regime classification per country (expansion, contraction, recovery, overheating).
-
-## Production Ownership
-
-Our scheduled data pipeline is the sole scheduled production writer for macro data to the read-optimized analytics store. GitHub Actions workflows are read-only validation only.
 
 ## Source Provenance
 

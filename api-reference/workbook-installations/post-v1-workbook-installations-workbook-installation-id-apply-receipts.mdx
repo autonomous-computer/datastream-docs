@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts"
-description: "Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in."
+description: "Record workbook apply receipt"
 ---
 
-Record a server-validated workbook apply receipt after an approved model change set is written by the host add-in.
+Record workbook apply receipt
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Loads the server-persisted model-change set and approval record, validates evidence binding, current workbook precondition hash, approved input target refs, read-back hash, and recovery-case requirements, then appends the receipt to workbook provenance.
+Records a validated apply receipt after an approved model change set has been written into the workbook. The request is checked against the stored change set and approval record — evidence binding, workbook precondition hash, approved target references, and read-back hash — and the receipt is appended to the workbook's provenance ledger.
 
 ## Canonical metadata
 
@@ -72,7 +72,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts to record a server-validated workbook apply receipt after an approved model change set is written by the host add-in. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/apply-receipts to record workbook apply receipt. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

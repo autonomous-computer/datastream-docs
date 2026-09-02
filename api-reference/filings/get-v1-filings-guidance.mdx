@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/filings/guidance"
-description: "Filing guidance endpoint (currently unavailable)"
+description: "Management guidance"
 ---
 
-Filing guidance endpoint (currently unavailable)
+Management guidance
 
 <Info>
 Audience: application and coding agent.
@@ -11,19 +11,26 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-This endpoint is currently unavailable and returns `404 filings_intelligence_not_available`. When available, it will list persisted management-guidance records extracted from covered earnings materials and transcripts, including metric, direction, target period, and disclosed ranges where available. These records will be source-derived extractions, not normalized estimates or a complete guidance history.
+Lists persisted management-guidance records extracted from covered earnings materials and transcripts, including metric, direction, target period, and disclosed ranges where available. These records are source-derived extractions, not normalized estimates, and do not amount to a full guidance history.
 
-## Current availability
+## Coverage and interpretation
 
-This endpoint currently returns `404 filings_intelligence_not_available`. It is documented here so clients can prepare for the contract, but it is not available as a guidance source. When it becomes available, preserve citations and verify issuer definitions, units, and assumptions in the original disclosure.
+Records are management-guidance extractions from covered earnings materials and transcripts, carrying metric, direction, target period, and disclosed ranges where stated. They are source-derived, not normalized estimates. Preserve citations and verify issuer definitions, units, and assumptions in the original disclosure.
 
 ## Canonical metadata
 
+- `id`
+- `ticker`
+- `cik`
+- `accessionNumber`
+- `fiscalPeriod`
+- `guidancePeriod`
+- `metric`
+- `direction`
+- `valueLow`
+- `valueHigh`
 - `requestId`
 - `traceparent`
-- `code`
-- `message`
-- `details`
 
 ## Example request
 
@@ -36,18 +43,49 @@ curl -X GET \
 ```
 </RequestExample>
 
-## 404 response
+## Example response
 
 <ResponseExample>
 ```json
 {
-  "object": "error",
-  "id": "err_example",
-  "code": "filings_intelligence_not_available",
-  "type": "invalid_request_error",
-  "message": "The filings-intelligence plane is not enabled.",
+  "object": "list",
+  "data": [
+    {
+      "object": "filing_guidance",
+      "id": "fg_example",
+      "createdAt": "2026-02-20T00:00:00.000Z",
+      "livemode": true,
+      "ticker": "EXAMPLE",
+      "cik": "0000000000",
+      "accessionNumber": "0000000000-26-000001",
+      "transcriptId": null,
+      "fiscalPeriod": null,
+      "guidancePeriod": "Second Quarter Fiscal 2027",
+      "metric": "revenue",
+      "direction": "raised",
+      "valueLow": 771800000,
+      "valueHigh": 771800000,
+      "unit": "usd",
+      "citedText": "Announces Second Quarter Fiscal 2027 Financial Results Second quarter fiscal 2027 total revenue of $771.8 million, up 30% year-over-year Atlas revenue up approximately 29% year-over-year in the second …",
+      "filedAt": "2026-09-01 00:00:00+00",
+      "verification": {
+        "sourceSpan": "Announces Second Quarter Fiscal 2027 Financial Results Second quarter fiscal 2027 total revenue of $771.8 million, up 30% year-over-year Atlas revenue up approximately 29% year-over-year in the second",
+        "extractionTraceId": null,
+        "confidence": 0.8,
+        "crossValidations": [],
+        "modelVersion": "filings-intel-2026-07-07.1",
+        "verifiedAt": null
+      }
+    }
+  ],
+  "hasMore": false,
+  "nextCursor": null,
+  "queryPath": null,
+  "queryPathReason": null,
+  "policyYears": null,
+  "degradedState": null,
   "requestId": "req_2ZK8Q1W9F4M6P7R3",
-  "details": {}
+  "traceparent": "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"
 }
 ```
 </ResponseExample>
@@ -55,11 +93,11 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-GET /v1/filings/guidance is currently unavailable and returns `404 filings_intelligence_not_available`. Do not use it as an active guidance source. When it becomes available, preserve citations and verify issuer definitions, units, and assumptions in the original disclosure.
+Use SEC API GET /v1/filings/guidance to read management-guidance records extracted from covered earnings materials and transcripts. Preserve citations and verify issuer definitions, units, and assumptions in the original disclosure; these are source-derived extractions, not normalized estimates, and do not amount to a full guidance history.
 </Prompt>
 
 ## Failure posture
 
-- treat `404 filings_intelligence_not_available` as the current endpoint state, not an empty result
-- do not retry this endpoint as an active dependency until filings intelligence is enabled
+- a `404 filings_intelligence_not_available` on the guidance store means filing intelligence is turned off for the account, not that the query matched nothing; it does not describe the endpoint's current state
+- an empty `data` array from the guidance store is a coverage gap for that issuer or window, not an outage
 - preserve `requestId` and `traceparent` in logs and downstream reports

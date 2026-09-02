@@ -1,35 +1,31 @@
 ---
 title: "Filing intelligence"
-description: "Use derived filing events, comparisons, transcripts, and guidance to prioritize source-document review"
+description: "Use the live events catalog to prioritize source-document review. Some filing-intelligence routes are not generally available yet."
 ---
 
-Start here to prioritize a filing for review. These outputs are derived from filing material: useful for comparing disclosure, finding an event, or assembling a coverage check, but not a replacement for the filing or transcript supporting a material statement.
+Canonical events live at `/v1/events`. Use that catalog to prioritize a filing for review. Filing-intelligence extras (`/v1/filings/events`, `/v1/filings/diff`, `/v1/filings/transcripts`, `/v1/filings/guidance`) are currently unavailable and return `404` (`filings_intelligence_not_available`). Do not use them as a first-request dependency.
 
-## Compare a defined filing pair
+## Start with the live events catalog
 
 ```bash
 curl -sS \
   -H "x-api-key: $SECAPI_API_KEY" \
-  "https://api.secapi.ai/v1/filings/diff?ticker=AAPL&form=10-K&sections=item_1a_risk_factors,item_7_mdna"
+  "https://api.secapi.ai/v1/events/enforcement?limit=25"
 ```
 
-`ticker` and `form` are required. When `from` and `to` are omitted, the route compares the latest filing with the prior filing of that form. Supply accession numbers or ISO dates for an explicit pair, and record both filing identities, section keys, source URLs, provenance, and `requestId` with the result.
+`/v1/events` is the live typed catalog (enforcement, auditor changes, officer changes, restatements, voting results, IPOs, and M&A). Each row is a source-linked review lead. Record the returned source URL, dates, and `requestId`, then open the cited filing or release.
 
-## Routes for derived review signals
-
-| Method | Path | Job | Output |
+| Method | Path | Job | Availability |
 | --- | --- | --- | --- |
-| `GET` | [`/v1/filings/diff`](/api-reference/filings/get-v1-filings-diff) | Compare sections for one issuer and form. | A section-level filing comparison. |
-| `GET` | [`/v1/filings/events`](/api-reference/filings) | Find persisted filing-event rows. | Filterable derived event records. |
-| `GET` | [`/v1/filings/transcripts`](/api-reference/filings) | Locate qualifying earnings-material transcripts. | Transcript rows with filing identity. |
-| `GET` | [`/v1/filings/guidance`](/api-reference/filings) | Review structured guidance from qualifying earnings material. | Guidance rows with source context. |
-| `GET` | [`/v1/intelligence/coverage`](/api-reference/intelligence) | Check an issuer's persisted filing-intelligence coverage. | An issuer coverage rollup. |
+| `GET` | [`/v1/events/enforcement`](/api-reference/events/get-v1-events-enforcement) | Official SEC enforcement releases. | live |
+| `GET` | [`/v1/events/ma`](/api-reference/events) | Filing-derived M&A signals. | live |
+| `GET` | [`/v1/events/restatements`](/api-reference/events) | Restatement and non-reliance leads. | live |
+
+See the [Events API](/products/enforcement) and the events reference family for the remaining live event routes. Filing-intelligence extras stay in the OpenAPI reference with `availability: gated`. They are not on this tour.
 
 ## Coverage, freshness, and source handling
 
-Events, transcript rows, guidance rows, and diffs point to evidence; they do not establish legal, accounting, or investment conclusions. Transcript and guidance coverage is limited to qualifying earnings materials, so an absent row does not establish that a call or guidance statement did not exist. A diff describes only the selected pair and sections.
-
-These routes can return `404` when the filing-intelligence plane is unavailable. Treat that as availability, not an empty result. Preserve any returned freshness or materialization fields, then retrieve the cited filing before quoting a passage or presenting a conclusion.
+Event rows point to evidence; they do not establish legal, accounting, or investment conclusions. A missing row does not establish that an event did not occur. Preserve any returned freshness or materialization fields, then retrieve the cited filing before quoting a passage or presenting a conclusion.
 
 ## Next action
 

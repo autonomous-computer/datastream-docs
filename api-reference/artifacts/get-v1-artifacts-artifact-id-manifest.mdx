@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/artifacts/{artifact_id}/manifest"
-description: "Get the structured manifest for one persisted artifact"
+description: "Artifact manifest"
 ---
 
-Get the structured manifest for one persisted artifact
+Artifact manifest
 
 <Info>
 Audience: developers verifying a persisted artifact's file metadata and source context.
@@ -81,7 +81,7 @@ A missing, inaccessible, or unresolved manifest returns `404 artifact_manifest_n
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/artifacts/{artifact_id}/manifest to get the structured manifest for one persisted artifact. Preserve `artifactId`, `filename`, `contentType`, `storageMode`, `byteLength`, `lineCount`, `checksumSha1`, `filing`, `section`, `exportedFormats` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/artifacts/{artifact_id}/manifest to artifact manifest. Preserve `artifactId`, `filename`, `contentType`, `storageMode`, `byteLength`, `lineCount`, `checksumSha1`, `filing`, `section`, `exportedFormats` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

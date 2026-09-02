@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/funds/nport/holdings"
-description: "Return the latest SEC N-PORT holdings roster with explicit capability semantics and balance-unit metadata"
+description: "N-PORT fund holdings"
 ---
 
-Return the latest SEC N-PORT holdings roster with explicit capability semantics and balance-unit metadata
+N-PORT fund holdings
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the latest SEC N-PORT holdings roster with explicit capability semantics and balance-unit metadata.
 
 ## Agent mode
 
@@ -42,7 +46,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/funds/nport/holdings to return the latest SEC N-PORT holdings roster with explicit capability semantics and balance-unit metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/funds/nport/holdings to n-PORT fund holdings. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

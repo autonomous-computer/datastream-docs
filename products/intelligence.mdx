@@ -3,37 +3,41 @@ title: "Intelligence workflows"
 description: "Run defined company, security, portfolio, macro, and footnote research jobs with source-aware outputs"
 ---
 
-Intelligence routes assemble a defined research job into one response or a queued result. Use them for a target or structured request that needs a company brief, security bundle, portfolio analysis, macro exposure, country report, or filing-footnote investigation with its source context intact.
+Intelligence composes existing data into a cited bundle; it is not a separate dataset. `POST /v1/intelligence/query` starts a named job; poll `GET /v1/intelligence/query/{jobId}` when the work is queued. Company overview (`GET /v1/companies/overview`) is a company view. Do not treat `?include=` enrichments on that overview as the intelligence product.
 
-## Start with an issuer bundle
+## Start with a named intel job
 
 ```bash
-curl -sS \
+curl -sS -X POST \
   -H "x-api-key: $SECAPI_API_KEY" \
-  "https://api.secapi.ai/v1/intelligence/company?ticker=AAPL"
+  -H "Idempotency-Key: deal-aapl-2026-08-23" \
+  -H "content-type: application/json" \
+  -d '{"job":"filing_brief","entities":["AAPL"]}' \
+  "https://api.secapi.ai/v1/intelligence/query"
 ```
 
-Company and security requests require a ticker or CIK. Record returned traces, source references, freshness metadata, warnings, and `requestId`; an omitted field can reflect available supporting data, not a negative conclusion.
+Company and security bundle requests require a ticker or CIK. Record returned traces, source references, freshness metadata, warnings, and `requestId`; an omitted field can reflect available supporting data, not a negative conclusion.
 
 ## Routes by research job
 
-| Method | Path | Job | Output |
-| --- | --- | --- | --- |
-| `GET` | [`/v1/intelligence/company`](/api-reference/intelligence) | Company context for a ticker or CIK. | A composed company response. |
-| `GET` | [`/v1/intelligence/security`](/api-reference/intelligence) | Security context and catalysts. | A security bundle. |
-| `POST` | [`/v1/intelligence/query`](/api-reference/intelligence) | Submit a documented intelligence request. | A completed result or queued job. |
-| `GET` | [`/v1/intelligence/query/{jobId}`](/api-reference/intelligence) | Poll a queued request. | Current job state or completed result. |
-| `POST` | [`/v1/intelligence/portfolio`](/api-reference/intelligence) | Analyze a documented portfolio body. | Portfolio intelligence output. |
-| `POST` | [`/v1/intelligence/watchlist`](/api-reference/intelligence) | Brief a documented watchlist body. | Watchlist output. |
-| `POST` | [`/v1/intelligence/country-report`](/api-reference/intelligence/post-v1-intelligence-country-report) | Build a country research bundle. | Country report output. |
-| `POST` | [`/v1/intelligence/macro-exposure`](/api-reference/intelligence/post-v1-intelligence-macro-exposure) | Calculate portfolio macro sensitivities. | Macro-exposure output. |
-| `POST` | [`/v1/intelligence/footnotes/query`](/api-reference/intelligence) | Investigate filing footnotes. | A result or collection. |
+| Method | Path | Job | Output | Availability |
+| --- | --- | --- | --- | --- |
+| `POST` | [`/v1/intelligence/query`](/api-reference/intelligence) | Submit a named intelligence job. | A completed result or queued job. | live |
+| `GET` | [`/v1/intelligence/query/{jobId}`](/api-reference/intelligence) | Poll a queued request. | Current job state or completed result. | live |
+| `GET` | [`/v1/intelligence/company`](/api-reference/intelligence) | Company context for a ticker or CIK. | A composed company response. | live |
+| `GET` | [`/v1/intelligence/security`](/api-reference/intelligence) | Security context and catalysts. | A security bundle. | live |
+| `POST` | [`/v1/intelligence/portfolio`](/api-reference/intelligence) | Analyze a documented portfolio body. | Portfolio intelligence output. | live |
+| `POST` | [`/v1/intelligence/watchlist`](/api-reference/intelligence) | Brief a documented watchlist body. | Watchlist output. | live |
+| `POST` | [`/v1/intelligence/country-report`](/api-reference/intelligence/post-v1-intelligence-country-report) | Build a country research bundle. | Country report output. | live |
+| `POST` | [`/v1/intelligence/footnotes/query`](/api-reference/intelligence) | Investigate filing footnotes. | A result or collection. | live |
 
 For POST routes, use the endpoint reference for the exact JSON body. `POST /v1/intelligence/query` returns `200` for a completed result and `202` for a queued job. Poll the returned job ID to a final state, and handle `202`, `404`, and `502` as distinct outcomes.
 
+`POST /v1/intelligence/macro-exposure` is gated (availability: `gated`) and is not part of this tour. Keep it in the full reference.
+
 ## What the response can and cannot prove
 
-An intelligence bundle is a composed research output, not an independent source of record. Coverage and freshness depend on the supporting data planes and supplied body. Follow source references and filing identities for a decision-critical fact, and do not infer an unavailable signal from an omitted field or unfinished job.
+An intelligence bundle is a composed research output, not an independent source of record. Coverage and freshness depend on the supporting datasets and supplied body. Follow source references and filing identities for a decision-critical fact, and do not infer an unavailable signal from an omitted field or unfinished job.
 
 ## Next action
 

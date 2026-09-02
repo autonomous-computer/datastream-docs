@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/operations/execute"
-description: "Shadow-execute a channel-neutral operation envelope without settling usage"
+description: "Reserve an operation"
 ---
 
-Shadow-execute a channel-neutral operation envelope without settling usage
+Reserve an operation
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Validates and reserves a channel-neutral operation against the current quote and budget gate, returning an execution envelope (`status: quoted | blocked`). The operation itself is not run and no usage is settled by this call.
 
 ## Canonical metadata
 
@@ -87,7 +91,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/operations/execute to shadow-execute a channel-neutral operation envelope without settling usage. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/operations/execute to reserve an operation. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

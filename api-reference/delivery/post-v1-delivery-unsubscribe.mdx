@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/delivery/unsubscribe"
-description: "Unsubscribe from monitor email delivery (RFC 8058 one-click compatible)"
+description: "Confirm email unsubscribe"
 ---
 
-Unsubscribe from monitor email delivery (RFC 8058 one-click compatible)
+Confirm email unsubscribe
 
 <Info>
 Audience: application and coding agent.
@@ -44,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/delivery/unsubscribe to unsubscribe from monitor email delivery (RFC 8058 one-click compatible). Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/delivery/unsubscribe to confirm email unsubscribe. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

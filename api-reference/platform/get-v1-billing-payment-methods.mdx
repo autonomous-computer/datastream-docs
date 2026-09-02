@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/billing/payment-methods"
-description: "List the current organization's saved payment methods, primary first"
+description: "List payment methods"
 ---
 
-List the current organization's saved payment methods, primary first
+List payment methods
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List the current organization's saved payment methods, primary first.
 
 ## Canonical metadata
 
@@ -42,7 +46,7 @@ Payment-method management requires a WorkOS bearer session with `billing:manage`
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/billing/payment-methods to list the current organization's saved payment methods, primary first. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/billing/payment-methods to list payment methods. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

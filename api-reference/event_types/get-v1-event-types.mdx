@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/event_types"
-description: "List Delivery event types, producer status, replay support, retention, and billing family metadata"
+description: "Event type catalog"
 ---
 
-List Delivery event types, producer status, replay support, retention, and billing family metadata
+Event type catalog
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List Delivery event types, producer status, replay support, retention, and billing family metadata.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/event_types to list Delivery event types, producer status, replay support, retention, and billing family metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/event_types to event type catalog. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

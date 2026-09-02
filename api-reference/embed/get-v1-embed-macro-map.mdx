@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/embed/macro/map"
-description: "Public country×period matrix for one macro-map indicator"
+description: "Macro indicator map"
 ---
 
-Public country×period matrix for one macro-map indicator
+Macro indicator map
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Anonymous, cacheable annual matrix plus a bounded recent-monthly overlay. Root-source labels only — no vendor source keys.
+Anonymous, cacheable annual country-by-period matrix for one macro indicator, plus a bounded recent-monthly overlay. Series carry root-source labels.
 
 ## Canonical metadata
 
@@ -41,7 +41,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/embed/macro/map to public country×period matrix for one macro-map indicator. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/embed/macro/map to macro indicator map. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

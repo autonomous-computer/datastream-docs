@@ -22,7 +22,7 @@ Each delivery attempt is an audit record. Capture its id, event type, status, ti
 3. Fix the receiver, destination, or secret handling before asking for a replay.
 4. Verify the new attempt and preserve its replay lineage with the original record.
 
-Replay, endpoint changes, tests, and secret rotation belong in the signed-in dashboard because they are organization control-plane actions. Do not attempt them with an API key or delegate them to an agent.
+Replay, endpoint changes, tests, and secret rotation belong in the signed-in dashboard because they are account settings actions. Do not attempt them with an API key or delegate them to an agent.
 
 ## Common failure modes
 

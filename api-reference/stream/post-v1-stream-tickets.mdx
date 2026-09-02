@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/stream/tickets"
-description: "Mint a short-lived signed WebSocket stream ticket for the current principal"
+description: "Create stream ticket"
 ---
 
-Mint a short-lived signed WebSocket stream ticket for the current principal
+Create stream ticket
 
 <Info>
 Audience: application and coding agent.
@@ -44,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/stream/tickets to mint a short-lived signed WebSocket stream ticket for the current principal. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/stream/tickets to create stream ticket. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

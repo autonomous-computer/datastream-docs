@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/owners/13f/compare"
-description: "Compare the latest two parsable Form 13F reports for one institutional manager"
+description: "Compare 13F quarters"
 ---
 
-Compare the latest two parsable Form 13F reports for one institutional manager
+Compare 13F quarters
 
 <Info>
 Audience: application and coding agent.
@@ -68,7 +68,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/owners/13f/compare to compare the latest two parsable Form 13F reports for one institutional manager. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/owners/13f/compare to compare 13F quarters. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

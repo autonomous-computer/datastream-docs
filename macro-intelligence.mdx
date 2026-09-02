@@ -186,23 +186,23 @@ curl -H "x-api-key: $SECAPI_API_KEY" \
 
 ### 11. Company Macro Exposure
 
-Cross a single company's geographic revenue segments with the country macro plane to get revenue-weighted macro sensitivities:
+Cross a single company's geographic revenue segments with country macro data to get revenue-weighted macro sensitivities:
 
 ```bash
 curl -H "x-api-key: $SECAPI_API_KEY" \
   "https://api.secapi.ai/v1/companies/macro-exposure?ticker=AAPL"
 ```
 
-Either `ticker` (alias `symbol`) or `cik` is required. The response carries per-indicator beta, direction, confidence, and a `coverage` percentage that degrades gracefully when revenue segments are unavailable. Use `period=quarterly` to source the geographic segments from the latest quarterly rather than annual reporting, and `country` to set the domestic macro plane used for unmapped revenue (defaults to `US`).
+Either `ticker` (alias `symbol`) or `cik` is required. The response carries per-indicator beta, direction, confidence, and a `coverage` percentage that degrades gracefully when revenue segments are unavailable. Use `period=quarterly` to source the geographic segments from the latest quarterly rather than annual reporting, and `country` to set the domestic macro country used for unmapped revenue (defaults to `US`).
 
 ## Supported Country Coverage
 
-| Ring | Countries | Posture |
+| Coverage | Countries | What to expect |
 |---|---|---|
-| Launch ring | `US`, `CN`, `JP`, `TW`, `IL` | Curated official-source coverage, deepest launch validation |
-| Expansion ring | `CA`, `GB`, `EZ`, `KR`, `BR`, `IN`, `SA` | Smaller high-signal packs, explicit source/fallback posture |
+| Core | `US`, `CN`, `JP`, `TW`, `IL` | Curated official-source coverage with the deepest indicator set |
+| Extended | `CA`, `GB`, `EZ`, `KR`, `BR`, `IN`, `SA` | Smaller high-signal packs with explicit source and fallback metadata |
 
-For source-level detail, see [Macro Tier-1 Official Sources](/macro-tier1).
+For source-level detail, see [Official macro data sources](/macro-tier1).
 
 ## MCP Tools
 

@@ -1,13 +1,17 @@
 ---
 title: "GET /.well-known/oauth-protected-resource"
-description: "Return OAuth protected resource metadata for hosted MCP and API clients"
+description: "OAuth protected resource metadata"
 ---
 
-Return OAuth protected resource metadata for hosted MCP and API clients
+OAuth protected resource metadata
 
 <Info>
 Audience: platform integrator.
 </Info>
+
+## Coverage and source scope
+
+Return OAuth protected resource metadata for hosted MCP and API clients.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /.well-known/oauth-protected-resource to return OAuth protected resource metadata for hosted MCP and API clients. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /.well-known/oauth-protected-resource to oAuth protected resource metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "PUT /v1/workbook-installations/{workbook_installation_id}/mappings"
-description: "Save append-only workbook mapping versions for audited filing-to-model refreshes."
+description: "Save workbook mappings"
 ---
 
-Save append-only workbook mapping versions for audited filing-to-model refreshes.
+Save workbook mappings
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Save append-only workbook mapping versions for audited filing-to-model refreshes.
 
 ## Canonical metadata
 
@@ -42,7 +46,7 @@ curl -X PUT \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API PUT /v1/workbook-installations/{workbook_installation_id}/mappings to save append-only workbook mapping versions for audited filing-to-model refreshes. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API PUT /v1/workbook-installations/{workbook_installation_id}/mappings to save workbook mappings. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

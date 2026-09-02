@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/owners/institutional/investor"
-description: "Retrieve a manager-centric 13F portfolio with ranked disclosed holdings and available prior-quarter changes"
+description: "Manager 13F portfolio"
 ---
 
-Retrieve a manager-centric 13F portfolio with ranked disclosed holdings and available prior-quarter changes
+Manager 13F portfolio
 
 <Info>
 Audience: application and coding agent.
@@ -60,7 +60,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/institutional/investor to retrieve a manager-centric 13F portfolio with ranked disclosed holdings and available prior-quarter changes. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/institutional/investor to manager 13F portfolio. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/search"
-description: "Search supported macro indicators by keyword across all countries and high-signal packs"
+description: "Search macro indicators"
 ---
 
-Search supported macro indicators by keyword across all countries and high-signal packs
+Search macro indicators
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Search supported macro indicators by keyword across all countries and high-signal packs.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/search to search supported macro indicators by keyword across all countries and high-signal packs. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/search to search macro indicators. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/signals/volatility"
-description: "Return the SEC API volatility score with transparent factor breakdown and freshness metadata"
+description: "Volatility score"
 ---
 
-Return the SEC API volatility score with transparent factor breakdown and freshness metadata
+Volatility score
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the SEC API volatility score with transparent factor breakdown and freshness metadata.
 
 ## Canonical metadata
 
@@ -83,7 +87,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/signals/volatility to return the SEC API volatility score with transparent factor breakdown and freshness metadata. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `methodologyVersion`, `factors`, `degradedReasons` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/signals/volatility to volatility score. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `methodologyVersion`, `factors`, `degradedReasons` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

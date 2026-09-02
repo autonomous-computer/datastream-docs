@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/workbook-installations/{workbook_installation_id}/fingerprints"
-description: "Capture a workbook fingerprint before mapping, previewing, or applying model changes."
+description: "Capture workbook fingerprint"
 ---
 
-Capture a workbook fingerprint before mapping, previewing, or applying model changes.
+Capture workbook fingerprint
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Capture a workbook fingerprint before mapping, previewing, or applying model changes.
 
 ## Canonical metadata
 
@@ -50,7 +54,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/fingerprints to capture a workbook fingerprint before mapping, previewing, or applying model changes. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/fingerprints to capture workbook fingerprint. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

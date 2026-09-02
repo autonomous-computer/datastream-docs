@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/forecasts"
-description: "Return SEC API forecast baselines and scenario-aware macro projections with methodology metadata"
+description: "Macro forecasts"
 ---
 
-Return SEC API forecast baselines and scenario-aware macro projections with methodology metadata
+Macro forecasts
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return SEC API forecast baselines and scenario-aware macro projections with methodology metadata.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/forecasts to return SEC API forecast baselines and scenario-aware macro projections with methodology metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/forecasts to macro forecasts. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

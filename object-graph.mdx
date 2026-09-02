@@ -5,7 +5,7 @@ description: "The SEC API objects you fetch after resolve: entity, filing, fact,
 
 Each object is a real record you can fetch, filter, and cite. A filing is not a fact. A fact is not a situation. Ask for the object you mean.
 
-Resolve first ([resolve, then fetch](/resolve-then-fetch)), then pick one object. Intel is a packer over these objects, not a twelfth object and not a fifth store.
+Resolve first ([resolve, then fetch](/resolve-then-fetch)), then pick one object. Intelligence composes these objects; it is not an additional object type or dataset.
 
 | Object | What it is | Fetch |
 | --- | --- | --- |
@@ -13,15 +13,15 @@ Resolve first ([resolve, then fetch](/resolve-then-fetch)), then pick one object
 | Filing | What they filed | [`GET /v1/filings/latest`](/api-reference/filings/get-v1-filings-latest) |
 | Fact | One disclosed number | [`GET /v1/facts`](/api-reference/facts/get-v1-facts) |
 | Statement | A full financials page | [`GET /v1/statements`](/api-reference/statements/get-v1-statements) |
-| Letter | What a manager wrote | [`GET /v1/fund-letters`](/api-reference/fund-letters) (gated) |
-| Thesis | One idea inside a letter | [`GET /v1/fund-letters/theses`](/api-reference/fund-letters) (gated) |
+| Letter | What a manager wrote | [`GET /v1/fund-letters`](/api-reference/fund-letters) |
+| Thesis | One idea inside a letter | [`GET /v1/fund-letters/theses`](/api-reference/fund-letters) |
 | Observation | One country print | [`GET /v1/macro/indicators`](/api-reference/macro) |
 | Factor | One return driver | [`GET /v1/factors/catalog`](/api-reference/factors) |
 | Situation | A live deal or event | [`GET /v1/situations`](/api-reference/situations) (gated) |
 | Position | Who owns how much | [`GET /v1/owners/13f`](/api-reference/ownership) |
 | Snapshot | The last traded price | [`GET /v1/market/snapshots`](/api-reference/market/get-v1-market-snapshots) |
 
-Gated routes return `404` when that store is dark. Check `availability` on the [catalog](/.well-known/api-catalog.json) before you curl them.
+Gated routes return `404` while the dataset is not generally available. Check `availability` on the [catalog](/.well-known/api-catalog.json) before you curl them.
 
 ## How the objects connect
 
@@ -35,14 +35,14 @@ entity
   -> snapshot
   -> observation (country)
 
-intel packs these. it does not store a new class of record.
+intelligence composes these. it does not add a new class of record.
 ```
 
 Keep the identifiers the response gives you: entity `id`, CIK, accession number, letter id, situation id, `requestId`. That is how a later reader finds the same source.
 
-## Stores vs views
+## Datasets vs views
 
-Four stores hold records: filings, letters, factors, and macro. Other routes are views of those stores, not extra warehouses.
+Four datasets hold records: filings, letters, factors, and macro. Other routes are views over them.
 
 | You might want | It is | Canonical object |
 | --- | --- | --- |

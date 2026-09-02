@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/billing/grant/reset"
-description: "Reset free starter allowance usage for the current monthly period, rate-limited to once per rolling 30 days per organization"
+description: "Reset starter allowance"
 ---
 
-Reset free starter allowance usage for the current monthly period, rate-limited to once per rolling 30 days per organization
+Reset starter allowance
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Reset free starter allowance usage, limited to once per UTC calendar month per organization.
 
 ## Canonical metadata
 
@@ -40,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/billing/grant/reset to reset free starter allowance usage for the current monthly period, rate-limited to once per rolling 30 days per organization. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/billing/grant/reset to reset starter allowance. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

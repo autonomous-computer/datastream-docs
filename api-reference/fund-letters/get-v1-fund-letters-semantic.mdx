@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/fund-letters/semantic"
-description: "Semantic (vector) search over letter content; hits carry similarity scores, matched chunks, and page anchors."
+description: "Semantic letter search"
 ---
 
-Semantic (vector) search over letter content; hits carry similarity scores, matched chunks, and page anchors.
+Semantic letter search
 
 <Info>
 Audience: application and coding agent.
@@ -42,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/semantic to semantic (vector) search over letter content; hits carry similarity scores, matched chunks, and page anchors. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/semantic to semantic letter search. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

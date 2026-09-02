@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/credit-ratings"
-description: "Return sovereign credit ratings from S&P, Moody's, and Fitch for tracked countries and G20 members"
+description: "Sovereign credit ratings"
 ---
 
-Return sovereign credit ratings from S&P, Moody's, and Fitch for tracked countries and G20 members
+Sovereign credit ratings
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return sovereign credit ratings from S&P, Moody's, and Fitch for tracked countries and G20 members.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/credit-ratings to return sovereign credit ratings from S&P, Moody's, and Fitch for tracked countries and G20 members. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/credit-ratings to sovereign credit ratings. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/high-signal-pack"
-description: "Return the launch-ring Tier-1 high-signal macro pack with explicit source, fallback, and release-calendar posture for supported countries"
+description: "Macro high-signal pack"
 ---
 
-Return the launch-ring Tier-1 high-signal macro pack with explicit source, fallback, and release-calendar posture for supported countries
+Macro high-signal pack
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Returns the high-signal macro pack for a country: official-source macro series with explicit source, fallback, and release-calendar metadata. Defaults to the compact projection; pass response_mode=standard or include=series for the full nested pack.
 
 ## Canonical metadata
 
@@ -74,7 +78,7 @@ curl -X GET \
     }
   ],
   "regime": null,
-  "summaryMd": "US launch-ring high-signal macro pack includes 32 official-source or harmonized series with explicit fallback and release-calendar posture.",
+  "summaryMd": "US core-coverage high-signal macro pack includes 32 official-source or harmonized series with explicit fallback and release-calendar posture.",
   "expansionHints": [
     "Use include=series to return full nested observations, releases, forecasts, source plans, and trust metadata."
   ],
@@ -87,7 +91,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/high-signal-pack to return the launch-ring Tier-1 high-signal macro pack with explicit source, fallback, and release-calendar posture for supported countries. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/high-signal-pack to macro high-signal pack. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

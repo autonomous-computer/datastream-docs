@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/overview"
-description: "Return a one-call country macro dashboard: headline indicators with latest/previous/change/direction and next release, the current regime, upcoming release…"
+description: "Country macro overview"
 ---
 
-Return a one-call country macro dashboard: headline indicators with latest/previous/change/direction and next release, the current regime, upcoming releases, and the sovereign credit rating
+Country macro overview
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return a one-call country macro dashboard: headline indicators with latest/previous/change/direction and next release, the current regime, upcoming releases, and the sovereign credit rating.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/overview to return a one-call country macro dashboard: headline indicators with latest/previous/change/direction and next release, the current regime, upcoming releases, and the sovereign credit rating. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/overview to country macro overview. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

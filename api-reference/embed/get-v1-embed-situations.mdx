@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/embed/situations"
-description: "Public capped Special Situations list for logged-out experiences"
+description: "Public situations list"
 ---
 
-Public capped Special Situations list for logged-out experiences
+Public situations list
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Anonymous, recent-only public projection. Includes SEC filing accessions and safe public citation provenance while keeping provider keys, extraction trace ids, model versions, confidence/cross-validation telemetry, prompts, and raw provenance metadata out of the response.
+Anonymous, recent-only public list of Special Situations. Rows include SEC filing accession numbers and public citation provenance.
 
 ## Canonical metadata
 
@@ -41,7 +41,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/embed/situations to public capped Special Situations list for logged-out experiences. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/embed/situations to public situations list. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

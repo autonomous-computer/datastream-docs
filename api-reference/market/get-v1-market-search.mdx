@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/market/search"
-description: "Find candidate stock tickers from a company name or keyword"
+description: "Search securities"
 ---
 
-Find candidate stock tickers from a company name or keyword
+Search securities
 
 <Info>
 Audience: developers and agents finding a candidate security from a company name or keyword.
@@ -62,7 +62,7 @@ A missing query returns `400 missing_query`; an invalid limit returns `400 inval
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/market/search to find candidate stock tickers from a company name or keyword. Preserve `source`, `sourceUrl`, `results`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/market/search to search securities. Preserve `source`, `sourceUrl`, `results`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

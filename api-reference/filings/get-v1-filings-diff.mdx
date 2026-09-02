@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/filings/diff"
-description: "Filing comparison endpoint (currently unavailable)"
+description: "Filing comparison"
 ---
 
-Filing comparison endpoint (currently unavailable)
+Filing comparison
 
 <Info>
 Audience: application and coding agent.
@@ -11,19 +11,23 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-This endpoint is currently unavailable and returns `404 filings_intelligence_not_available`. When available, it will compare a selected issuer filing with a prior-period or explicitly chosen counterpart and return section-level change information. Any comparison is a review aid based on rendered filing text, not a determination of materiality or legal significance.
+Compares a selected issuer filing with a prior-period or explicitly chosen counterpart and returns section-level change information. Any comparison is a review aid based on rendered filing text, not a determination of materiality or legal significance.
 
-## Current availability
+## Coverage and interpretation
 
-This endpoint currently returns `404 filings_intelligence_not_available`. It is documented here so clients can prepare for the contract, but it is not available for active filing comparison. When it becomes available, treat its rendered-text comparison as a review aid and open the cited filings before relying on a change.
+The comparison is computed over rendered filing text between the selected filing and its prior-period or explicitly chosen counterpart. Treat it as a review aid and open the cited filings before relying on a change; a `422 insufficient_filings` means no comparable counterpart exists for that issuer and form, not that the endpoint is off.
 
 ## Canonical metadata
 
+- `pairId`
+- `ticker`
+- `form`
+- `base`
+- `compare`
+- `summary`
+- `sections`
 - `requestId`
 - `traceparent`
-- `code`
-- `message`
-- `details`
 
 ## Example request
 
@@ -36,18 +40,65 @@ curl -X GET \
 ```
 </RequestExample>
 
-## 404 response
+## Example response
 
 <ResponseExample>
 ```json
 {
-  "object": "error",
-  "id": "err_example",
-  "code": "filings_intelligence_not_available",
-  "type": "invalid_request_error",
-  "message": "The filings-intelligence plane is not enabled.",
+  "object": "filing_diff_report",
+  "pairId": "0000320193-24-000123..0000320193-25-000079",
+  "ticker": "EXAMPLE",
+  "cik": null,
+  "form": "10-K",
+  "base": {
+    "accessionNumber": "0000000000-26-000001",
+    "form": "10-K",
+    "filingDate": "2024-11-01"
+  },
+  "compare": {
+    "accessionNumber": "0000000000-26-000001",
+    "form": "10-K",
+    "filingDate": "2025-10-31"
+  },
+  "summary": {
+    "addedLines": 221082,
+    "removedLines": 250019,
+    "changedSections": [
+      "preamble"
+    ],
+    "materialityScore": 0.5
+  },
+  "sections": [
+    {
+      "object": "filing_section_delta",
+      "id": "fsd_example",
+      "pairId": "0000320193-24-000123..0000320193-25-000079",
+      "sectionKey": "preamble",
+      "sectionTitle": "Preamble",
+      "changeType": "modified",
+      "materialityScore": 0.5,
+      "summaryMd": null,
+      "addedChars": 221082,
+      "removedChars": 250019,
+      "hunks": [
+        {
+          "type": "removed",
+          "text": "# Apple Inc. 10-K\n\n0000320193-24-000123.txt : 20241101\n 0000320193-24-000123.hdr.sgml : 20241101\n 20241101060136\nACCESSION NUMBER: 0000320193-24-000123\nCONFORMED SUBMISSION TYPE:\t10-K\nPUBLIC DOCUMENT …"
+        }
+      ],
+      "hunksTruncated": true,
+      "verification": {
+        "sourceSpan": null,
+        "extractionTraceId": null,
+        "confidence": null,
+        "crossValidations": [],
+        "modelVersion": null,
+        "verifiedAt": null
+      }
+    }
+  ],
   "requestId": "req_2ZK8Q1W9F4M6P7R3",
-  "details": {}
+  "traceparent": "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"
 }
 ```
 </ResponseExample>
@@ -55,11 +106,11 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-GET /v1/filings/diff is currently unavailable and returns `404 filings_intelligence_not_available`. Do not use it as an active comparison dependency. When it becomes available, provide a ticker and form, preserve the selected filing citations, and treat its rendered-text comparison as a review aid rather than a materiality conclusion.
+Use SEC API GET /v1/filings/diff with a ticker and form, preserve the selected filing citations, and treat its rendered-text comparison as a review aid rather than a materiality or legal-significance conclusion.
 </Prompt>
 
 ## Failure posture
 
-- treat `404 filings_intelligence_not_available` as the current endpoint state, not an empty result
-- do not retry this endpoint as an active dependency until filings intelligence is enabled
+- a `404 filings_intelligence_not_available` on a filing comparison means filing intelligence is turned off for the account, not that the query matched nothing; it does not describe the endpoint's current state
+- an empty `data` array from a filing comparison is a coverage gap for that issuer or window, not an outage
 - preserve `requestId` and `traceparent` in logs and downstream reports

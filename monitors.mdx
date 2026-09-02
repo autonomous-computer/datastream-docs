@@ -7,7 +7,7 @@ Monitors are saved filing searches for a defined alert job: for example, 8-Ks fo
 
 ## Configure the monitor with a human session
 
-Create, edit, pause, and delete monitors from the signed-in [SEC API dashboard](https://secapi.ai/app/webhooks). These are organization control-plane actions and require a WorkOS browser session. API keys and autonomous agents cannot create or alter them.
+Create, edit, pause, and delete monitors from the signed-in [SEC API dashboard](https://secapi.ai/app/webhooks). These are account settings actions and require a signed-in browser session. API keys and autonomous agents cannot create or alter them.
 
 For one bounded job, set a descriptive name, keyword query, ticker/form filters, and one delivery destination. Use email for a human inbox. Use an organization webhook endpoint subscribed to `monitor.match` for an application receiver.
 
@@ -25,7 +25,7 @@ Expected output is the current matching filing set, plus response correlation fi
 
 ## Delivery and limits
 
-Active monitors run on an hourly cadence. A typical alert arrives about half a sweep after a new matching record becomes available; worst case is one hourly sweep plus delivery time. This is scheduled monitoring, not an instant EDGAR feed.
+Active monitors run on an hourly cadence. A typical alert arrives about 30 minutes after a matching record appears; worst case is one hour plus delivery time. This is scheduled monitoring, not an instant EDGAR feed.
 
 Transient email failures retry automatically. The default delivery limits are 100 sends per monitor per hour and 1,000 per organization per day. Narrow a noisy query, split unrelated jobs, and make the receiver idempotent rather than assuming every event is unique.
 
@@ -34,6 +34,6 @@ Transient email failures retry automatically. The default delivery limits are 10
 - No preview matches: check query terms, ticker and form filters, then compare against a bounded filing search.
 - A webhook did not arrive: inspect signed delivery history and preserve its delivery id, status, attempt count, and request id.
 - Duplicate alert: deduplicate on the filing accession number and your delivery id.
-- Late alert: check the sweep cadence and source availability before changing the query.
+- Late alert: check the polling cadence and source availability before changing the query.
 
 Read [Webhook and stream workflows](/webhook-stream-workflows) for receiver behavior and [Build a filing monitor](/tutorials/build-filing-monitor) for a signed handler.

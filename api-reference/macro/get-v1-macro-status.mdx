@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/status"
-description: "Return macro runtime readiness, artifact freshness, source posture, and country support status"
+description: "Macro coverage status"
 ---
 
-Return macro runtime readiness, artifact freshness, source posture, and country support status
+Macro coverage status
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return macro runtime readiness, artifact freshness, source posture, and country support status.
 
 ## Canonical metadata
 
@@ -70,7 +74,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
   "methodology": {
     "id": "macro_status_artifact_v1",
     "version": "v1",
-    "summary": "Macro status is derived from source-health, source-coverage, and macro data-plane validation artifacts. The route does not perform live vendor probes."
+    "summary": "Macro status is derived from source-health, source-coverage, and macro validation results. The route does not perform live vendor probes."
   },
   "sourceRights": {
     "posture": "public_safe_summary",
@@ -85,7 +89,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/status to return macro runtime readiness, artifact freshness, source posture, and country support status. Preserve `status`, `generatedAt`, `statusSource`, `countries[].status`, `sources[].sourceKey`, `alerts`, `methodology`, `sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/status to macro coverage status. Preserve `status`, `generatedAt`, `statusSource`, `countries[].status`, `sources[].sourceKey`, `alerts`, `methodology`, `sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/credit-ratings/{country}"
-description: "Return the sovereign credit rating for a single country by ISO country code"
+description: "Country credit rating"
 ---
 
-Return the sovereign credit rating for a single country by ISO country code
+Country credit rating
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the sovereign credit rating for a single country by ISO country code.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/credit-ratings/{country} to return the sovereign credit rating for a single country by ISO country code. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/credit-ratings/{country} to country credit rating. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

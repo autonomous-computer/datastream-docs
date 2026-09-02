@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/dilution/score"
-description: "Calculate the current per-issuer Dilution Score from available inputs"
+description: "Calculate dilution score"
 ---
 
-Calculate the current per-issuer Dilution Score from available inputs
+Calculate dilution score
 
 <Info>
 Audience: investors and developers requesting the current derived dilution-risk view for one issuer.
 </Info>
+
+## Coverage and source scope
+
+Calculate the current per-issuer Dilution Score from available inputs.
 
 ## Canonical metadata
 
@@ -68,7 +72,7 @@ The route calculates the current rating from available dilution inputs. It is no
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/dilution/score to calculate the current per-issuer Dilution Score from available inputs. For the standard response, preserve `ticker`, `numericScore`, `overallRisk`, `factors`, `verification.confidence`, `provenance`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
+Use SEC API GET /v1/dilution/score to calculate dilution score. For the standard response, preserve `ticker`, `numericScore`, `overallRisk`, `factors`, `verification.confidence`, `provenance`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
 </Prompt>
 
 ## Failure posture

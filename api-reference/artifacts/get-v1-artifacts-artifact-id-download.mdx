@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/artifacts/{artifact_id}/download"
-description: "Download one persisted artifact payload"
+description: "Download artifact"
 ---
 
-Download one persisted artifact payload
+Download artifact
 
 <Info>
 Audience: developers retrieving the saved artifact payload as a file.
@@ -11,7 +11,7 @@ Audience: developers retrieving the saved artifact payload as a file.
 
 ## Coverage and source scope
 
-Returns the saved payload directly when it is stored locally. When the record is stored in R2, the route returns a `302` redirect to a short-lived signed object URL. Callers must allow redirects and should retain the artifact ID and manifest checksum alongside downloaded content.
+Returns the saved payload directly when it is stored inline. When the payload is held in object storage, the response is a `302` redirect to a short-lived signed URL, so your client must follow redirects. Retain the artifact ID and manifest checksum alongside downloaded content.
 
 ## Canonical metadata
 
@@ -48,7 +48,7 @@ A missing, inaccessible, or unreadable artifact returns `404 artifact_download_f
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/artifacts/{artifact_id}/download to download one persisted artifact payload. Preserve `artifact ID`, `manifest checksum`, `200 payload or 302 redirect` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/artifacts/{artifact_id}/download to download artifact. Preserve `artifact ID`, `manifest checksum`, `200 payload or 302 redirect` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

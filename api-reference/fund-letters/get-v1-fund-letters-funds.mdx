@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/fund-letters/funds"
-description: "List funds that publish letters, with per-fund letter counts."
+description: "List funds"
 ---
 
-List funds that publish letters, with per-fund letter counts.
+List funds
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+The fund entity is not yet populated: no source currently writes fund records, so this list is empty today. Browse GET /v1/fund-letters/managers for the populated manager surface.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/funds to list funds that publish letters, with per-fund letter counts. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/funds to list funds. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

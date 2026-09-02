@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/performance"
-description: "Closed-situation outcome cohorts: completion rate, median days to close, average premium, terminated/expired counts"
+description: "Situation outcome statistics"
 ---
 
-Closed-situation outcome cohorts: completion rate, median days to close, average premium, terminated/expired counts
+Situation outcome statistics
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Closed-situation outcome cohorts: completion rate, median days to close, average premium, terminated/expired counts.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/performance to closed-situation outcome cohorts: completion rate, median days to close, average premium, terminated/expired counts. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/performance to situation outcome statistics. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

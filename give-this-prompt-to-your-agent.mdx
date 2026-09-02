@@ -23,7 +23,8 @@ Base URLs:
 
 Rules:
 - Authenticate with the `x-api-key` header. Never send the API key as `Authorization: Bearer` — bearer tokens are WorkOS browser/session credentials, not machine API keys.
-- Resolve an issuer with GET /v1/entities/resolve when the workflow starts from a name, ticker, CIK, or identifier. Carry the returned identity forward; do not guess a CIK.
+- Resolve an issuer with GET /v1/entities/resolve when the workflow starts from a name, ticker, CIK, or identifier. Carry the returned identity forward; do not guess a CIK. Do not treat GET /v1/entities/edgar as an identity peer — that route is EDGAR catalog search.
+- After resolve, pick a live store (filings, factors, or macro) or POST /v1/intelligence/query for a named intel job. Letters are gated — do not make them a first curl. Check availability before curling gated surfaces; they return 404 when dark.
 - Retrieve a filing before making a filing-derived claim. Preserve accessionNumber, form, filingDate, filingUrl, and requestId when they are returned.
 - Keep retrieved facts separate from interpretation. Preserve route-provided provenance, freshness, materialization, warnings, and trace fields when available.
 - For MCP work, use tools.search to find a tool and tools.describe to inspect its current input schema before calling it. Do not rely on an embedded tool catalog.
@@ -83,15 +84,15 @@ Use SEC API to fetch recent M&A events and SEC-furnished earnings materials for 
 
 ## Contract coverage
 
-- `/v1/statements/segmented-revenues` — Retrieve an issuer's disclosed product or geographic revenue history with filing-level dimensions and source context
-- `/v1/statements/share-float` — Retrieve an issuer's disclosed public float when available, with a clearly labeled shares-outstanding fallback
-- `/v1/statements/all` — Retrieve an issuer's normalized balance sheet, income statement, and cash flow statement as one SEC-derived bundle
-- `/v1/entities/resolve` — Resolve one issuer, manager, insider, or fund from a market or SEC identifier, returning the canonical entity and match confidence
-- `/v1/entities` — Search canonical SEC entities across issuers, managers, insiders, and funds with offset pagination
-- `/v1/entities/edgar` — Search SEC EDGAR entity records by name, ticker, CIK, or identifier with source-oriented pagination
-- `/v1/filings` — Find SEC filing records by issuer, form, date, text, or accession number
-- `/v1/filings/latest` — Get an issuer's newest filing, optionally for a specific SEC form
-- `/v1/filings/latest/render` — Render an issuer's latest selected filing as readable text
-- `/v1/filings/latest/sections/{section_key}` — Extract a named section from an issuer's latest selected filing
-- `/v1/filings/latest/risk-categories` — Classify Item 1A risk categories in a selected issuer filing
-- `/v1/filings/{accession_number}` — Get one SEC filing record by its accession number
+- `/v1/statements/segmented-revenues` — Segment revenue history
+- `/v1/statements/share-float` — Public float
+- `/v1/statements/all` — All financial statements
+- `/v1/entities/resolve` — Resolve entity identifier
+- `/v1/entities` — Search entities
+- `/v1/filings` — List filings
+- `/v1/filings/latest` — Latest filing
+- `/v1/filings/latest/render` — Render latest filing
+- `/v1/filings/latest/sections/{section_key}` — Latest filing section
+- `/v1/filings/latest/risk-categories` — Risk factor categories
+- `/v1/filings/{accession_number}` — Get filing by accession
+- `/v1/filings/{accession_number}/sections/{section_key}` — Filing section by accession

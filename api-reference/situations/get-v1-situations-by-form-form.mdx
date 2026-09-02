@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/by-form/{form}"
-description: "List special situations opened or advanced by a given EDGAR form type (e.g. SC 13D, SC TO-T, 425, DEFM14A). The form is expanded to the situation types it…"
+description: "Situations by filing form"
 ---
 
-List special situations opened or advanced by a given EDGAR form type (e.g. SC 13D, SC TO-T, 425, DEFM14A). The form is expanded to the situation types it triggers.
+Situations by filing form
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List special situations opened or advanced by a given EDGAR form type (e.g. SC 13D, SC TO-T, 425, DEFM14A). The form is expanded to the situation types it triggers.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/by-form/{form} to list special situations opened or advanced by a given EDGAR form type (e.g. SC 13D, SC TO-T, 425, DEFM14A). The form is expanded to the situation types it triggers. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/by-form/{form} to situations by filing form. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/fund-letters/theses"
-description: "Cross-cutting thesis screen: structured per-company extractions (relationship, stance, conviction, narratives, verbatim anchored quotes) across all letters."
+description: "Letter investment theses"
 ---
 
-Cross-cutting thesis screen: structured per-company extractions (relationship, stance, conviction, narratives, verbatim anchored quotes) across all letters.
+Letter investment theses
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Each row is an extraction anchored to a passage in a specific letter, so a company with several letters yields several theses. Quotes verify against `/document?format=markdown` bytes. Metered as fund_letter_lookup.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/theses to cross-cutting thesis screen: structured per-company extractions (relationship, stance, conviction, narratives, verbatim anchored quotes) across all letters. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/theses to letter investment theses. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

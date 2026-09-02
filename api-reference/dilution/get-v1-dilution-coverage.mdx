@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/dilution/coverage"
-description: "Inspect dilution row counts, verified rows, and latest observation dates by table"
+description: "Dilution data coverage"
 ---
 
-Inspect dilution row counts, verified rows, and latest observation dates by table
+Dilution data coverage
 
 <Info>
 Audience: developers and investors checking whether a dilution workflow has stored evidence.
 </Info>
+
+## Coverage and source scope
+
+Inspect dilution row counts, verified rows, and latest observation dates by table.
 
 ## Canonical metadata
 
@@ -61,7 +65,7 @@ This is a bounded inventory of stored rows, verified rows, and latest dates by t
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/dilution/coverage to inspect dilution row counts, verified rows, and latest observation dates by table. Preserve `ticker`, `generatedAt`, `totalRowCount`, `totalVerifiedRowCount`, `tables[].table`, `tables[].rowCount`, `tables[].latestFilingDate`, `requestId` in the output. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
+Use SEC API GET /v1/dilution/coverage to dilution data coverage. Preserve `ticker`, `generatedAt`, `totalRowCount`, `totalVerifiedRowCount`, `tables[].table`, `tables[].rowCount`, `tables[].latestFilingDate`, `requestId` in the output. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
 </Prompt>
 
 ## Failure posture

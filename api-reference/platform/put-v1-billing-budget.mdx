@@ -1,13 +1,17 @@
 ---
 title: "PUT /v1/billing/budget"
-description: "Update organization-level spend caps, soft caps, and approval thresholds for PAYG usage"
+description: "Update spend budget"
 ---
 
-Update organization-level spend caps, soft caps, and approval thresholds for PAYG usage
+Update spend budget
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Update organization-level spend caps, soft caps, and approval thresholds for PAYG usage.
 
 ## Canonical metadata
 
@@ -40,7 +44,7 @@ curl -X PUT \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API PUT /v1/billing/budget to update organization-level spend caps, soft caps, and approval thresholds for PAYG usage. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API PUT /v1/billing/budget to update spend budget. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

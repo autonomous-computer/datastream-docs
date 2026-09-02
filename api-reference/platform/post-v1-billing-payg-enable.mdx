@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/billing/payg/enable"
-description: "Enable pay-as-you-go in one flow: save a card, make an initial credit top-up, and optionally turn on auto-top-up (returns a PaymentIntent client secret)"
+description: "Enable pay-as-you-go"
 ---
 
-Enable pay-as-you-go in one flow: save a card, make an initial credit top-up, and optionally turn on auto-top-up (returns a PaymentIntent client secret)
+Enable pay-as-you-go
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Enable pay-as-you-go in one flow: save a card, make an initial credit top-up, and optionally turn on auto-top-up (returns a PaymentIntent client secret).
 
 ## Canonical metadata
 
@@ -54,7 +58,7 @@ Billing funding changes require a WorkOS bearer session with `billing:manage`. A
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/billing/payg/enable to enable pay-as-you-go in one flow: save a card, make an initial credit top-up, and optionally turn on auto-top-up (returns a PaymentIntent client secret). Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/billing/payg/enable to enable pay-as-you-go. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

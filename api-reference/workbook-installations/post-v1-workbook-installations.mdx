@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/workbook-installations"
-description: "Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity."
+description: "Register workbook installation"
 ---
 
-Register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity.
+Register workbook installation
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Creates the workbook identity used by Excel, Sheets, MCP, and API filing-to-model workflows. The server, not the add-in, becomes the system of record for mappings, refresh history, provenance, and audit events.
+Registers an Excel or Google Sheets workbook as a durable, server-owned workbook identity used by Excel, Sheets, MCP, and API filing-to-model workflows. The server holds the record of mappings, refresh history, provenance, and audit events.
 
 ## Canonical metadata
 
@@ -54,7 +54,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/workbook-installations to register an Excel or Google Sheets workbook installation as the durable server-owned workbook identity. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/workbook-installations to register workbook installation. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

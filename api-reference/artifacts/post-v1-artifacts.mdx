@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/artifacts"
-description: "Build and persist a filing-derived artifact bundle"
+description: "Create artifact bundle"
 ---
 
-Build and persist a filing-derived artifact bundle
+Create artifact bundle
 
 <Info>
 Audience: developers creating a persisted filing-derived or comparison artifact for their organization.
@@ -96,7 +96,7 @@ Malformed JSON returns `400 invalid_json`. Structurally invalid JSON values retu
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/artifacts to build and persist a filing-derived artifact bundle. Preserve `id`, `kind`, `status`, `downloadUrl`, `storageMode`, `manifest`, `provenance` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/artifacts to create artifact bundle. Preserve `id`, `kind`, `status`, `downloadUrl`, `storageMode`, `manifest`, `provenance` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

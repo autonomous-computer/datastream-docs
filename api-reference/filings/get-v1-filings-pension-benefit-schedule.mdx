@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/filings/pension-benefit-schedule"
-description: "Extract disclosed pension and retiree benefit payments for a target year"
+description: "Pension benefit schedule"
 ---
 
-Extract disclosed pension and retiree benefit payments for a target year
+Pension benefit schedule
 
 <Info>
 Audience: application and coding agent.
@@ -67,7 +67,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/filings/pension-benefit-schedule to extract disclosed pension and retiree benefit payments for a target year. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/filings/pension-benefit-schedule to pension benefit schedule. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

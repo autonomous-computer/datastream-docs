@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/issues"
-description: "List immutable, numbered weekly Special Situations Digest issues"
+description: "Weekly digest issues"
 ---
 
-List immutable, numbered weekly Special Situations Digest issues
+Weekly digest issues
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List immutable, numbered weekly Special Situations Digest issues.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/issues to list immutable, numbered weekly Special Situations Digest issues. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/issues to weekly digest issues. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

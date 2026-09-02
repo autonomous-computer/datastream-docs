@@ -7,7 +7,7 @@ description: "Read SEC API's dated first-party comparisons as workload measureme
 These are first-party measurements, not an independent study. They describe the named operations, comparands, runner configuration, and dates below. They are not service-level objectives or a guarantee of latency, payload size, cost, or agent quality.
 </Warning>
 
-SEC API benchmarked selected SEC-data operations against sec-api.io, financialdatasets.ai, and edgartools. The hosted comparison data was captured on 2026-03-18, and its scorecard was last regenerated on 2026-06-10. The edgartools comparison was captured on 2026-04-23 and is marked preliminary pending final verification.
+SEC API benchmarked selected SEC-data operations against sec-api.io, financialdatasets.ai, and edgartools. The hosted comparison data was captured on 2026-03-18. The edgartools comparison (captured 2026-04-23) is preliminary.
 
 ## Reported comparisons
 
@@ -21,7 +21,7 @@ Token estimates use `payload_bytes / 4`, so the estimate may be fractional. This
 
 ## Method
 
-The benchmark uses authenticated production endpoints for hosted APIs and direct SEC EDGAR access for edgartools. It records wall-clock time from request start to result, including client-side parsing for edgartools. Each operation runs at least five times; p50, p95, and p99 use Hyndman-Fan Type 7 interpolation. The production workflow runs on GitHub Actions `ubuntu-latest`; within a workflow run the comparands execute from the same runner, but GitHub assigns runners from a variable pool and the comparand steps run sequentially.
+The benchmark uses authenticated production endpoints for hosted APIs and direct SEC EDGAR access for edgartools. It records wall-clock time from request start to result, including client-side parsing for edgartools. Each operation runs at least five times; p50, p95, and p99 use Hyndman-Fan Type 7 interpolation. All comparands ran sequentially from the same cloud CI runner within a single run; runners are assigned from a variable pool.
 
 For edgartools, the persistent cache is cleared between iterations to measure cold fetches. Payload measurement is raw hosted response bytes or the sum of direct SEC HTTP bytes for edgartools. Network conditions, API versions, cache state, rate limits, source availability, request shape, and client behavior all affect a real integration.
 

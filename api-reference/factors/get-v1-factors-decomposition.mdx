@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/decomposition"
-description: "Return factor-attribution decomposition for a security over a bounded lookback window with explained return, alpha, and methodology metadata"
+description: "Factor decomposition"
 ---
 
-Return factor-attribution decomposition for a security over a bounded lookback window with explained return, alpha, and methodology metadata
+Factor decomposition
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return factor-attribution decomposition for a security over a bounded lookback window with explained return, alpha, and methodology metadata.
 
 ## Canonical metadata
 
@@ -134,7 +138,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/decomposition to return factor-attribution decomposition for a security over a bounded lookback window with explained return, alpha, and methodology metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/decomposition to factor decomposition. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

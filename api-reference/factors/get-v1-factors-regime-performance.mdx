@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/regime-performance"
-description: "Return regime-conditioned factor rankings that blend the active macro backdrop with current factor state"
+description: "Factor regime performance"
 ---
 
-Return regime-conditioned factor rankings that blend the active macro backdrop with current factor state
+Factor regime performance
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return regime-conditioned factor rankings that blend the active macro backdrop with current factor state.
 
 ## Canonical metadata
 
@@ -124,7 +128,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/regime-performance to return regime-conditioned factor rankings that blend the active macro backdrop with current factor state. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/regime-performance to factor regime performance. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/artifacts/{artifact_id}"
-description: "Get one persisted artifact and its manifest"
+description: "Get artifact"
 ---
 
-Get one persisted artifact and its manifest
+Get artifact
 
 <Info>
 Audience: developers retrieving one organization-scoped artifact before an export or download.
@@ -88,7 +88,7 @@ A missing, inaccessible, or unresolved artifact returns `404 artifact_not_found`
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/artifacts/{artifact_id} to get one persisted artifact and its manifest. Preserve `id`, `kind`, `status`, `manifest`, `provenance` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/artifacts/{artifact_id} to get artifact. Preserve `id`, `kind`, `status`, `manifest`, `provenance` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

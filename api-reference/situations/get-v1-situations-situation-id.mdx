@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/{situation_id}"
-description: "Retrieve a single situation with its full per-filing timeline (oldest first)"
+description: "Get situation"
 ---
 
-Retrieve a single situation with its full per-filing timeline (oldest first)
+Get situation
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Retrieve a single situation with its full per-filing timeline (oldest first).
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/{situation_id} to retrieve a single situation with its full per-filing timeline (oldest first). Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/{situation_id} to get situation. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

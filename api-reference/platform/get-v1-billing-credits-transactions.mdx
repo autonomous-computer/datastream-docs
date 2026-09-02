@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/billing/credits/transactions"
-description: "List the current organization's prepaid credit ledger entries (top-ups, debits, refunds, grants, adjustments), newest first"
+description: "List credit transactions"
 ---
 
-List the current organization's prepaid credit ledger entries (top-ups, debits, refunds, grants, adjustments), newest first
+List credit transactions
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List the current organization's prepaid credit ledger entries (top-ups, debits, refunds, grants, adjustments), newest first.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/billing/credits/transactions to list the current organization's prepaid credit ledger entries (top-ups, debits, refunds, grants, adjustments), newest first. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/billing/credits/transactions to list credit transactions. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

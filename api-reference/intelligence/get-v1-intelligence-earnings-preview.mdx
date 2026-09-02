@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/intelligence/earnings-preview"
-description: "Return an earnings preview bundle with estimates, drivers, risks, and traceable supporting context"
+description: "Earnings preview bundle"
 ---
 
-Return an earnings preview bundle with estimates, drivers, risks, and traceable supporting context
+Earnings preview bundle
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return an earnings preview bundle with estimates, drivers, risks, and traceable supporting context.
 
 ## Canonical metadata
 
@@ -30,7 +34,8 @@ curl -X GET \
 <ResponseExample>
 ```json
 {
-  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+  "requestId": "req_2ZK8Q1W9F4M6P7R3",
+  "traceparent": "00-4bf92f3577b34da6a3ce929d0e0e4736-00f067aa0ba902b7-01"
 }
 ```
 </ResponseExample>
@@ -38,7 +43,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/intelligence/earnings-preview to return an earnings preview bundle with estimates, drivers, risks, and traceable supporting context. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/intelligence/earnings-preview to earnings preview bundle. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

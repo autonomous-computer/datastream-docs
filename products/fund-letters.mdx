@@ -3,6 +3,10 @@ title: "Fund Letters API"
 description: "Hedge fund, partnership, and registered-fund letters parsed into per-company investment theses with page-anchored quotes, search, and 13F cross-links."
 ---
 
+<Warning>
+Fund-letter routes are gated (availability: `gated`) and return `404` when fund-letter coverage is not enabled for your account. Check availability before you curl. `/v1/funds/*` is N-PORT ownership, not fund letters.
+</Warning>
+
 Track what great investors are saying — and cross-check it against what they actually hold. The Fund Letters surface parses investor letters from hedge funds, partnerships, and registered funds into structured per-company investment theses, each with a source quote anchored to an exact page and character range in the original document, and cross-linked into 13F ownership, insider, and filing data. Coverage updates as new letters publish.
 
 ## Why use this
@@ -16,17 +20,9 @@ An investor letter is primary-source thinking: what a manager bought, sold, fear
 - **Registered-fund letters** -- shareholder letters extracted from N-CSR reports filed with the SEC, alongside fund-published hedge fund and partnership letters
 - **Delta feed** -- `since` filters plus a keyset-cursor `/changes` event feed built for agent sync loops
 
-## Quick start
+## When fund-letter coverage is enabled
 
-```bash
-# Letters discussing a company
-curl -H "x-api-key: $SECAPI_API_KEY" \
-  "https://api.secapi.ai/v1/fund-letters?ticker=NVDA&limit=5"
-
-# Every extracted thesis on that company
-curl -H "x-api-key: $SECAPI_API_KEY" \
-  "https://api.secapi.ai/v1/fund-letters/theses?ticker=NVDA"
-```
+Do not start here. Confirm `availability: live` on the catalog before calling `/v1/fund-letters`. The reference table below is the contract, not a first-request guarantee.
 
 See the [fund letters guide](/fund-letters) for the thesis model, quote verification, and the 13F cross-check walkthrough.
 

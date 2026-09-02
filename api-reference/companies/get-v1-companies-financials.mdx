@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/companies/financials"
-description: "Retrieve an issuer's SEC-derived income, balance-sheet, and cash flow statements in one company-focused response"
+description: "Company financial statements"
 ---
 
-Retrieve an issuer's SEC-derived income, balance-sheet, and cash flow statements in one company-focused response
+Company financial statements
 
 <Info>
 Audience: application and coding agent.
@@ -64,7 +64,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/financials to retrieve an issuer's SEC-derived income, balance-sheet, and cash flow statements in one company-focused response. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/financials to company financial statements. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

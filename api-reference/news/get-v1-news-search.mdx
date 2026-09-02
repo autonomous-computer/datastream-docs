@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/news/search"
-description: "Search rights-safe news coverage and issuer communications by symbol, entity, or topic"
+description: "Search news"
 ---
 
-Search rights-safe news coverage and issuer communications by symbol, entity, or topic
+Search news
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Search rights-safe news coverage and issuer communications by symbol, entity, or topic.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/news/search to search rights-safe news coverage and issuer communications by symbol, entity, or topic. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/news/search to search news. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

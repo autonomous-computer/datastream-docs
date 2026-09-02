@@ -1,9 +1,9 @@
 ---
 title: "POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals"
-description: "Create a server-owned analyst approval record for an immutable workbook model-change set."
+description: "Approve workbook model changes"
 ---
 
-Create a server-owned analyst approval record for an immutable workbook model-change set.
+Approve workbook model changes
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Loads the persisted model-change set, verifies that the approval covers exactly that proposal, binds it to the evidence snapshot and workbook precondition hash, and appends an approval audit event.
+Records an analyst approval for an immutable workbook model-change set. The approval must cover exactly the stored proposal and is bound to its evidence snapshot and workbook precondition hash; an approval audit event is appended.
 
 ## Canonical metadata
 
@@ -56,7 +56,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals to create a server-owned analyst approval record for an immutable workbook model-change set. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/workbook-installations/{workbook_installation_id}/model-change-set-approvals to approve workbook model changes. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

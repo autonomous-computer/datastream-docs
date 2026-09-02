@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/billing/rates"
-description: "Return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates"
+description: "Pricing catalog"
 ---
 
-Return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates
+Pricing catalog
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Returns the public pricing catalog, free allowance metadata, plan metadata, and meter-family rates.
 
 ## Canonical metadata
 
@@ -45,7 +49,7 @@ curl -X GET \
     "renewable": true,
     "period": "monthly",
     "overflowPlanKey": "payg",
-    "note": "New organizations receive a renewable monthly allowance; usage beyond the allowance falls through to Pay As You Go rates once billing is activated."
+    "note": "New organizations receive 100 included live calls each month. After those calls are used, production work falls through to Pay As You Go rates once billing is activated."
   },
   "plans": [
     {
@@ -82,7 +86,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/billing/rates to return the public pricing catalog, free allowance metadata, plan metadata, and meter-family launch rates. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/billing/rates to pricing catalog. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

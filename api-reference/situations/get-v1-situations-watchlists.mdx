@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/watchlists"
-description: "List situation-scoped watchlist monitors for the current organization"
+description: "List situation watchlists"
 ---
 
-List situation-scoped watchlist monitors for the current organization
+List situation watchlists
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List situation-scoped watchlist monitors for the current organization.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/watchlists to list situation-scoped watchlist monitors for the current organization. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/watchlists to list situation watchlists. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

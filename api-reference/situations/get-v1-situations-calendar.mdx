@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/calendar"
-description: "Upcoming situation key dates (record, vote, expiry, expected close) within a horizon of up to 365 days"
+description: "Situation calendar"
 ---
 
-Upcoming situation key dates (record, vote, expiry, expected close) within a horizon of up to 365 days
+Situation calendar
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Upcoming situation key dates (record, vote, expiry, expected close) within a horizon of up to 365 days.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/calendar to upcoming situation key dates (record, vote, expiry, expected close) within a horizon of up to 365 days. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/calendar to situation calendar. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

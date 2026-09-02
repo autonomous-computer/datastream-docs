@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/market/corporate-actions"
-description: "Retrieve splits and dividends for one security"
+description: "Splits and dividends"
 ---
 
-Retrieve splits and dividends for one security
+Splits and dividends
 
 <Info>
 Audience: developers and agents reconciling splits and dividends with price history.
@@ -88,7 +88,7 @@ A missing symbol returns `400 missing_symbol`; a non-positive or malformed limit
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/market/corporate-actions to retrieve splits and dividends for one security. Preserve `data`, `per-row actionType`, `per-row exDate`, `per-row ratio or cashAmount`, `per-row freshness`, `per-row provenance`, `per-row sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/market/corporate-actions to splits and dividends. Preserve `data`, `per-row actionType`, `per-row exDate`, `per-row ratio or cashAmount`, `per-row freshness`, `per-row provenance`, `per-row sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

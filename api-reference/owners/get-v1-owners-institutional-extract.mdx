@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/owners/institutional/extract"
-description: "Retrieve one manager's historical 13F extract for a specified calendar quarter"
+description: "Quarterly 13F extract"
 ---
 
-Retrieve one manager's historical 13F extract for a specified calendar quarter
+Quarterly 13F extract
 
 <Info>
 Audience: application and coding agent.
@@ -103,7 +103,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/institutional/extract to retrieve one manager's historical 13F extract for a specified calendar quarter. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization`, `comparisonCoverage`, `statusNote` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/institutional/extract to quarterly 13F extract. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization`, `comparisonCoverage`, `statusNote` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

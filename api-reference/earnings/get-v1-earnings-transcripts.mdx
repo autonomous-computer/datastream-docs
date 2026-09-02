@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/earnings/transcripts"
-description: "Return SEC-furnished earnings materials from 8-K filings with release, remarks, and transcript coverage states"
+description: "Earnings materials"
 ---
 
-Return SEC-furnished earnings materials from 8-K filings with release, remarks, and transcript coverage states
+Earnings materials
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Returns SEC-furnished earnings materials from 8-K Item 2.02 filings. This is an on-demand scan of EDGAR filing materials, not a complete speaker-transcript store. `contentMd` is capped at 12,000 characters; longer bodies set `contentTruncated=true` and report the full length in `contentMdChars`. `kind` mirrors `coverage` (`release_only`, `prepared_remarks`, `transcript_text`, `unusable`) and adds `shareholder_letter` for an EX-99 shareholder letter. `letterId` is currently always null. A shareholder letter is not an earnings-call transcript. Speaker-level transcripts are served by `/v1/filings/transcripts`, which is currently unavailable and returns 404. See [API conventions](https://docs.secapi.ai/api-conventions).
 
 ## Canonical metadata
 
@@ -59,7 +63,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/earnings/transcripts to return SEC-furnished earnings materials from 8-K filings with release, remarks, and transcript coverage states. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/earnings/transcripts to earnings materials. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

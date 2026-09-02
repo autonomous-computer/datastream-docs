@@ -3,7 +3,7 @@ title: "Event Export"
 description: "Inspect and export your request, webhook, and stream delivery event history as JSON or NDJSON with filters, outside the live API response path."
 ---
 
-You need a support-friendly way to inspect request, webhook, and stream event history outside the live API response path. SEC API supports filtered delivery-ledger listing and JSON or NDJSON exports backed by Postgres, which is the source of truth for delivery history.
+You need a support-friendly way to inspect request, webhook, and stream event history outside the live API response path. SEC API supports filtered delivery-ledger listing and JSON or NDJSON exports from the durable delivery record, which is the source of truth for delivery history.
 
 ## Endpoints
 
@@ -80,4 +80,4 @@ For datasets too large to inline in a tool result, materialize them once to a sh
 - request correlation is driven by `Request-Id`
 - support should prefer exports over direct database access for tenant-scoped delivery history
 - stream polling uses per-subscription delivery records, so re-reading the same cursor window does not create new billable delivery units
-- when Postgres is configured and the durable ledger cannot be read, the API returns `delivery_ledger_unavailable` with HTTP 503 rather than returning an empty history
+- when the durable ledger cannot be read, the API returns `delivery_ledger_unavailable` with HTTP 503 rather than returning an empty history

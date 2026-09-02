@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/fund-letters/managers/{manager_id}"
-description: "Retrieve one manager profile. Merged manager IDs resolve forever via aliases; the response carries the canonical id plus requestedId when they differ."
+description: "Get fund manager"
 ---
 
-Retrieve one manager profile. Merged manager IDs resolve forever via aliases; the response carries the canonical id plus requestedId when they differ.
+Get fund manager
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Merged manager IDs resolve forever via aliases, so a stored id keeps working after a merge; compare `id` against `requestedId` to detect one. Metered as fund_letter_lookup.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/managers/{manager_id} to retrieve one manager profile. Merged manager IDs resolve forever via aliases; the response carries the canonical id plus requestedId when they differ. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/managers/{manager_id} to get fund manager. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

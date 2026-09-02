@@ -5,6 +5,10 @@ description: "Follow filing-derived corporate events with current detail, filing
 
 Special Situations is the authenticated API for following filing-derived M&A, tender offers, going-private transactions, spin-offs, activist campaigns, restructurings, and bankruptcies. Use it to monitor the current record and its filing trail while keeping current situations, calendar events, and immutable weekly digest snapshots distinct.
 
+<Warning>
+Authenticated `/v1/situations` routes are gated (availability: `gated`) and return `404` while Special Situations is not generally available. The anonymous `/v1/embed/situations` preview (availability: `preview`) stays up for public sites. Do not treat the paid curl below as a first-request guarantee.
+</Warning>
+
 ## Free public preview
 
 The `/v1/embed/situations` routes are a free, anonymous preview for public sites and browser embeds. Do not send `x-api-key` to these routes:
@@ -20,17 +24,9 @@ Preview reads are CORS-enabled for browser use and return public cache headers. 
 | Public site or lightweight browser preview | [`/v1/embed/situations`](/api-reference/embed) | Anonymous, CORS-enabled, cacheable preview |
 | Application, agent, or sustained monitoring workflow | [`/v1/situations`](/api-reference/situations) | Paid API with a server-held `x-api-key` |
 
-To move beyond the preview, create an organization API key and call the `/v1/situations` routes from your server, worker, shell, SDK, CLI, or MCP client. Never put a paid API key in browser-delivered code.
+To move beyond the preview, create an organization API key and call the `/v1/situations` routes from your server only after the catalog badge is `live`. Never put a paid API key in browser-delivered code. Authenticated list/detail routes stay in the reference table — they are not a first-request curl.
 
-## Find a current event and its filing trail
-
-```bash
-curl -sS \
-  -H "x-api-key: $SECAPI_API_KEY" \
-  "https://api.secapi.ai/v1/situations?types=merger&statuses=pending&limit=25"
-```
-
-Narrow list results by type, subtype, status, ticker, sector, market-cap bucket, country, announcement date, update time, and supported EDGAR forms. Use the returned situation ID to fetch current detail, its paginated filing timeline, a compact summary, a Markdown export, or an underwriting pack. Record filing identities, source references, update metadata, and `requestId` for a decision-critical record.
+When the routes are enabled, narrow list results by type, subtype, status, ticker, sector, market-cap bucket, country, announcement date, update time, and supported EDGAR forms. Use the returned situation ID to fetch current detail, its paginated filing timeline, a compact summary, a Markdown export, or an underwriting pack. Record filing identities, source references, update metadata, and `requestId` for a decision-critical record.
 
 ## Routes for discovery, monitoring, and evidence
 
@@ -50,7 +46,9 @@ Narrow list results by type, subtype, status, ticker, sector, market-cap bucket,
 | `GET` | [`/v1/situations/{situation_id}`](/api-reference/situations/get-v1-situations-situation-id) | Inspect one current situation and filing timeline. | Current detail. |
 | `GET` | [`/v1/situations/{situation_id}/filings`](/api-reference/situations/get-v1-situations-situation-id-filings) | Page only the filing timeline. | Filing timeline records. |
 | `GET` | [`/v1/situations/{situation_id}/summary`](/api-reference/situations/get-v1-situations-situation-id-summary) | Retrieve compact markdown, deal terms, and the latest timeline event. | Situation summary. |
-| `GET` | [`/v1/situations/{situation_id}/export`](/api-reference/situations/get-v1-situations-situation-id-export) | Prepare a source-cited Markdown handoff. | Markdown brief. |
+| `GET` | [`/v1/situations/export`](/api-reference/situations/get-v1-situations-export) | Enqueue an async bulk snapshot/issue export (JSON, CSV, Excel, PDF, Copy-for-LLM). | Export job. |
+| `GET` | [`/v1/exports/{job_id}`](/api-reference/situations/get-v1-exports-job-id) | Poll an async export job and re-sign its download URL. | Export job. |
+| `GET` | [`/v1/situations/{situation_id}/export`](/api-reference/situations/get-v1-situations-situation-id-export) | Export one situation (`?format=` json, csv, xlsx, pdf, or llm). | Snapshot bytes or async PDF job. |
 | `GET` | [`/v1/situations/{situation_id}/underwriting-pack`](/api-reference/situations/get-v1-situations-situation-id-underwriting-pack) | Assemble detail, timeline, and copyable source context. | Underwriting pack. |
 
 Use `enrich=false` to request a smaller list projection when scanning a wide set. It changes the returned projection, not the billed request class. `limit` is 1 through 100; advance pagination only with the returned cursor and unchanged filters. CLI and MCP workflows use the structured JSON feed (`/v1/situations/feed`) so agents can preserve IDs, request metadata, and citations; RSS is a direct HTTP/feed-reader surface at `/v1/situations/feed.rss`.

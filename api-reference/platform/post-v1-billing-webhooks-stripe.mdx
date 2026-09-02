@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/billing/webhooks/stripe"
-description: "Receive and process signed Stripe subscription lifecycle webhooks"
+description: "Stripe webhook receiver"
 ---
 
-Receive and process signed Stripe subscription lifecycle webhooks
+Stripe webhook receiver
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Receive and process signed Stripe subscription lifecycle webhooks.
 
 ## Canonical metadata
 
@@ -40,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/billing/webhooks/stripe to receive and process signed Stripe subscription lifecycle webhooks. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/billing/webhooks/stripe to stripe webhook receiver. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

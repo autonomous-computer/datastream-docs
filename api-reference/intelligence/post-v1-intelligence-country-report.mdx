@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/intelligence/country-report"
-description: "Return a country intelligence bundle covering the prior period's macro path, likely drivers, and forward view"
+description: "Country intelligence report"
 ---
 
-Return a country intelligence bundle covering the prior period's macro path, likely drivers, and forward view
+Country intelligence report
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return a country intelligence bundle covering the prior period's macro path, likely drivers, and forward view.
 
 ## Canonical metadata
 
@@ -41,7 +45,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/intelligence/country-report to return a country intelligence bundle covering the prior period's macro path, likely drivers, and forward view. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/intelligence/country-report to country intelligence report. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

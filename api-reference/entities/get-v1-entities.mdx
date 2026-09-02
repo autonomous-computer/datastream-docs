@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/entities"
-description: "Search canonical SEC entities across issuers, managers, insiders, and funds with offset pagination"
+description: "Search entities"
 ---
 
-Search canonical SEC entities across issuers, managers, insiders, and funds with offset pagination
+Search entities
 
 <Info>
 Audience: engineers and agents discovering canonical entities before issuer-scoped research.
 </Info>
+
+## Coverage and source scope
+
+Search canonical SEC entities across issuers, managers, insiders, and funds with offset pagination.
 
 ## Canonical metadata
 
@@ -58,7 +62,7 @@ Invalid `limit` or `cursor` values return `400 invalid_query_parameter`. Search 
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/entities to search canonical SEC entities across issuers, managers, insiders, and funds with offset pagination. Preserve `data`, `hasMore`, `nextCursor`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/entities to search entities. Preserve `data`, `hasMore`, `nextCursor`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

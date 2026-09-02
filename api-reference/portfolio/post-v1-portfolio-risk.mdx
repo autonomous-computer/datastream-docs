@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/portfolio/risk"
-description: "Return ex-ante portfolio risk: tracking error, CTEV by factor group and by security, ex-ante beta, and the factor-vs-idiosyncratic split, labelled with mod…"
+description: "Portfolio risk model"
 ---
 
-Return ex-ante portfolio risk: tracking error, CTEV by factor group and by security, ex-ante beta, and the factor-vs-idiosyncratic split, labelled with model coverage
+Portfolio risk model
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return ex-ante portfolio risk: tracking error, CTEV by factor group and by security, ex-ante beta, and the factor-vs-idiosyncratic split, labelled with model coverage.
 
 ## Canonical metadata
 
@@ -117,7 +121,7 @@ curl -X POST \
       "specificVol": 0.35,
       "ctevShare": 0.04,
       "ctev": 0.0016,
-      "note": "Outside the ~4k US factor plane — beta-only / specific-risk-floor treatment."
+      "note": "Outside the ~4k US factor model universe — beta-only / specific-risk-floor treatment."
     }
   ],
   "coverage": {
@@ -133,8 +137,8 @@ curl -X POST \
     "covarianceEstimable": true
   },
   "disclosures": [
-    "Ex-ante risk uses an EWMA factor covariance (~2y half-life, weekly) over the style/sector/industry factor plane (2015→).",
-    "Model coverage: 94% of portfolio NAV is inside the ~4k US factor plane. Unmodelled names use a beta-only / specific-risk-floor treatment.",
+    "Ex-ante risk uses an EWMA factor covariance (~2y half-life, weekly) over the style/sector/industry factor universe (2015→).",
+    "Model coverage: 94% of portfolio NAV is inside the ~4k US factor model universe. Unmodelled names use a beta-only / specific-risk-floor treatment.",
     "Macro-factor covariance only reaches 2022; macro figures are labelled shorter-history and excluded from the P0 covariance basis."
   ],
   "summaryMd": "Ex-ante tracking error is 4.12% (annualised active risk); 71% factor / 29% specific.",
@@ -203,7 +207,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/portfolio/risk to return ex-ante portfolio risk: tracking error, CTEV by factor group and by security, ex-ante beta, and the factor-vs-idiosyncratic split, labelled with model coverage. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/portfolio/risk to portfolio risk model. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

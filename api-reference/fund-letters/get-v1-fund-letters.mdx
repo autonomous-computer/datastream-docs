@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/fund-letters"
-description: "List investor letters from hedge funds, partnerships, and registered funds, filterable by manager, fund, company, period, source, and distribution tier."
+description: "List fund letters"
 ---
 
-List investor letters from hedge funds, partnerships, and registered funds, filterable by manager, fund, company, period, source, and distribution tier.
+List fund letters
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-view=compact returns the trimmed FundLetterCompactList projection (billed identically); view=agent currently equals the default view.
+Documented coverage begins with letters published in 2025 Q1 and is not a historical archive. view=compact returns the trimmed FundLetterCompactList projection (billed identically); view=agent currently equals the default view.
 
 ## Canonical metadata
 
@@ -42,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters to list investor letters from hedge funds, partnerships, and registered funds, filterable by manager, fund, company, period, source, and distribution tier. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters to list fund letters. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

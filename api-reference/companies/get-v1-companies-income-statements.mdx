@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/companies/income-statements"
-description: "Retrieve an issuer's SEC-derived income statement history with normalized operating and per-share fields"
+description: "Company income statements"
 ---
 
-Retrieve an issuer's SEC-derived income statement history with normalized operating and per-share fields
+Company income statements
 
 <Info>
 Audience: application and coding agent.
@@ -64,7 +64,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/income-statements to retrieve an issuer's SEC-derived income statement history with normalized operating and per-share fields. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/income-statements to company income statements. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

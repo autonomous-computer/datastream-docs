@@ -1,13 +1,17 @@
 ---
 title: "POST /mcp"
-description: "Hosted MCP transport endpoint"
+description: "Hosted MCP endpoint"
 ---
 
-Hosted MCP transport endpoint
+Hosted MCP endpoint
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Hosted MCP transport endpoint.
 
 ## Canonical metadata
 
@@ -40,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /mcp to hosted MCP transport endpoint. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /mcp to hosted MCP endpoint. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

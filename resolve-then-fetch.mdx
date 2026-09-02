@@ -3,7 +3,7 @@ title: "Resolve, then fetch"
 description: "Resolve one issuer first, keep the returned identity, then fetch a store or run a named intel job"
 ---
 
-Resolve an issuer before you fetch filings, facts, statements, or a named intel job. `GET /v1/entities/resolve` is the identity call. The stores and the packer take that identity; they do not invent it.
+Resolve an issuer before you fetch filings, facts, statements, or a named intel job. `GET /v1/entities/resolve` is the identity call. Data endpoints and intelligence jobs take that identity; they do not invent it.
 
 ```bash
 curl --fail-with-body -sS \
@@ -27,9 +27,9 @@ Keep `id`, `cik`, `ticker`, `matchConfidence`, and `matchBasis` when they are re
 | A financials page | Statements | [`GET /v1/statements`](/api-reference/statements/get-v1-statements) |
 | Why a price moved | Factors | [`GET /v1/factors/catalog`](/api-reference/factors) |
 | A country print | Macro indicators | [`GET /v1/macro/indicators`](/api-reference/macro) |
-| A cited assembly | Intel packer | [Named intel jobs](/named-intel-jobs) |
+| A cited assembly | Intelligence jobs | [Named intel jobs](/named-intel-jobs) |
 
-Letters and authenticated situations are gated stores. They 404 when that store is dark. Do not make them the first curl.
+Letters and authenticated situations are gated datasets. They return 404 while the dataset is not generally available. Do not make them the first curl.
 
 ```bash
 curl --fail-with-body -sS \

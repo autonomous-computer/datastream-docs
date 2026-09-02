@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/dilution/convertibles"
-description: "Find disclosed convertible instruments and their conversion terms"
+description: "Convertible instruments"
 ---
 
-Find disclosed convertible instruments and their conversion terms
+Convertible instruments
 
 <Info>
 Audience: investors and developers reviewing disclosed convertible financing terms.
 </Info>
+
+## Coverage and source scope
+
+Find disclosed convertible instruments and their conversion terms.
 
 ## Canonical metadata
 
@@ -65,7 +69,7 @@ Rows reflect disclosed conversion mechanics and dates in the covered filing reco
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/dilution/convertibles to find disclosed convertible instruments and their conversion terms. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: conversionPrice, conversionPriceType, hasResetRatchet, maturityDate, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
+Use SEC API GET /v1/dilution/convertibles to convertible instruments. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: conversionPrice, conversionPriceType, hasResetRatchet, maturityDate, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
 </Prompt>
 
 ## Failure posture

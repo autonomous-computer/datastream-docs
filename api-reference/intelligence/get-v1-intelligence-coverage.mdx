@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/intelligence/coverage"
-description: "Filing-intelligence coverage endpoint (currently unavailable)"
+description: "Filing intelligence coverage"
 ---
 
-Filing-intelligence coverage endpoint (currently unavailable)
+Filing intelligence coverage
 
 <Info>
 Audience: application and coding agent.
@@ -11,11 +11,11 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-This endpoint is currently unavailable and returns `404 filings_intelligence_not_available`. When available, it will compose a single-issuer rollup over persisted filings-intelligence stores, including tagged events, guidance, transcripts, and footnote newness. Coverage will reflect available extracted records, not complete issuer disclosure history.
+Composes a single-issuer rollup over persisted filings-intelligence stores, including tagged events, guidance, transcripts, and footnote newness. Coverage reflects available extracted records rather than an issuer's full disclosure history.
 
-## Current availability
+## Coverage and interpretation
 
-This endpoint currently returns `404 filings_intelligence_not_available`. It is documented here so clients can prepare for the contract, but it is not available as an active coverage-report source. When it becomes available, preserve source counts, citation fields, and request metadata, then verify coverage against the underlying filings.
+The rollup composes tagged events, guidance, transcripts, and footnote newness for one issuer from the persisted filings-intelligence stores. Counts describe what has been extracted, not what the issuer has disclosed. Preserve source counts, citation fields, and request metadata, then verify coverage against the underlying filings.
 
 ## Canonical metadata
 
@@ -46,7 +46,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-GET /v1/intelligence/coverage is currently unavailable and returns `404 filings_intelligence_not_available`. Do not use it as an active coverage-report dependency. When it becomes available, preserve source counts, citation fields, `requestId`, and `traceparent`, and verify issuer coverage against the underlying filing records.
+Use SEC API GET /v1/intelligence/coverage for a single-issuer rollup over the filings-intelligence stores. Preserve source counts, citation fields, `requestId`, and `traceparent`, and verify issuer coverage against the underlying filing records; coverage reflects extracted records rather than an issuer's full disclosure history.
 </Prompt>
 
 ## Failure posture

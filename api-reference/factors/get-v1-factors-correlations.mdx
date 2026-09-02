@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/correlations"
-description: "Return factor-to-factor and factor-to-security correlation surfaces for strategy and risk workflows"
+description: "Factor correlations"
 ---
 
-Return factor-to-factor and factor-to-security correlation surfaces for strategy and risk workflows
+Factor correlations
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return factor-to-factor and factor-to-security correlation surfaces for strategy and risk workflows.
 
 ## Canonical metadata
 
@@ -110,7 +114,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/correlations to return factor-to-factor and factor-to-security correlation surfaces for strategy and risk workflows. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/correlations to factor correlations. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

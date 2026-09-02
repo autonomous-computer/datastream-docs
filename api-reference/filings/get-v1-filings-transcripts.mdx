@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/filings/transcripts"
-description: "Filing transcripts endpoint (currently unavailable)"
+description: "Earnings transcripts"
 ---
 
-Filing transcripts endpoint (currently unavailable)
+Earnings transcripts
 
 <Info>
 Audience: application and coding agent.
@@ -11,19 +11,24 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-This endpoint is currently unavailable and returns `404 filings_intelligence_not_available`. When available, it will list persisted earnings-transcript records extracted from covered EX-99 filing materials, with speaker and prepared-remarks or Q&A structure where source material supports extraction. Results will depend on available source materials and extraction coverage.
+Lists persisted earnings-transcript records extracted from covered EX-99 filing materials, with speaker and prepared-remarks or Q&A structure where source material supports extraction. Results depend on available source materials and extraction coverage.
 
-## Current availability
+## Coverage and interpretation
 
-This endpoint currently returns `404 filings_intelligence_not_available`. It is documented here so clients can prepare for the contract, but it is not available as a transcript source. When it becomes available, preserve filing or exhibit citations and verify material statements in the original source.
+Records are extracted from covered EX-99 filing materials, with speaker and prepared-remarks or Q&A structure where the source supports it. Coverage follows what issuers furnish, so absence of a transcript is not evidence that no call took place. Preserve filing or exhibit citations and verify material statements in the original source.
 
 ## Canonical metadata
 
+- `id`
+- `ticker`
+- `cik`
+- `accessionNumber`
+- `exhibit`
+- `fiscalPeriod`
+- `callDate`
+- `speakers`
 - `requestId`
 - `traceparent`
-- `code`
-- `message`
-- `details`
 
 ## Example request
 
@@ -36,18 +41,82 @@ curl -X GET \
 ```
 </RequestExample>
 
-## 404 response
+## Example response
 
 <ResponseExample>
 ```json
 {
-  "object": "error",
-  "id": "err_example",
-  "code": "filings_intelligence_not_available",
-  "type": "invalid_request_error",
-  "message": "The filings-intelligence plane is not enabled.",
+  "object": "list",
+  "data": [
+    {
+      "object": "earnings_transcript",
+      "id": "etr_example",
+      "createdAt": "2026-02-20T00:00:00.000Z",
+      "livemode": true,
+      "ticker": "EXAMPLE",
+      "cik": "0000000000",
+      "accessionNumber": "0000000000-26-000001",
+      "exhibit": null,
+      "fiscalPeriod": null,
+      "callDate": "2026-08-19",
+      "speakers": [
+        {
+          "name": "FILING VALUES",
+          "role": null,
+          "affiliation": "unknown",
+          "organization": null
+        },
+        {
+          "name": "MAIL ADDRESS",
+          "role": null,
+          "affiliation": "unknown",
+          "organization": null
+        }
+      ],
+      "qaSplit": true,
+      "segments": [
+        {
+          "text": "FORM TYPE: 8-K\n SEC ACT: 1934 Act\n SEC FILE NUMBER:\t001-39227\n FILM NUMBER: 261295899\n\tBUSINESS ADDRESS:\n STREET 1: 6651 GATE PARKWAY\n STREET 2: 4TH FLOOR\n CITY: JACKSONVILLE\n STATE: FL\n BUSINESS PHONE: 904-296-2807",
+          "session": "prepared_remarks",
+          "speaker": {
+            "name": "FILING VALUES",
+            "role": null,
+            "affiliation": "unknown",
+            "organization": null
+          }
+        },
+        {
+          "text": "STREET 1: 6651 GATE PARKWAY\n STREET 2: 4TH FLOOR\n CITY: JACKSONVILLE\n STATE: FL",
+          "session": "prepared_remarks",
+          "speaker": {
+            "name": "MAIL ADDRESS",
+            "role": null,
+            "affiliation": "unknown",
+            "organization": null
+          }
+        }
+      ],
+      "summaryMd": null,
+      "filedAt": "2026-08-19 00:00:00+00",
+      "documentUrl": null,
+      "verification": {
+        "sourceSpan": null,
+        "extractionTraceId": null,
+        "confidence": 0.9,
+        "crossValidations": [],
+        "modelVersion": "filings-intel-2026-07-07.1",
+        "verifiedAt": null
+      }
+    }
+  ],
+  "hasMore": false,
+  "nextCursor": null,
+  "queryPath": null,
+  "queryPathReason": null,
+  "policyYears": null,
+  "degradedState": null,
   "requestId": "req_2ZK8Q1W9F4M6P7R3",
-  "details": {}
+  "traceparent": "00-0af7651916cd43dd8448eb211c80319c-b7ad6b7169203331-01"
 }
 ```
 </ResponseExample>
@@ -55,11 +124,11 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-GET /v1/filings/transcripts is currently unavailable and returns `404 filings_intelligence_not_available`. Do not use it as an active transcript source. When it becomes available, preserve filing or exhibit citations and verify material statements in the original source.
+Use SEC API GET /v1/filings/transcripts to read earnings-transcript records extracted from covered EX-99 materials. Preserve filing or exhibit citations and verify material statements in the original source; coverage depends on available source materials and extraction quality.
 </Prompt>
 
 ## Failure posture
 
-- treat `404 filings_intelligence_not_available` as the current endpoint state, not an empty result
-- do not retry this endpoint as an active dependency until filings intelligence is enabled
+- a `404 filings_intelligence_not_available` on the transcript store means filing intelligence is turned off for the account, not that the query matched nothing; it does not describe the endpoint's current state
+- an empty `data` array from the transcript store is a coverage gap for that issuer or window, not an outage
 - preserve `requestId` and `traceparent` in logs and downstream reports

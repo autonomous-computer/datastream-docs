@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/events/enforcement"
-description: "Search official SEC enforcement releases, proceedings, and accounting actions"
+description: "SEC enforcement actions"
 ---
 
-Search official SEC enforcement releases, proceedings, and accounting actions
+SEC enforcement actions
 
 <Info>
 Audience: application and coding agent.
@@ -75,7 +75,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/events/enforcement to search official SEC enforcement releases, proceedings, and accounting actions. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/events/enforcement to sEC enforcement actions. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

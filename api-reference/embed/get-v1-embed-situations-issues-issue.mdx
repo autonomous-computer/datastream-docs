@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/embed/situations/issues/{issue}"
-description: "Public Special Situations Digest issue detail by number or slug"
+description: "Situations digest issue"
 ---
 
-Public Special Situations Digest issue detail by number or slug
+Situations digest issue
 
 <Info>
 Audience: application and coding agent.
@@ -11,7 +11,7 @@ Audience: application and coding agent.
 
 ## Coverage and source scope
 
-Anonymous, cacheable detail for one published Special Situations Digest issue. The response is the frozen public issue snapshot with provider-owned and market-plane internals omitted by the route projection.
+Anonymous, cacheable detail for one published Special Situations Digest issue, returned as the frozen public issue snapshot.
 
 ## Canonical metadata
 
@@ -41,7 +41,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/embed/situations/issues/{issue} to public Special Situations Digest issue detail by number or slug. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/embed/situations/issues/{issue} to situations digest issue. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/market/bars"
-description: "Retrieve daily OHLCV history for one security"
+description: "Daily price bars"
 ---
 
-Retrieve daily OHLCV history for one security
+Daily price bars
 
 <Info>
 Audience: developers and agents building daily price-history and event-study inputs.
@@ -87,7 +87,7 @@ A missing symbol returns `400 missing_symbol`; a non-positive or malformed limit
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/market/bars to retrieve daily OHLCV history for one security. Preserve `data`, `per-row timestamp`, `per-row OHLCV`, `per-row freshness`, `per-row provenance`, `per-row sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/market/bars to daily price bars. Preserve `data`, `per-row timestamp`, `per-row OHLCV`, `per-row freshness`, `per-row provenance`, `per-row sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/agent/bootstrap"
-description: "Exchange a sponsor token for the first org-scoped API key, billing snapshot, limits, and MCP install metadata"
+description: "Agent bootstrap exchange"
 ---
 
-Exchange a sponsor token for the first org-scoped API key, billing snapshot, limits, and MCP install metadata
+Agent bootstrap exchange
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Exchange a sponsor token for the first org-scoped API key, billing snapshot, limits, and MCP install metadata.
 
 ## Canonical metadata
 
@@ -55,7 +59,7 @@ This exchange is intentionally pre-auth. Do not send x-api-key or Authorization;
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/agent/bootstrap to exchange a sponsor token for the first org-scoped API key, billing snapshot, limits, and MCP install metadata. Preserve `requestId`, `organization`, `apiKey`, `billing`, `limits`, `distribution`, `sponsorToken` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/agent/bootstrap to agent bootstrap exchange. Preserve `requestId`, `organization`, `apiKey`, `billing`, `limits`, `distribution`, `sponsorToken` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

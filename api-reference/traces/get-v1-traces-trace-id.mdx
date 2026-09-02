@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/traces/{trace_id}"
-description: "Resolve a single shared trace record by trace identifier across filing-derived and supported non-filing datasets"
+description: "Get trace"
 ---
 
-Resolve a single shared trace record by trace identifier across filing-derived and supported non-filing datasets
+Get trace
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Resolve a single shared trace record by trace identifier across filing-derived and supported non-filing datasets.
 
 ## Canonical metadata
 
@@ -59,7 +63,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/traces/{trace_id} to resolve a single shared trace record by trace identifier across filing-derived and supported non-filing datasets. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/traces/{trace_id} to get trace. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

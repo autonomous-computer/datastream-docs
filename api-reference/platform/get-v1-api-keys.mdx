@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/api_keys"
-description: "List API keys for the current organization"
+description: "List API keys"
 ---
 
-List API keys for the current organization
+List API keys
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+List API keys for the current organization.
 
 ## Canonical metadata
 
@@ -42,7 +46,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/api_keys to list API keys for the current organization. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/api_keys to list API keys. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

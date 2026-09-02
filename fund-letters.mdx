@@ -259,7 +259,7 @@ curl -H "x-api-key: $SECAPI_API_KEY" \
 Three things to know:
 
 - `canonicalName` is the name people actually say — curated for covered managers ("Oaktree Capital", "GMO"), derived by stripping legal suffixes otherwise. `name` keeps the form the letters and filings use.
-- The overview is deliberately small: `keyTheses` carries at most 5 headline theses (ticker, relationship, stance, one line each), and nothing on the payload inlines page markdown, anchors, or full thesis bodies. Follow `links.letters` and `links.theses` when you need depth.
+- The overview returns identity and headline theses only: `keyTheses` carries at most 5 headline theses (ticker, relationship, stance, one line each), and nothing on the payload inlines page markdown, anchors, or full thesis bodies. Follow `links.letters` and `links.theses` when you need depth.
 - `latestLetter` is `null` for a manager with no processed letters yet — the curated profile (description, founders, website) still serves.
 - When the Fund Directory is enabled, the overview also carries a `references` block — `{ website: { url, confidence }, wikipedia: { url }, grokipedia: { url, confidence } }` — the same proven-or-`null` external links served on the manager list (see the directory section below). Confidence is a verification tier, not a numeric score.
 
@@ -289,7 +289,7 @@ curl -H "x-api-key: $SECAPI_API_KEY" \
 
 How to read it:
 
-- Positions come from the materialized 13F holder index with the same amendment/restatement canonicalization as the institutional-holders endpoints, so 13F-HR/A amendments are never double-counted. `value` is USD (13F values are reported in thousands; already scaled), and `pctOfPortfolio` is the position's share of the report's total reported value.
+- Positions come from the indexed 13F holdings with the same amendment/restatement canonicalization as the institutional-holders endpoints, so 13F-HR/A amendments are never double-counted. `value` is USD (13F values are reported in thousands; already scaled), and `pctOfPortfolio` is the position's share of the report's total reported value.
 - `ticker` is resolved from the reported CUSIP where a canonical listing exists, else `null`. `totalPositions` counts the report's distinct issuer positions.
 - **Get more:** the overview inlines at most 10 positions. Follow `links.holdings13F` for the manager's full 13F holdings surface (the same adviser `cik` also works with `/v1/owners/institutional/investor` for the paged portfolio view).
 - Without `include=positions` the `latest13F` key is omitted entirely; with it, a manager with no linked adviser CIK or no indexed 13F serves `latest13F: null`.

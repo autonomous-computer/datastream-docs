@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/catalog"
-description: "Return compact SEC API factor definitions, with trust and methodology metadata available on request"
+description: "Factor catalog"
 ---
 
-Return compact SEC API factor definitions, with trust and methodology metadata available on request
+Factor catalog
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return compact SEC API factor definitions, with trust and methodology metadata available on request.
 
 ## Canonical metadata
 
@@ -75,7 +79,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/catalog to return compact SEC API factor definitions, with trust and methodology metadata available on request. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/catalog to factor catalog. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

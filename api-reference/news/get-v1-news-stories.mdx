@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/news/stories"
-description: "Return rights-safe news stories with entity tagging, provenance, and source-rights metadata"
+description: "List news stories"
 ---
 
-Return rights-safe news stories with entity tagging, provenance, and source-rights metadata
+List news stories
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return rights-safe news stories with entity tagging, provenance, and source-rights metadata.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/news/stories to return rights-safe news stories with entity tagging, provenance, and source-rights metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/news/stories to list news stories. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

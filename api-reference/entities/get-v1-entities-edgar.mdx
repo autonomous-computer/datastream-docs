@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/entities/edgar"
-description: "Search SEC EDGAR entity records by name, ticker, CIK, or identifier with source-oriented pagination"
+description: "Search EDGAR entities"
 ---
 
-Search SEC EDGAR entity records by name, ticker, CIK, or identifier with source-oriented pagination
+Search EDGAR entities
 
 <Info>
 Audience: engineers and agents that need SEC EDGAR-oriented entity discovery.
 </Info>
+
+## Coverage and source scope
+
+Search SEC EDGAR entity records by name, ticker, CIK, or identifier with source-oriented pagination.
 
 ## Canonical metadata
 
@@ -57,7 +61,7 @@ Invalid pagination returns `400 invalid_query_parameter`; source-search failures
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/entities/edgar to search SEC EDGAR entity records by name, ticker, CIK, or identifier with source-oriented pagination. Preserve `data`, `hasMore`, `nextCursor`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/entities/edgar to search EDGAR entities. Preserve `data`, `hasMore`, `nextCursor`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

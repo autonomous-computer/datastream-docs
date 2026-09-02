@@ -127,26 +127,23 @@ source family clears verification.
 
 AskEdgar splits its surface into two products: an AI Copilot UI (priced
 per-month with included AI questions) and an API (priced per-KB,
-pay-as-you-go only). SEC API is API-first and offers a unified PAYG plus
-subscription ladder.
+pay-as-you-go only). SEC API is API-first: Sandbox, Pay as you go, or Custom.
+There is no monthly minimum and no setup fee. Prepaid credits save 10–30%.
 
 | Tier              | SEC API                                            | AskEdgar Copilot                       | AskEdgar API     |
 | ----------------- | ----------------------------------------------- | -------------------------------------- | ---------------- |
-| **Free allowance** | 100 calls/month (renewable hard cap)       | Limited AI questions                   | None             |
-| **Pay-as-you-go** | From $0.01/call                                 | n/a                                    | $0.004–$0.019/KB |
-| **Pro**            | $49/month + $10 included credits + 15% overage discount | $59/month — 600 AI Q (7-day trial)     | n/a              |
-| **Team**           | $199/month + $50 included credits + 25% overage discount | $199/month — 1,000 AI Q (7-day trial)  | n/a              |
-| **Enterprise**    | Custom (SLA, support, dedicated capacity)       | Custom                                 | Custom           |
+| **Sandbox** | 100 included live calls each month; unlimited users       | Limited AI questions                   | None             |
+| **Pay as you go** | From $0.01/call, prepaid wallet                                 | n/a                                    | $0.004–$0.019/KB |
+| **Custom**    | Volume pricing, consolidated billing, TAM, SLA       | Custom                                 | Custom           |
 
 **Cost example** for a small dilution-research workload (300 API calls/month, ~6 KB returned per `dilution-data` call):
 
 - AskEdgar API PAYG (`/v1/dilution-data` at $0.018/KB) ≈ **$32.40/month**
-- SEC API PAYG (300 × $0.01/call) ≈ **$3.00/month** after the renewable free monthly allowance is exhausted
-- SEC API Pro **$49/month** with $10 included monthly credits, discounted overages, and the rest of the 39-family API surface
+- SEC API PAYG (300 × $0.01/call) ≈ **$3.00/month** after that month's included calls are used
+- SEC API prepaid savings: pay $45 for $50 in credits (save 10%)
 
 The PAYG arithmetic is the conversion lever for any agent at small-to-medium
-volume. The subscription is the right call once dilution data is embedded
-in a workflow that touches the rest of the API surface.
+volume. Custom is the path for volume pricing, consolidated billing, and a dedicated TAM.
 
 ## Where AskEdgar wins
 
@@ -159,8 +156,8 @@ specifically. Customers evaluating both should know:
   integrations tuned for one workflow (small-cap dilution forensics)
   feel cohesive end-to-end.
 - **7-day free trial** on Pro and Pro+ Copilot tiers. SEC API does not offer
-  a separate trial; every new organization receives a renewable monthly free
-  allowance with hard caps.
+  a separate trial; new organizations receive 100 included live calls
+  each month, subject to hard caps.
 - **Marquee small-cap testimonials.** Aegis Capital is named on the home
   page alongside Trillium, Seven Points Capital, SMB Capital, and others.
 - **Strict per-endpoint per-KB API pricing.** Some buyers prefer a metered
@@ -186,7 +183,7 @@ read offering pressure and factor risk from the same company surface.
 | MCP server                                              | yes (106 tools, including dilution workflows) | yes ([documented MCP](https://askedgar.readme.io/docs/mcp-ai); API tools generated from OpenAPI plus documentation tools; Bearer API-key forwarding) |
 | SDKs                                                    | 4 (JS/TS, Python, Go, Rust)           | none published                    |
 | Custom Skills (Claude / agent-runnable)                 | 8 canonical skills                    | none                              |
-| FinanceBench score                                      | 18 / 25 (72%) canary subset, 2026-04-25 | none published                    |
+| FinanceBench score                                      | 18 / 25 (72%) on a 25-question subset, 2026-04-25 | none published                    |
 | Filing search / sections / XBRL                         | yes                                   | no                                |
 | 13F holdings + comparison                               | yes                                   | no                                |
 | Insider trading + Form 144                              | yes                                   | no                                |
@@ -247,7 +244,7 @@ path to the AskEdgar UI for verification.
 | Multi-language SDKs              | JS/TS, Python, Go, Rust             | none published                 |
 | Skills (Claude / agent-runnable) | 8 canonical                         | none published                 |
 | Webhooks                         | signed + replay + cursor            | Discord-only                   |
-| FinanceBench                     | 18 / 25 (72%) canary, 2026-04-25    | not published                  |
+| FinanceBench                     | 18 / 25 (72%) on 25 questions, 2026-04-25 | not published                  |
 
 ## Migration
 
@@ -273,4 +270,4 @@ Create an account at secapi.ai/signup to get an API key.
 
 ---
 
-*AskEdgar facts and numeric claims reflect data captured as of 2026-04-26 (re-verified at askedgar.io on 2026-04-26). SEC API dilution-score and factor-exposure capabilities updated 2026-06-18 to reflect the shipped live-compute score, per-factor breakdown, missing-factor renormalization, death-spiral / variable-rate-convertible flag, float-velocity factor, and the opt-in `/v1/companies/overview?include=factors` enrichment.*
+*AskEdgar facts and numeric claims reflect data captured as of 2026-04-26. SEC API dilution-score and factor-exposure capabilities are described as of 2026-06-18.*

@@ -34,7 +34,7 @@ For construction details, see [Factor Model Methodology](/factor-model-methodolo
 |---|---|---|
 | Factor catalog | `GET /v1/factors/catalog` | Factor definitions, category, launch posture, methodology, and source posture. |
 | Basic, style, sector, industry factor tables | `GET /v1/factors/catalog?category=style` and `GET /v1/factors/sparklines` | Use catalog for definitions and sparklines for compact chart/table rows. |
-| Daily factor returns | `GET /v1/factors/returns` | Multi-factor daily return rows with launch-safe defaults. |
+| Daily factor returns | `GET /v1/factors/returns` | Multi-factor daily return rows with conservative defaults. |
 | Intraday factor returns | `GET /v1/factors/returns/intraday` | Current only when market-data inputs and snapshot freshness are current. |
 | Single-factor history page | `GET /v1/factors/history/{factorKey}` | Single-factor history with 1D, 5D, 1M, 3M, 6M, 1Y, and MAX summary windows. |
 | Multi-factor history table | `GET /v1/factors/sparklines` | Downsampled multi-factor series for sector/index/model UI tables. |

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/owners/13f/filings"
-description: "List a manager's recent SEC Form 13F filings and their reported period dates"
+description: "List 13F filings"
 ---
 
-List a manager's recent SEC Form 13F filings and their reported period dates
+List 13F filings
 
 <Info>
 Audience: application and coding agent.
@@ -60,7 +60,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/owners/13f/filings to list a manager's recent SEC Form 13F filings and their reported period dates. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/owners/13f/filings to list 13F filings. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

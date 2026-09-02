@@ -24,13 +24,13 @@ The free allowance provides `100` included calls each month and renews automatic
 
 ## Enable the paid path
 
-In the signed-in dashboard, choose Pay As You Go, save a card, make the initial credit top-up, and optionally configure auto top-up. The API endpoint for this control-plane action is `POST /v1/billing/payg/enable`; it requires the authorized signed-in session rather than an API key.
+In the signed-in dashboard, choose Pay As You Go, save a card, make the initial credit top-up, and optionally configure auto top-up. The API endpoint for this account settings action is `POST /v1/billing/payg/enable`; it requires the authorized signed-in session rather than an API key.
 
 Once payment is confirmed, the organization moves to `payg_active`. Until then, a billable request can return `402 billing_required` with the account condition that needs attention.
 
 ## See the grant boundary before you hit it
 
-The starter grant does not renew, so an account without a payment method stops at the grant limit. From `80%` of the grant onward, billable responses carry an advisory so an integration can act before requests start failing:
+The included allowance renews automatically each month. An account without a payment method still stops when the current month's allowance is spent, so from `80%` onward billable responses carry an advisory that lets an integration fund production usage or wait for the next renewal deliberately:
 
 | Header | Meaning |
 | --- | --- |

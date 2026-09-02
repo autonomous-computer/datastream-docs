@@ -12,22 +12,24 @@ The sidebar labels inside this family are the literal calls you make over HTTP. 
 ## Operations in this family
 
 <CardGroup cols={2}>
-<Card title="GET /v1/situations" href="/api-reference/situations/get-v1-situations">List durable special situations (M&A, tender offers, going-private, spin-offs, activist campaigns, restructuring, bankruptcy, …) with lifecycle status, deal terms, and market snapshot.</Card>
-<Card title="GET /v1/situations/{situation_id}" href="/api-reference/situations/get-v1-situations-situation-id">Retrieve a single situation with its full per-filing timeline (oldest first)</Card>
-<Card title="GET /v1/situations/{situation_id}/export" href="/api-reference/situations/get-v1-situations-situation-id-export">Render a source-cited Markdown Copy-for-LLM brief for one situation</Card>
-<Card title="GET /v1/situations/{situation_id}/filings" href="/api-reference/situations/get-v1-situations-situation-id-filings">Retrieve a situation's per-filing timeline as a paginated sub-resource (oldest first)</Card>
-<Card title="GET /v1/situations/{situation_id}/summary" href="/api-reference/situations/get-v1-situations-situation-id-summary">Retrieve a compact situation summary: rendered markdown, deal terms, and the latest timeline event</Card>
-<Card title="GET /v1/situations/{situation_id}/underwriting-pack" href="/api-reference/situations/get-v1-situations-situation-id-underwriting-pack">Retrieve a deterministic, source-cited underwriting pack with canonical detail, filing timeline, and Copy-for-LLM markdown</Card>
-<Card title="GET /v1/situations/by-form/{form}" href="/api-reference/situations/get-v1-situations-by-form-form">List special situations opened or advanced by a given EDGAR form type (e.g. SC 13D, SC TO-T, 425, DEFM14A). The form is expanded to the situation types it triggers.</Card>
-<Card title="GET /v1/situations/calendar" href="/api-reference/situations/get-v1-situations-calendar">Upcoming situation key dates (record, vote, expiry, expected close) within a horizon of up to 365 days</Card>
-<Card title="GET /v1/situations/feed" href="/api-reference/situations/get-v1-situations-feed">Reverse-chronological feed of situation events, each enriched with its parent situation summary</Card>
-<Card title="GET /v1/situations/feed.rss" href="/api-reference/situations/get-v1-situations-feed-rss">Paid authenticated RSS feed of situation events</Card>
-<Card title="GET /v1/situations/issues" href="/api-reference/situations/get-v1-situations-issues">List immutable, numbered weekly Special Situations Digest issues</Card>
-<Card title="GET /v1/situations/issues/{issue}" href="/api-reference/situations/get-v1-situations-issues-issue">Retrieve one immutable weekly Special Situations Digest issue by number or slug</Card>
-<Card title="GET /v1/situations/performance" href="/api-reference/situations/get-v1-situations-performance">Closed-situation outcome cohorts: completion rate, median days to close, average premium, terminated/expired counts</Card>
-<Card title="GET /v1/situations/stats" href="/api-reference/situations/get-v1-situations-stats">Situation counts by type, status, sector, market-cap bucket, and country with coverage scope</Card>
-<Card title="GET /v1/situations/watchlists" href="/api-reference/situations/get-v1-situations-watchlists">List situation-scoped watchlist monitors for the current organization</Card>
-<Card title="POST /v1/situations/watchlists" href="/api-reference/situations/post-v1-situations-watchlists">Create a situation-scoped watchlist monitor</Card>
-<Card title="GET /v1/situations/watchlists/{monitor_id}" href="/api-reference/situations/get-v1-situations-watchlists-monitor-id">Retrieve a situation-scoped watchlist monitor by id</Card>
-<Card title="DELETE /v1/situations/watchlists/{monitor_id}" href="/api-reference/situations/delete-v1-situations-watchlists-monitor-id">Deactivate a situation-scoped watchlist monitor</Card>
+<Card title="GET /v1/exports/{job_id}" href="/api-reference/situations/get-v1-exports-job-id">Get export job</Card>
+<Card title="GET /v1/situations" href="/api-reference/situations/get-v1-situations">List special situations</Card>
+<Card title="GET /v1/situations/{situation_id}" href="/api-reference/situations/get-v1-situations-situation-id">Get situation</Card>
+<Card title="GET /v1/situations/{situation_id}/export" href="/api-reference/situations/get-v1-situations-situation-id-export">Export one situation</Card>
+<Card title="GET /v1/situations/{situation_id}/filings" href="/api-reference/situations/get-v1-situations-situation-id-filings">Situation filing timeline</Card>
+<Card title="GET /v1/situations/{situation_id}/summary" href="/api-reference/situations/get-v1-situations-situation-id-summary">Situation summary</Card>
+<Card title="GET /v1/situations/{situation_id}/underwriting-pack" href="/api-reference/situations/get-v1-situations-situation-id-underwriting-pack">Situation underwriting pack</Card>
+<Card title="GET /v1/situations/by-form/{form}" href="/api-reference/situations/get-v1-situations-by-form-form">Situations by filing form</Card>
+<Card title="GET /v1/situations/calendar" href="/api-reference/situations/get-v1-situations-calendar">Situation calendar</Card>
+<Card title="GET /v1/situations/export" href="/api-reference/situations/get-v1-situations-export">Export situations</Card>
+<Card title="GET /v1/situations/feed" href="/api-reference/situations/get-v1-situations-feed">Situation event feed</Card>
+<Card title="GET /v1/situations/feed.rss" href="/api-reference/situations/get-v1-situations-feed-rss">Situation RSS feed</Card>
+<Card title="GET /v1/situations/issues" href="/api-reference/situations/get-v1-situations-issues">Weekly digest issues</Card>
+<Card title="GET /v1/situations/issues/{issue}" href="/api-reference/situations/get-v1-situations-issues-issue">Get digest issue</Card>
+<Card title="GET /v1/situations/performance" href="/api-reference/situations/get-v1-situations-performance">Situation outcome statistics</Card>
+<Card title="GET /v1/situations/stats" href="/api-reference/situations/get-v1-situations-stats">Situation counts</Card>
+<Card title="GET /v1/situations/watchlists" href="/api-reference/situations/get-v1-situations-watchlists">List situation watchlists</Card>
+<Card title="POST /v1/situations/watchlists" href="/api-reference/situations/post-v1-situations-watchlists">Create situation watchlist</Card>
+<Card title="GET /v1/situations/watchlists/{monitor_id}" href="/api-reference/situations/get-v1-situations-watchlists-monitor-id">Get situation watchlist</Card>
+<Card title="DELETE /v1/situations/watchlists/{monitor_id}" href="/api-reference/situations/delete-v1-situations-watchlists-monitor-id">Deactivate situation watchlist</Card>
 </CardGroup>

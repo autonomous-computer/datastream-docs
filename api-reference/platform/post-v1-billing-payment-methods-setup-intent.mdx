@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/billing/payment-methods/setup-intent"
-description: "Create a Stripe SetupIntent to save a payment method off-session for top-ups and auto-top-up (max 3 per organization)"
+description: "Save a payment method"
 ---
 
-Create a Stripe SetupIntent to save a payment method off-session for top-ups and auto-top-up (max 3 per organization)
+Save a payment method
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Create a Stripe SetupIntent to save a payment method off-session for top-ups and auto-top-up (max 3 per organization).
 
 ## Request body
 
@@ -48,7 +52,7 @@ Payment-method management requires a WorkOS bearer session with `billing:manage`
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/billing/payment-methods/setup-intent to create a Stripe SetupIntent to save a payment method off-session for top-ups and auto-top-up (max 3 per organization). Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/billing/payment-methods/setup-intent to save a payment method. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

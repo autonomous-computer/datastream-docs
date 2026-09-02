@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/situations/feed"
-description: "Reverse-chronological feed of situation events, each enriched with its parent situation summary"
+description: "Situation event feed"
 ---
 
-Reverse-chronological feed of situation events, each enriched with its parent situation summary
+Situation event feed
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Reverse-chronological feed of situation events, each enriched with its parent situation summary.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/situations/feed to reverse-chronological feed of situation events, each enriched with its parent situation summary. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/situations/feed to situation event feed. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

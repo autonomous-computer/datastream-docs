@@ -16,8 +16,8 @@ This guide maps every AskEdgar dilution endpoint onto SEC API and walks through 
   <Card title="Auth header swap" icon="key" href="/auth-and-pricing">
     AskEdgar uses `API-KEY: …`; SEC API uses `x-api-key: …`. Same per-request shape, different header name.
   </Card>
-  <Card title="Predictable subscription option" icon="credit-card" href="/plans-and-pricing">
-    SEC API offers PAYG and optional subscriptions (Pro at $49/month, Team at $199/month) with included credits and discounted overages. AskEdgar's API is per-KB only.
+  <Card title="Pay as you go" icon="credit-card" href="/plans-and-pricing">
+    SEC API is Sandbox, Pay as you go, or Custom. Prepaid credits save 10–30%. AskEdgar's API is per-KB only.
   </Card>
   <Card title="Broader API surface" icon="layers-2" href="/api-reference">
     14 dilution endpoints plus 38 other endpoint families (filings, statements, factors, insiders, macro). One key, 39 families.
@@ -89,7 +89,7 @@ curl "https://api.secapi.ai/v1/dilution/share-float-history?ticker=MULN" \
 ```
 
 <Prompt>
-Migrate this AskEdgar integration to SEC API. Replace the host `api.askedgar.com` with `api.secapi.ai` (the existing paths already carry `/v1/...`, so the cutover is host-only — do NOT add `/v1` to the host or you will get `/v1/v1/...`). Swap the `API-KEY` header for `x-api-key`. Map `/v1/dilution-data` to `/v1/dilution/events`, split warrants/convertibles into `/v1/dilution/warrants` and `/v1/dilution/convertibles`, and replace any `verified === true` check with `verification.confidence >= 0.9 && verification.sourceSpanResolved`. Add `?view=agent` for token-efficient summaries on token-sensitive paths. Keep `Request-Id` logging and any current fallback gaps in the final implementation notes.
+Migrate this AskEdgar integration to SEC API. Replace the host `api.askedgar.com` with `api.secapi.ai` (the existing paths already carry `/v1/...`, so the cutover is host-only — do NOT add `/v1` to the host or you will get `/v1/v1/...`). Swap the `API-KEY` header for `x-api-key`. Map `/v1/dilution-data` to `/v1/dilution/events`, split warrants/convertibles into `/v1/dilution/warrants` and `/v1/dilution/convertibles`, and replace any `verified === true` check with `verification.confidence >= 0.9 && verification.sourceSpanResolved`. Add `?view=agent` for token-efficient summaries on token-sensitive paths. Keep `Request-Id` logging and note any endpoints without a direct equivalent in the final implementation notes.
 </Prompt>
 
 ## Verification model migration
@@ -119,24 +119,20 @@ Tighten or relax the threshold per workflow.
 
 ## Pricing impact
 
-AskEdgar's API is strictly per-KB. SEC API offers a renewable free monthly
-allowance, pure PAYG, and optional subscriptions with included credits and
-discounted overages. The conversion lever depends on payload size and call
-volume:
+AskEdgar's API is strictly per-KB. SEC API offers a renewable Sandbox grant
+and Pay as you go with prepaid savings. The conversion lever depends on payload
+size and call volume:
 
 | Profile                 | Volume                   | AskEdgar API (PAYG, per-KB) | SEC API option                 | SEC API $/mo |
 | ----------------------- | ------------------------ | --------------------------- | --------------------------- | --------- |
-| Light researcher        | 100 dilution-data calls  | ~$10.80 (≈$0.108/call)      | Free monthly allowance      | **$0**    |
+| Light researcher        | 100 dilution-data calls  | ~$10.80 (≈$0.108/call)      | Sandbox grant      | **$0**    |
 | Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | PAYG (600 × $0.01)          | **$6.00** |
-| Hedge-fund analyst      | 600 dilution-data calls  | ~$64.80                     | Pro                         | **$49**   |
-| Small-cap research team | 5,000 dilution-data calls| ~$540                       | Team                        | **$199**  |
 | Small-cap research team | 5,000 dilution-data calls| ~$540                       | PAYG (5,000 × $0.01)        | **$50.00**|
 
 AskEdgar API costs assume the published `/v1/dilution-data` rate of
-$0.018/KB and a typical ~6 KB response. SEC API quotas reflect the
-published pricing. The free allowance renews monthly with hard caps; ongoing
-PAYG usage requires card-backed activation, and Pro/Team add monthly included
-usage credits plus discounted overage rates.
+$0.018/KB and a typical ~6 KB response. SEC API rates reflect the
+published PAYG list. The Sandbox grant renews monthly; ongoing
+PAYG usage funds a prepaid wallet. Custom is the path for volume pricing.
 
 ## Migration script template
 

@@ -84,7 +84,7 @@ API keys can be revoked and re-created through `DELETE /v1/api_keys/:keyId` and 
 
 ## Multi-Seat Organizations
 
-The Team plan (`$199/mo`) supports up to five seats within a shared organization. All seats share:
+Sandbox and Pay as you go include unlimited users. Existing Team subscriptions, where still active, share:
 
 - org-scoped API keys with configurable scopes (`read:sec`, `write:sec`, `admin:operator`)
 - a unified billing context with shared spend caps and budget alerts
@@ -95,7 +95,7 @@ The Commercial plan extends multi-seat support with custom seat counts, dedicate
 
 ### API key management
 
-Each plan tier has a key limit. Team plans include more keys than Pro or PAYG:
+Key limits follow the account catalog. Custom and grandfathered Team accounts may include more keys than PAYG:
 
 ```bash
 # List existing keys
@@ -111,7 +111,7 @@ curl -X POST "$SECAPI_BASE_URL/v1/api_keys" \
 
 ## SLA Guarantees
 
-SEC API provides signed, logged, at-least-once webhook delivery with manual replay for retained delivery attempts. Automatic retry and endpoint auto-pause are rollout-gated operational features; [Webhook Delivery](/webhook-sla) is the source of truth for the currently shipped contract.
+SEC API provides signed, logged, at-least-once webhook delivery with manual replay for retained delivery attempts. Automatic retry and endpoint auto-pause are not generally available yet; [Webhook Delivery](/webhook-sla) is the source of truth for the current contract.
 
 ## Commercial Licensing
 

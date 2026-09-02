@@ -3,7 +3,7 @@ title: "SEC API documentation"
 description: "Make a source-backed SEC request, verify the result, and choose an integration and billing path that fits your workflow"
 ---
 
-Use SEC API to turn an SEC research question into a request your team can inspect and repeat. Start by resolving one issuer, retrieve one filing-backed result, and retain the identifiers that explain it.
+Use SEC API to turn an SEC research question into a request your team can inspect and repeat. Start by resolving one issuer (`GET /v1/entities/resolve`), then pick a dataset (filings, factors, or macro) or run a named intel job (`POST /v1/intelligence/query`). Fund letters require access — do not start there. Retain the identifiers that explain the result. Check `availability` on the catalog page or [the machine-readable catalog](/.well-known/api-catalog.json) before you curl.
 
 <CardGroup cols={3}>
   <Card title="Make your first request" icon="rocket" href="/try-it">
@@ -14,6 +14,21 @@ Use SEC API to turn an SEC research question into a request your team can inspec
   </Card>
   <Card title="Check the contract" icon="square-terminal" href="/api-reference">
     Confirm parameters, response fields, and route-specific limits before scaling.
+  </Card>
+</CardGroup>
+
+<CardGroup cols={2}>
+  <Card title="Resolve, then fetch" icon="key-round" href="/resolve-then-fetch">
+    Resolve one issuer, keep the identity, then fetch a store.
+  </Card>
+  <Card title="Object graph" icon="share-2" href="/object-graph">
+    Entity, filing, fact, statement, and the other fetchable objects.
+  </Card>
+  <Card title="Views and include" icon="layers-2" href="/views-and-includes">
+    Use view=agent. Treat include= as an opt-in expand.
+  </Card>
+  <Card title="Named intel jobs" icon="briefcase-business" href="/named-intel-jobs">
+    Packs at $0.50 and reports at $1.50. No open prompt.
   </Card>
 </CardGroup>
 
@@ -53,7 +68,7 @@ Your API key identifies the organization whose limits and billing state apply. B
   <Card title="Evaluate pricing and limits" icon="clipboard-check" href="/evaluate/pricing-and-limits">
     Price a bounded workload from the current account contract.
   </Card>
-  <Card title="Commercial boundaries" icon="building-2" href="/plans-and-pricing">
-    Check whether your use is internal or needs redistribution rights.
+  <Card title="Sandbox, PAYG, Custom" icon="building-2" href="/plans-and-pricing">
+    Check list prices, prepaid savings, and whether you need Custom rights.
   </Card>
 </CardGroup>

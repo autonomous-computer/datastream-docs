@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/portfolio/stress-test/scenarios"
-description: "Return the supported portfolio stress-test scenario catalog with macro and factor shock definitions"
+description: "Stress test scenarios"
 ---
 
-Return the supported portfolio stress-test scenario catalog with macro and factor shock definitions
+Stress test scenarios
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return the supported portfolio stress-test scenario catalog with macro and factor shock definitions.
 
 ## Canonical metadata
 
@@ -41,7 +45,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/portfolio/stress-test/scenarios to return the supported portfolio stress-test scenario catalog with macro and factor shock definitions. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/portfolio/stress-test/scenarios to stress test scenarios. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

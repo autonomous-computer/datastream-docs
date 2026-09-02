@@ -1,65 +1,106 @@
 ---
-title: "Plans, usage, and commercial rights"
-description: "Choose an SEC API plan for evaluation or internal use, then identify when a customer-facing product needs commercial terms"
+title: "Plans and pricing"
+description: "Sandbox, pay as you go, and Custom. No monthly minimum. Prepaid savings, not bonus credits."
 ---
 
-Choose a plan based on who uses the output and how predictably you expect to call the API. The [public pricing page](https://secapi.ai/pricing) is the buyer-facing comparison; authenticated billing and limits responses describe the account that will actually run your workload.
-
-## Start with the intended use
-
-- New organizations receive `100` included calls each month. This free allowance renews automatically.
-- Pay As You Go supports uneven or early internal usage without a fixed monthly fee.
-- Pro and Team suit sustained in-house use.
-- Commercial terms are required before you redistribute, embed, white-label, or resell SEC API-derived output.
+SEC API is pay as you go. There is no monthly minimum and no setup fee. New checkout is Sandbox, Pay as you go, or Custom. The [public pricing page](https://secapi.ai/pricing) is the buyer-facing comparison; `GET /v1/billing` and `GET /v1/limits` describe the account that will run the work.
 
 <CardGroup cols={3}>
   <Card title="Create an account" icon="key-round" href="https://secapi.ai/signup">
-    Get an organization and create the API key for a first request.
+    Sandbox signup. No card. 100 included calls each month.
   </Card>
-  <Card title="Price a real workload" icon="calculator" href="/evaluate/pricing-and-limits">
+  <Card title="Price a workload" icon="calculator" href="/evaluate/pricing-and-limits">
     Quote the paths and units you plan to run.
   </Card>
-  <Card title="Read billing answers" icon="circle-help" href="/billing-faq">
-    Check common account, budget, and quota boundaries.
+  <Card title="Billing answers" icon="circle-help" href="/billing-faq">
+    Starter grant, wallet, savings, and rights.
   </Card>
 </CardGroup>
 
-## Choose the operating model
+## Three columns
 
-| Plan | Use it for | Billing posture |
-| --- | --- | --- |
-| Free allowance | A bounded evaluation before paid usage. | 100 included calls each month; hard-limited and non-cash. |
-| Pay As You Go | Early, uneven, or low-volume internal use. | Metered usage with prepaid credits. |
-| Pro | Sustained work by one analyst or developer. | $49/month subscription with $10 included credits, 15% discounted overages, and budget gates. |
-| Team | Sustained shared internal work. | $199/month subscription with $50 included credits, 25% discounted overages, and budget gates. |
-| Commercial | Customer-facing products, redistribution, or negotiated requirements. | Contract terms determine scope, rights, and billing. |
+| | Sandbox | Pay as you go | Custom |
+| --- | --- | --- | --- |
+| Price | Free | No monthly minimum | [Contact](https://secapi.ai/contact) |
+| Users | Unlimited | Unlimited | Unlimited, plus SSO + SCIM |
+| Keys | Test keys, `livemode=false` | Production keys | Production keys, consolidated billing |
+| Usage | 100 included calls each month. Test traffic is free. | Prepaid wallet at published list prices | Volume pricing beside published bundles |
+| Rights | Evaluation | Internal use | Redistribution, embedding, SLA, dedicated TAM |
 
-## How usage is metered
+Seats are not a SKU. Keys are not a SKU. MCP, webhooks, streams, factors, macro, and intel use the same wallet.
 
-Requests are classified by meter family. The current account-readable catalog at [billing rates](/api-reference/platform/get-v1-billing-rates) is the source of truth for rates; the response can identify the class for an individual request with `SECAPI-Meter-Class`.
+## What you pay for
 
-| Meter family | Typical work |
+Published list, not meter-family jargon. After a prepaid bundle, the same list is discounted by the bundle's savings rate.
+
+| Job | List |
 | --- | --- |
-| `light_reads` | Entity resolution and lightweight metadata |
-| `standard_reads` | Filings, facts, statements, ownership, compensation, and full-text search |
-| `heavy_extracts` | Section extraction, comparisons, and document retrieval |
-| `artifact_jobs` | Artifact generation and export jobs |
-| `delivery_events` | Webhook and stream delivery |
-| `email_notifications` | Customer-configured monitor email recipients |
-| `intelligence_queries` | Intelligence and analysis routes |
-| `market_data_reads` | Factor returns, macro indicators, and market snapshots |
-| `semantic_search` | Vector-based search across supported content |
+| Resolve | `$0.01` |
+| Filing / fact / statement / letter thesis / situation row | `$0.03` |
+| Factor / macro | `$0.05` |
+| Semantic search | `$0.08` |
+| Extract / compare / letter document | `$0.10` |
+| Intel pack (named job) | `$0.50` |
+| Intel report (named job) | `$1.50` |
+| Artifact | `$0.25` |
+| Delivery event | `$0.001` |
+| Notification email | `$0.005` |
 
-The meter class, route limits, and billing decision can vary by request. Before a batch, quote each actual path rather than applying a rate from a related endpoint.
+Intel is a named job, not another store read. Packs are `deal_brief`, `letter_brief`, `filing_brief`, and `move_brief`. Reports are `country_report`, `portfolio_review`, `strategy`, and `underwriting_pack`. There is no open prompt. See [named intel jobs](/named-intel-jobs).
 
-## AI-query allowance and budget controls
+MCP is a channel. An intel pack through MCP is `$0.50`. An intel report through MCP is `$1.50`.
 
-The `ai_queries` quota covers documented intelligence routes and enhanced dilution routes. The sandbox grant has a monthly trial allowance of 10. Paid tiers are metered and governed by billing and budget controls rather than a fixed monthly AI-query cap.
+## Prepaid savings
 
-Quota-counted responses include `SECAPI-AI-Quota-Limit`, `SECAPI-AI-Quota-Used`, `SECAPI-AI-Quota-Remaining`, and `SECAPI-AI-Quota-Reset`. `GET /v1/billing` also returns the current values under `monthlyQuotas.ai_queries`. A budget, billing, or quota response is a stop condition: resolve the stated account condition before retrying.
+Credits land at face value. The card charge is discounted. Copy is savings, not bonus lots.
 
-## Rights boundary
+| Credits in wallet | Save | You pay |
+| --- | --- | --- |
+| `$50` | 10% | `$45` |
+| `$100` | 10% | `$90` |
+| `$250` | 20% | `$200` |
+| `$1000` | 30% | `$700` |
+| Other (`$10`–`$5000`) | band below | live quote |
 
-Self-serve plans cover evaluation and internal use. Commercial terms are required for redistribution, embedding, white-labeling, resale, and Bulk Factor Export. A successful API request does not grant those rights.
+Checkout shows **Pay `$45` for `$50` in credits · Save 10%.** Other uses the same bands so a typed amount is not worse than the nearest preset.
 
-For an external-facing product or a negotiated requirement, use the [public pricing page](https://secapi.ai/pricing) before launch. For an internal recurring workload, continue with [Pay As You Go](/pay-as-you-go) or [billing-aware agent runs](/agent-billing).
+| Credits requested | Save | You pay |
+| --- | --- | --- |
+| `$10`–`$49.99` | 0% | face (minimum top-up `$10`) |
+| `$50`–`$249.99` | 10% | 90% of face |
+| `$250`–`$999.99` | 20% | 80% of face |
+| `$1000`–`$5000` | 30% | 70% of face |
+
+Paid lots do not expire. Unspent credits can be refunded for 24 hours, in cash paid, fees non-refundable. After 24 hours they are non-refundable except for a billing error or as required by law.
+
+Auto top-up uses the same table on the recharge face amount (monthly or balance threshold, not weekly). A `$100` auto top-up pays `$90` and credits `$100`.
+
+There is no monthly per-meter volume curve. Rates below the `$1000` / 30% band are Custom.
+
+## What is not billed
+
+Health, quote, limits, catalog, test-key traffic (`livemode=false`), starter-grant resolve, MCP tool discovery, and `4xx` / `5xx` that fail before work starts. Failed, cancelled, or `4xx` intel jobs are free. Delivery receipts that are not a customer webhook are free. MCP discovery is free; the underlying job still bills.
+
+## Sandbox
+
+No card. Unlimited users. Test keys stay free. New organizations receive `100` included calls each month. The sandbox grant has 10 AI-query trial uses per UTC month. Production overage starts when you add PAYG credits or a card with auto top-up.
+
+## Pay as you go
+
+No monthly minimum. No setup fee. Prepaid wallet at the list above. Unlimited users. Unlimited keys within abuse limits. Auto top-up on balance threshold or monthly. Enable it in the signed-in [dashboard](https://secapi.ai/app). Until payment is confirmed, a billable request can return `402 billing_required`.
+
+Self-serve PAYG is `internal_use`. A `200` from the API is not a redistribution license.
+
+## Custom
+
+Volume pricing beside or below published bundles, consolidated billing, dedicated technical account manager, SSO + SCIM, commercial redistribution / embedding, and SLA. [Contact](https://secapi.ai/contact).
+
+## Grandfathered subscriptions
+
+Pro (`$49` / month), Team (`$199` / month), and Commercial as a listed price floor are no longer sold. Existing subscriptions continue on their current terms and are not migrated mid-cycle.
+
+## Rights
+
+Sandbox and PAYG cover evaluation and internal use. Redistribution, embedding, white-labeling, resale, and Bulk Factor Export require Custom. Do not infer those rights from a successful request.
+
+For a bounded workload, continue with [Pay as you go](/pay-as-you-go) or [billing-aware agent runs](/agent-billing).

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/market/snapshots"
-description: "Retrieve stored latest-price snapshots for one or more symbols"
+description: "Latest price snapshots"
 ---
 
-Retrieve stored latest-price snapshots for one or more symbols
+Latest price snapshots
 
 <Info>
 Audience: developers and agents building a bounded latest-price view.
@@ -94,7 +94,7 @@ A request without `symbols` or `ticker` returns `400 missing_symbols`; malformed
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/market/snapshots to retrieve stored latest-price snapshots for one or more symbols. Preserve `data`, `degradedState`, `per-row symbol`, `per-row asOf`, `per-row freshness`, `per-row provenance`, `per-row sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/market/snapshots to latest price snapshots. Preserve `data`, `degradedState`, `per-row symbol`, `per-row asOf`, `per-row freshness`, `per-row provenance`, `per-row sourceRights`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

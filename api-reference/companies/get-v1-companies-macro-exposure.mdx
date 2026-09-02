@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/companies/macro-exposure"
-description: "Retrieve a revenue-weighted macro-exposure snapshot built from an issuer's disclosed geographic revenue and country indicators"
+description: "Company macro exposure"
 ---
 
-Retrieve a revenue-weighted macro-exposure snapshot built from an issuer's disclosed geographic revenue and country indicators
+Company macro exposure
 
 <Info>
 Audience: application and coding agent.
@@ -61,7 +61,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/companies/macro-exposure to retrieve a revenue-weighted macro-exposure snapshot built from an issuer's disclosed geographic revenue and country indicators. Preserve `requestId`, `traceparent`, `provenance` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/companies/macro-exposure to company macro exposure. Preserve `requestId`, `traceparent`, `provenance` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

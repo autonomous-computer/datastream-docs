@@ -1,0 +1,51 @@
+---
+title: "GET /v1/embed/owners/13f/screener"
+description: "13F cross-manager screener"
+---
+
+13F cross-manager screener
+
+<Info>
+Audience: application and coding agent.
+</Info>
+
+## Coverage and source scope
+
+Latest-quarter cross-manager rollup per security: managers holding, totals, quarter-over-quarter share deltas, filer-count change, average portfolio rank, put/call ratio, and top-10 count. Share-denominated fields count long-equity shares only; option legs and PRN (principal-amount) legs are excluded, because a convertible note's face amount is dollars rather than shares. Dual-class share lines under one issuer are summed, so value fields are the cross-class-safe comparison. Non-share fields still count PRN holders: a manager holding only a convertible counts in `managersHolding`, contributes to `totalValueUsd`, and receives a (value-based) portfolio rank. As a result, `totalShares` divided by `managersHolding` is not a meaningful average share count for convertible-heavy issuers, and an issuer held only through debt reports `totalShares` 0 with `managersHolding` above 0. `putCallRatio` is managers with at least one put leg over managers with at least one call leg; it is null when no manager holds calls and 0 when calls exist but puts do not. `managersFiled` and `prevManagersFiled` report distinct filers this quarter versus the prior quarter, so partially filed quarters can be identified.
+
+## Canonical metadata
+
+- `requestId`
+- `traceparent`
+
+## Example request
+
+<RequestExample>
+```bash
+curl -X GET \
+  -H "secapi-version: 2026-03-19" \
+  "https://api.secapi.ai/v1/embed/owners/13f/screener"
+```
+</RequestExample>
+
+## Example response
+
+<ResponseExample>
+```json
+{
+  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+}
+```
+</ResponseExample>
+
+## Give this prompt to your agent
+
+<Prompt>
+Use SEC API GET /v1/embed/owners/13f/screener to 13F cross-manager screener. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+</Prompt>
+
+## Failure posture
+
+- treat non-2xx responses as contract-aware failures, not free-form errors
+- preserve `requestId` and `traceparent` in logs and downstream reports
+- if provenance or freshness metadata is present, return it unchanged so trust is not lost in the handoff

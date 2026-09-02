@@ -1,0 +1,51 @@
+---
+title: "GET /v1/embed/owners/13f/newest"
+description: "Latest 13F filings"
+---
+
+Latest 13F filings
+
+<Info>
+Audience: application and coding agent.
+</Info>
+
+## Coverage and source scope
+
+Reverse-chronological indexed 13F filings (manager, period, filed date, holdings count, total value), cursor-paged and bounded to the last 120 days of filings.
+
+## Canonical metadata
+
+- `requestId`
+- `traceparent`
+
+## Example request
+
+<RequestExample>
+```bash
+curl -X GET \
+  -H "secapi-version: 2026-03-19" \
+  "https://api.secapi.ai/v1/embed/owners/13f/newest"
+```
+</RequestExample>
+
+## Example response
+
+<ResponseExample>
+```json
+{
+  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+}
+```
+</ResponseExample>
+
+## Give this prompt to your agent
+
+<Prompt>
+Use SEC API GET /v1/embed/owners/13f/newest to latest 13F filings. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+</Prompt>
+
+## Failure posture
+
+- treat non-2xx responses as contract-aware failures, not free-form errors
+- preserve `requestId` and `traceparent` in logs and downstream reports
+- if provenance or freshness metadata is present, return it unchanged so trust is not lost in the handoff

@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/market/reference"
-description: "Retrieve reference metadata and identifiers for one security"
+description: "Security reference data"
 ---
 
-Retrieve reference metadata and identifiers for one security
+Security reference data
 
 <Info>
 Audience: developers and agents normalizing one security before issuer or market-data joins.
@@ -93,7 +93,7 @@ A missing symbol returns `400 missing_symbol`. A `503` means reference data is u
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/market/reference to retrieve reference metadata and identifiers for one security. Preserve `symbol`, `cik`, `compositeFigi`, `shareClassFigi`, `exchange`, `securityType`, `asOf`, `freshness`, `provenance`, `sourceRights`, `revision`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/market/reference to security reference data. Preserve `symbol`, `cik`, `compositeFigi`, `shareClassFigi`, `exchange`, `securityType`, `asOf`, `freshness`, `provenance`, `sourceRights`, `revision`, `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

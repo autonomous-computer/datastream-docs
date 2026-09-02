@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/events/ma"
-description: "Discover filing-derived merger and acquisition signals from public-company disclosures"
+description: "Mergers and acquisitions"
 ---
 
-Discover filing-derived merger and acquisition signals from public-company disclosures
+Mergers and acquisitions
 
 <Info>
 Audience: application and coding agent.
@@ -73,7 +73,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/events/ma to discover filing-derived merger and acquisition signals from public-company disclosures. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/events/ma to mergers and acquisitions. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

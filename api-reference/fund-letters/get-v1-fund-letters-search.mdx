@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/fund-letters/search"
-description: "Full-text search over letter bodies; hits carry page-anchored highlights."
+description: "Search letter text"
 ---
 
-Full-text search over letter bodies; hits carry page-anchored highlights.
+Search letter text
 
 <Info>
 Audience: application and coding agent.
@@ -42,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/search to full-text search over letter bodies; hits carry page-anchored highlights. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/search to search letter text. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

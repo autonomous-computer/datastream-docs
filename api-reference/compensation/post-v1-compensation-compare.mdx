@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/compensation/compare"
-description: "Compare the latest two executive compensation disclosures for an issuer"
+description: "Compare compensation years"
 ---
 
-Compare the latest two executive compensation disclosures for an issuer
+Compare compensation years
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Compare the latest two executive compensation disclosures for an issuer.
 
 ## Canonical metadata
 
@@ -61,7 +65,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/compensation/compare to compare the latest two executive compensation disclosures for an issuer. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/compensation/compare to compare compensation years. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

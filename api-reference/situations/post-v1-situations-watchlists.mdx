@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/situations/watchlists"
-description: "Create a situation-scoped watchlist monitor"
+description: "Create situation watchlist"
 ---
 
-Create a situation-scoped watchlist monitor
+Create situation watchlist
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Create a situation-scoped watchlist monitor.
 
 ## Canonical metadata
 
@@ -40,7 +44,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/situations/watchlists to create a situation-scoped watchlist monitor. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/situations/watchlists to create situation watchlist. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

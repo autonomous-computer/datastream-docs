@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/compensation"
-description: "Return normalized executive compensation records derived from the latest DEF 14A filing"
+description: "Executive compensation"
 ---
 
-Return normalized executive compensation records derived from the latest DEF 14A filing
+Executive compensation
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return normalized executive compensation records derived from the latest DEF 14A filing.
 
 ## Agent mode
 
@@ -63,7 +67,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/compensation to return normalized executive compensation records derived from the latest DEF 14A filing. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/compensation to executive compensation. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

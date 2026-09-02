@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/operations/quote"
-description: "Shadow-quote a channel-neutral operation before execution across API, MCP, CLI, SDK, Excel, or Sheets"
+description: "Quote an operation"
 ---
 
-Shadow-quote a channel-neutral operation before execution across API, MCP, CLI, SDK, Excel, or Sheets
+Quote an operation
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Prices a channel-neutral operation before you execute it, across API, MCP, CLI, SDK, Excel, and Sheets surfaces. No usage is settled by this call.
 
 ## Canonical metadata
 
@@ -87,7 +91,7 @@ curl -X POST \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/operations/quote to shadow-quote a channel-neutral operation before execution across API, MCP, CLI, SDK, Excel, or Sheets. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/operations/quote to quote an operation. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

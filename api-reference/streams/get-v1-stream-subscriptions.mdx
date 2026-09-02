@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/stream_subscriptions"
-description: "List stream subscriptions for the current organization"
+description: "List stream subscriptions"
 ---
 
-List stream subscriptions for the current organization
+List stream subscriptions
 
 <Info>
 Audience: application and admin.
 </Info>
+
+## Coverage and source scope
+
+List stream subscriptions for the current organization.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/stream_subscriptions to list stream subscriptions for the current organization. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/stream_subscriptions to list stream subscriptions. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

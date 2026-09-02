@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/dilution/corporate-actions"
-description: "Find capital-structure context from ticker, exchange, de-SPAC, and split actions"
+description: "Corporate actions"
 ---
 
-Find capital-structure context from ticker, exchange, de-SPAC, and split actions
+Corporate actions
 
 <Info>
 Audience: investors and developers adding capital-structure context to issuer research.
 </Info>
+
+## Coverage and source scope
+
+Find capital-structure context from ticker, exchange, de-SPAC, and split actions.
 
 ## Canonical metadata
 
@@ -65,7 +69,7 @@ Ticker changes, exchange moves, de-SPAC closings, and split-related actions add 
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/dilution/corporate-actions to find capital-structure context from ticker, exchange, de-SPAC, and split actions. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: effectiveDate, actionType, oldSymbol, newSymbol, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
+Use SEC API GET /v1/dilution/corporate-actions to corporate actions. For the standard response, preserve `data`, `hasMore`, `nextCursor`, `per-row: effectiveDate, actionType, oldSymbol, newSymbol, verification.confidence`, `requestId`. When requesting the compact agent view, keep its returned fields and requestId. Retain traceparent only from standard-response body or HTTP-header context when present; the compact agent view does not include it. Return a concise markdown summary and the structured fields needed for the next step without filling in missing disclosure data.
 </Prompt>
 
 ## Failure posture

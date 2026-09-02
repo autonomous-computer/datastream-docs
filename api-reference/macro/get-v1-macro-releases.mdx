@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/macro/releases"
-description: "Return macro release observations with actual, prior, consensus, and surprise metadata"
+description: "Macro data releases"
 ---
 
-Return macro release observations with actual, prior, consensus, and surprise metadata
+Macro data releases
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return macro release observations with actual, prior, consensus, and surprise metadata.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/macro/releases to return macro release observations with actual, prior, consensus, and surprise metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/macro/releases to macro data releases. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

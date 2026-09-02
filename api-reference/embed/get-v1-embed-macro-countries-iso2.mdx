@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/embed/macro/countries/{iso2}"
-description: "Public latest values across the macro-map indicators for one country"
+description: "Country macro indicators"
 ---
 
-Public latest values across the macro-map indicators for one country
+Country macro indicators
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Public latest values across the macro-map indicators for one country.
 
 ## Canonical metadata
 
@@ -37,7 +41,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/embed/macro/countries/{iso2} to public latest values across the macro-map indicators for one country. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/embed/macro/countries/{iso2} to country macro indicators. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

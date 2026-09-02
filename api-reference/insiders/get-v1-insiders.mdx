@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/insiders"
-description: "Search normalized SEC Forms 3, 4, and 5 records by issuer, reporting owner, transaction, and filing date"
+description: "Search insider filings"
 ---
 
-Search normalized SEC Forms 3, 4, and 5 records by issuer, reporting owner, transaction, and filing date
+Search insider filings
 
 <Info>
 Audience: application and coding agent.
@@ -64,7 +64,7 @@ curl -X GET -H "x-api-key: $SECAPI_API_KEY" -H "secapi-version: 2026-03-19" "htt
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/insiders to search normalized SEC Forms 3, 4, and 5 records by issuer, reporting owner, transaction, and filing date. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/insiders to search insider filings. Preserve `requestId`, `traceparent`, `provenance`, `freshness`, `materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "POST /v1/billing/quote"
-description: "Quote a billable workflow or meter class against the current billing plan and budget gates"
+description: "Quote request cost"
 ---
 
-Quote a billable workflow or meter class against the current billing plan and budget gates
+Quote request cost
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Quote a billable workflow or meter class against the current billing plan and budget gates.
 
 ## Canonical metadata
 
@@ -60,7 +64,7 @@ Provide meterClass or path. method is used with path and defaults to GET; planKe
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API POST /v1/billing/quote to quote a billable workflow or meter class against the current billing plan and budget gates. Preserve `requestId`, `traceparent`, `planKey`, `meterClass`, `units`, `budget`, `budgetGate` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API POST /v1/billing/quote to quote request cost. Preserve `requestId`, `traceparent`, `planKey`, `meterClass`, `units`, `budget`, `budgetGate` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

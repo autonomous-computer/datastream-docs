@@ -1,13 +1,17 @@
 ---
 title: "DELETE /v1/billing/payment-methods/{id}"
-description: "Remove a saved payment method from the current organization"
+description: "Delete payment method"
 ---
 
-Remove a saved payment method from the current organization
+Delete payment method
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Remove a saved payment method from the current organization.
 
 ## Canonical metadata
 
@@ -42,7 +46,7 @@ Payment-method management requires a WorkOS bearer session with `billing:manage`
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API DELETE /v1/billing/payment-methods/{id} to remove a saved payment method from the current organization. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API DELETE /v1/billing/payment-methods/{id} to delete payment method. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

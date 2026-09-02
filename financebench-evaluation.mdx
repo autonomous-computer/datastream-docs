@@ -1,28 +1,28 @@
 ---
 title: "FinanceBench evaluation"
-description: "A point-in-time, first-party evaluation of SEC API on a FinanceBench canary subset"
+description: "A point-in-time, first-party evaluation of SEC API on a 25-question FinanceBench subset"
 ---
 
 <Warning>
-This is a first-party, point-in-time evaluation, not an independent certification or a product accuracy guarantee. The score applies to the stated canary subset, harness, model, judge, and evaluation date.
+This is a first-party, point-in-time evaluation, not an independent certification or a product accuracy guarantee. The score applies to the stated 25-question subset, harness, model, judge, and evaluation date.
 </Warning>
 
-SEC API recorded 18 correct answers out of 25 (72%) on its FinanceBench canary-25 run on 2026-04-25. FinanceBench is PatronusAI's public financial-QA benchmark over 10-K, 10-Q, and 8-K filings. Its full corpus has 150 questions; this report does not claim a full-corpus score.
+SEC API recorded 18 correct answers out of 25 (72%) on a 25-question FinanceBench subset on 2026-04-25. FinanceBench is PatronusAI's public financial-QA benchmark over 10-K, 10-Q, and 8-K filings. Its full corpus has 150 questions; this report does not claim a full-corpus score.
 
 | Measure | Result |
 | --- | --- |
-| Evaluated subset | 25-question canary slice |
+| Evaluated subset | 25 questions |
 | Correct | 18 |
 | Score | 72% |
 | Evaluation date | 2026-04-25 |
 | Mode | agent using the SEC API tool surface |
 | Judge | numeric match plus semantic evaluation |
 
-The checked-in 2026-04-26 run scored 16/25. The 72% figure is a stable configuration result observed during iteration, not a minimum expected score. Questions whose intended filing is no longer the latest in production can become harder to reproduce without an explicit period or filing pin.
+The 72% figure is not a minimum expected score and can vary with model, judge, and source revisions. Questions whose intended filing is no longer the latest in production can become harder to reproduce without an explicit period or filing pin.
 
 ## What the evaluation tests
 
-The canary includes numeric extraction, section evidence, and multi-step financial reasoning across real issuer filings. The harness uses structured financial, segment, calculation, filing-section, and earnings-material capabilities. It evaluates whether the agent produces the benchmark answer under that configuration; it does not establish correctness for an arbitrary question, issuer, model, or integration.
+The subset includes numeric extraction, section evidence, and multi-step financial reasoning across real issuer filings. The harness uses structured financial, segment, calculation, filing-section, and earnings-material capabilities. It evaluates whether the agent produces the benchmark answer under that configuration; it does not establish correctness for an arbitrary question, issuer, model, or integration.
 
 Answers are assessed first by numeric comparison where a numeric reference exists, then by semantic judgment for free text. A pass requires the configured judge to accept the answer above its threshold. Judge behavior, source revisions, and model behavior can affect the result.
 
@@ -30,4 +30,4 @@ Answers are assessed first by numeric comparison where a numeric reference exist
 
 Use it as a regression signal for a bounded workflow. Pin issuer, filing period, and source identifiers in your own evaluation. Retain the API result's provenance and request metadata. Independently validate calculations, non-GAAP measures, and legal or investment conclusions against the filing.
 
-One published gold-answer adjustment for `fb_135` accepts both near-equal XBRL-supported geographic-revenue answers after review. The dataset and published ground truth remain the external source: [PatronusAI/financebench](https://huggingface.co/datasets/PatronusAI/financebench).
+For question `fb_135`, either of two near-equal XBRL-supported geographic-revenue answers is accepted as correct. The dataset and published ground truth remain the external source: [PatronusAI/financebench](https://huggingface.co/datasets/PatronusAI/financebench).

@@ -1,13 +1,17 @@
 ---
 title: "GET /.well-known/oauth-authorization-server"
-description: "Return or proxy OAuth authorization server metadata for the configured WorkOS tenant"
+description: "OAuth authorization server metadata"
 ---
 
-Return or proxy OAuth authorization server metadata for the configured WorkOS tenant
+OAuth authorization server metadata
 
 <Info>
 Audience: platform integrator.
 </Info>
+
+## Coverage and source scope
+
+Return or proxy OAuth authorization server metadata for the configured WorkOS tenant.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /.well-known/oauth-authorization-server to return or proxy OAuth authorization server metadata for the configured WorkOS tenant. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /.well-known/oauth-authorization-server to oAuth authorization server metadata. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

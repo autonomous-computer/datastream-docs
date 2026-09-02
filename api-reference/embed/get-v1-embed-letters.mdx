@@ -1,0 +1,51 @@
+---
+title: "GET /v1/embed/letters"
+description: "Featured shareholder letters"
+---
+
+Featured shareholder letters
+
+<Info>
+Audience: application and coding agent.
+</Info>
+
+## Coverage and source scope
+
+Anonymous, cacheable excerpts (up to 480 characters) from featured shareholder letters. Full letter documents are not returned. Returns 404 while this public embed is not enabled. See [API conventions](https://docs.secapi.ai/api-conventions).
+
+## Canonical metadata
+
+- `requestId`
+- `traceparent`
+
+## Example request
+
+<RequestExample>
+```bash
+curl -X GET \
+  -H "secapi-version: 2026-03-19" \
+  "https://api.secapi.ai/v1/embed/letters"
+```
+</RequestExample>
+
+## Example response
+
+<ResponseExample>
+```json
+{
+  "requestId": "req_2ZK8Q1W9F4M6P7R3"
+}
+```
+</ResponseExample>
+
+## Give this prompt to your agent
+
+<Prompt>
+Use SEC API GET /v1/embed/letters to featured shareholder letters. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+</Prompt>
+
+## Failure posture
+
+- treat non-2xx responses as contract-aware failures, not free-form errors
+- preserve `requestId` and `traceparent` in logs and downstream reports
+- if provenance or freshness metadata is present, return it unchanged so trust is not lost in the handoff

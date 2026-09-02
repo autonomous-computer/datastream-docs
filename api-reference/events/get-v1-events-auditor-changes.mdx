@@ -1,9 +1,9 @@
 ---
 title: "GET /v1/events/auditor-changes"
-description: "Find 8-K Item 4.01 auditor dismissal, resignation, and engagement disclosures"
+description: "Auditor changes"
 ---
 
-Find 8-K Item 4.01 auditor dismissal, resignation, and engagement disclosures
+Auditor changes
 
 <Info>
 Audience: application and coding agent.
@@ -49,7 +49,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/events/auditor-changes to find 8-K Item 4.01 auditor dismissal, resignation, and engagement disclosures. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/events/auditor-changes to auditor changes. Preserve `requestId`, `traceparent`, `per-row provenance`, `per-row freshness`, `per-row materialization` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/fund-letters/funds/{fund_id}"
-description: "Retrieve one fund. Merged fund IDs resolve forever via aliases; the response carries the canonical id plus requestedId when they differ."
+description: "Get fund"
 ---
 
-Retrieve one fund. Merged fund IDs resolve forever via aliases; the response carries the canonical id plus requestedId when they differ.
+Get fund
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+The fund entity is not yet populated, so no fund_id currently resolves: every lookup here, including a well-formed id, returns 404 fund_letter_fund_not_found until fund records exist. Resolve a manager instead via GET /v1/fund-letters/managers/{manager_id}.
 
 ## Canonical metadata
 
@@ -38,7 +42,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/fund-letters/funds/{fund_id} to retrieve one fund. Merged fund IDs resolve forever via aliases; the response carries the canonical id plus requestedId when they differ. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/fund-letters/funds/{fund_id} to get fund. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture

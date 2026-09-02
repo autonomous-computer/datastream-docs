@@ -1,13 +1,17 @@
 ---
 title: "GET /v1/factors/related-stocks"
-description: "Return related stocks ranked by factor-overlap similarity for peer discovery and hedge ideation"
+description: "Related stocks by factor"
 ---
 
-Return related stocks ranked by factor-overlap similarity for peer discovery and hedge ideation
+Related stocks by factor
 
 <Info>
 Audience: application and coding agent.
 </Info>
+
+## Coverage and source scope
+
+Return related stocks ranked by factor-overlap similarity for peer discovery and hedge ideation.
 
 ## Canonical metadata
 
@@ -121,7 +125,7 @@ curl -X GET \
 ## Give this prompt to your agent
 
 <Prompt>
-Use SEC API GET /v1/factors/related-stocks to return related stocks ranked by factor-overlap similarity for peer discovery and hedge ideation. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
+Use SEC API GET /v1/factors/related-stocks to related stocks by factor. Preserve `requestId`, `traceparent` in the output. Return a concise markdown summary plus the exact structured payload fields that a downstream engineer or agent should keep using this result.
 </Prompt>
 
 ## Failure posture
